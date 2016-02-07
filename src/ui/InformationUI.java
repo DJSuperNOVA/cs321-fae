@@ -6,71 +6,55 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import managers.SystemManager;
+
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class InformationUI extends JFrame 
+public class InformationUI extends JPanel 
 {
-
-	private JPanel contentPane;
 	private JTextField txtBlahBlahBlah;
+	private JButton btnNewButton;
+	private JButton btnCredits;
+	private JButton btnHowToPlay;
+	private JButton btnBack;
+	
+	private SystemManager systemManager;
+	private InformationHandler informationHandler;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) 
+	public InformationUI(SystemManager systemManager) 
 	{
-		EventQueue.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				try 
-				{
-					InformationUI frame = new InformationUI();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public InformationUI() 
-	{
-		setTitle("Information");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1082, 639);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		this.systemManager = systemManager;
+		informationHandler = new InformationHandler();
 		
-		JButton btnNewButton = new JButton("About");
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(null);
+		
+		btnNewButton = new JButton("About");
 		btnNewButton.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		btnNewButton.setBounds(10, 11, 233, 95);
-		contentPane.add(btnNewButton);
+		add(btnNewButton);
 		
-		JButton btnCredits = new JButton("Credits");
+		btnCredits = new JButton("Credits");
 		btnCredits.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		btnCredits.setBounds(10, 117, 233, 95);
-		contentPane.add(btnCredits);
+		add(btnCredits);
 		
-		JButton btnHowToPlay = new JButton("How to Play");
+		btnHowToPlay = new JButton("How to Play");
 		btnHowToPlay.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		btnHowToPlay.setBounds(10, 223, 233, 95);
-		contentPane.add(btnHowToPlay);
+		add(btnHowToPlay);
 		
-		JButton btnBack = new JButton("Back");
+		btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		btnBack.setBounds(10, 494, 233, 95);
-		contentPane.add(btnBack);
+		add(btnBack);
 		
 		txtBlahBlahBlah = new JTextField();
 		txtBlahBlahBlah.setEditable(false);
@@ -78,8 +62,20 @@ public class InformationUI extends JFrame
 		txtBlahBlahBlah.setHorizontalAlignment(SwingConstants.CENTER);
 		txtBlahBlahBlah.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		txtBlahBlahBlah.setBounds(253, 11, 803, 578);
-		contentPane.add(txtBlahBlahBlah);
+		add(txtBlahBlahBlah);
 		txtBlahBlahBlah.setColumns(10);
+		
+		btnBack.addActionListener(informationHandler);
+	}
+	
+	private class InformationHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			String action = e.getActionCommand();
+			if(action.equals("Back"))
+				systemManager.showMainMenuUI();
+		}
 	}
 
 }

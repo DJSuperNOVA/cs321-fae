@@ -6,51 +6,32 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import managers.SystemManager;
+
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
-public class IntroductionUI extends JFrame 
+public class IntroductionUI extends JPanel 
 {
-
-	private JPanel contentPane;
 	private JTextField txtQuickstory;
+	private JButton btnNewButton;
+	
+	private SystemManager systemManager;
+	private IntroductionHandler introductionHandler;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) 
+	public IntroductionUI(SystemManager systemManager) 
 	{
-		EventQueue.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				try 
-				{
-					IntroductionUI frame = new IntroductionUI();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public IntroductionUI() 
-	{
-		setTitle("Introduction");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1082, 639);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		this.systemManager = systemManager;
+		introductionHandler = new IntroductionHandler();
+		
+		setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLayout(null);
 		
 		txtQuickstory = new JTextField();
 		txtQuickstory.setEditable(false);
@@ -58,13 +39,25 @@ public class IntroductionUI extends JFrame
 		txtQuickstory.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		txtQuickstory.setText("QUICKSTORY\r\nMENTION GAME OBJECTIVES");
 		txtQuickstory.setBounds(10, 11, 1046, 524);
-		contentPane.add(txtQuickstory);
+		add(txtQuickstory);
 		txtQuickstory.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Next");
+		btnNewButton = new JButton("Next");
 		btnNewButton.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		btnNewButton.setBounds(490, 546, 89, 43);
-		contentPane.add(btnNewButton);
+		add(btnNewButton);
+		
+		btnNewButton.addActionListener(introductionHandler);
+	}
+	
+	private class IntroductionHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			String action = e.getActionCommand();
+			if(action.equals("Next"))
+				systemManager.showNavigationUI();
+		}
 	}
 
 }
