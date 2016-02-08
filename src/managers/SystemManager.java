@@ -26,11 +26,7 @@ public class SystemManager extends JFrame
 		container = getContentPane();
 		card = new CardLayout();
 		container.setLayout(card);
-<<<<<<< HEAD
 		setBounds(100, 100, 1072, 629);
-=======
-		setBounds(100, 100, 1082, 639);
->>>>>>> origin/master
 
 		mainMenuUI = new MainMenuUI(this);
 		container.add(mainMenuUI, "Main Menu");
@@ -63,10 +59,7 @@ public class SystemManager extends JFrame
 		container.add(battleUI, "Battle");
 		
 		setResizable(false);
-<<<<<<< HEAD
 		setLocationRelativeTo(null);
-=======
->>>>>>> origin/master
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -74,10 +67,6 @@ public class SystemManager extends JFrame
 	public void showMainMenuUI()
 	{
 		setTitle("Main Menu");
-<<<<<<< HEAD
-=======
-		setLocationRelativeTo(null);
->>>>>>> origin/master
 		card.show(container, "Main Menu");
 		repaint();
 	}
@@ -85,13 +74,8 @@ public class SystemManager extends JFrame
 	public void showNewGameUI()
 	{
 		setTitle("New Game");
-<<<<<<< HEAD
 		card.show(container, "New Game");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "New Game");
->>>>>>> origin/master
 	}
 
 	public void showLoadSaveUI(boolean forLoad)
@@ -99,96 +83,56 @@ public class SystemManager extends JFrame
 		if(forLoad)
 		{
 			setTitle("Load Game");
-<<<<<<< HEAD
-=======
-			setLocationRelativeTo(null);
->>>>>>> origin/master
 			card.show(container, "Load");
 		}
 		else
 		{
 			setTitle("Save Game");
-<<<<<<< HEAD
 			card.show(container, "Save");
 		}
 		repaint();
-=======
-			setLocationRelativeTo(null);
-			card.show(container, "Save");
-		}	
->>>>>>> origin/master
 	}
 
 	public void showInformationUI()
 	{
 		setTitle("Information");
-<<<<<<< HEAD
 		card.show(container, "Information");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "Information");
->>>>>>> origin/master
 	}
 
 	public void showIntroductionUI()
 	{
 		setTitle("Introduction");
-<<<<<<< HEAD
 		card.show(container, "Introduction");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "Introduction");
->>>>>>> origin/master
 	}
 
 	public void showNavigationUI()
 	{
 		setTitle("Navigation");
-<<<<<<< HEAD
 		card.show(container, "Navigation");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "Navigation");
->>>>>>> origin/master
 	}
 
 	public void showInventoryUI()
 	{
 		setTitle("Inventory");
-<<<<<<< HEAD
 		card.show(container, "Inventory");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "Inventory");
->>>>>>> origin/master
 	}
 
 	public void showShopUI()
 	{
 		setTitle("Shop");
-<<<<<<< HEAD
 		card.show(container, "Shop");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "Shop");
->>>>>>> origin/master
 	}
 
 	public void showBattleUI()
 	{
 		setTitle("Battle");
-<<<<<<< HEAD
 		card.show(container, "Battle");
 		repaint();
-=======
-		setLocationRelativeTo(null);
-		card.show(container, "Battle");
->>>>>>> origin/master
 	}
 
 	public static void main(String[] args)
