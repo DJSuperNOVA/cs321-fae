@@ -196,8 +196,9 @@ public class NewGameUI extends JPanel
 		add(l_classType);
 		
 		tf_name = new JTextField();
+		tf_name.setCaretColor(Color.WHITE);
+		tf_name.setBackground(Color.BLACK);
 		tf_name.setForeground(Color.WHITE);
-		tf_name.setOpaque(false);
 		tf_name.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		tf_name.setBounds(410, 59, 300, 31);
 		add(tf_name);
