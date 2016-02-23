@@ -24,7 +24,7 @@ public class InventoryUI extends JPanel
 {
 	private JList<String> jl_items;
 	private JLabel l_itemDetails, l_stats, l_bg;
-	private JButton b_use, b_discard, b_back;
+	private JButton b_use, b_sell, b_back;
 
 	private SystemManager systemManager;
 	private InventoryHandler inventoryHandler;
@@ -72,14 +72,14 @@ public class InventoryUI extends JPanel
 		b_use.setBounds(454, 517, 195, 70);
 		add(b_use);
 		
-		b_discard = new JButton("Discard Item");
-		b_discard.setFocusPainted(false);
-		b_discard.setContentAreaFilled(false);
-		b_discard.setOpaque(false);
-		b_discard.setForeground(Color.WHITE);
-		b_discard.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_discard.setBounds(658, 517, 195, 70);
-		add(b_discard);
+		b_sell = new JButton("Sell Item");
+		b_sell.setFocusPainted(false);
+		b_sell.setContentAreaFilled(false);
+		b_sell.setOpaque(false);
+		b_sell.setForeground(Color.WHITE);
+		b_sell.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_sell.setBounds(658, 517, 195, 70);
+		add(b_sell);
 		
 		b_back = new JButton("Back");
 		b_back.setFocusPainted(false);

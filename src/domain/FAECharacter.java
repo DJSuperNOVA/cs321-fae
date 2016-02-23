@@ -14,9 +14,9 @@ public abstract class FAECharacter
 	 * Skill Points (SP)	: The energy available for executing skills in battle.
 	 * Attack (ATK)			: The attack power in executing normal attacks.
 	 * Defense (DEF)		: The level of endurance from the opponent's attacks.
-	 * Special (POW)		: The attack power in executing its special attack (Skill).
-	 * Speed (SPD)			: The level of how fast it can execute a move.
-	 * Luck (LUK)			: The odds of getting a critical hit when attacking.
+	 * Special (SPC)		: The attack power in executing its special attack (Skill).
+	 * Agility (AGI)		: The level of how fast it can execute a move.
+	 * Critical (CRT)		: The odds of getting a critical hit when attacking.
 	 * 
 	 * These stats are derived into three kinds:
 	 * Base Stats (base)	: The constant/raw value of the stats of each character. This is retrieved
@@ -32,9 +32,9 @@ public abstract class FAECharacter
 	 */
 	
 	private String name;
-	private int baseHP, baseSP, baseATK, baseDEF, basePOW, baseSPD, baseLUK;
-	private double defHP, defSP, defATK, defDEF, defPOW, defSPD, defLUK;
-	private double currentHP, currentSP, currentATK, currentDEF, currentPOW, currentSPD, currentLUK;
+	private int baseHP, baseSP, baseATK, baseDEF, baseSPC, baseAGI, baseCRT;
+	private double defHP, defSP, defATK, defDEF, defSPC, defAGI, defCRT;
+	private double currentHP, currentSP, currentATK, currentDEF, currentSPC, currentAGI, currentCRT;
 	private int level;
 	private Skill skill;
 	
@@ -69,24 +69,6 @@ public abstract class FAECharacter
 	public void setBaseDEF(int baseDEF) {
 		this.baseDEF = baseDEF;
 	}
-	public int getBasePOW() {
-		return basePOW;
-	}
-	public void setBasePOW(int basePOW) {
-		this.basePOW = basePOW;
-	}
-	public int getBaseSPD() {
-		return baseSPD;
-	}
-	public void setBaseSPD(int baseSPD) {
-		this.baseSPD = baseSPD;
-	}
-	public int getBaseLUK() {
-		return baseLUK;
-	}
-	public void setBaseLUK(int baseLUK) {
-		this.baseLUK = baseLUK;
-	}
 	public double getDefHP() {
 		return defHP;
 	}
@@ -110,24 +92,6 @@ public abstract class FAECharacter
 	}
 	public void setDefDEF(double defDEF) {
 		this.defDEF = defDEF;
-	}
-	public double getDefPOW() {
-		return defPOW;
-	}
-	public void setDefPOW(double defPOW) {
-		this.defPOW = defPOW;
-	}
-	public double getDefSPD() {
-		return defSPD;
-	}
-	public void setDefSPD(double defSPD) {
-		this.defSPD = defSPD;
-	}
-	public double getDefLUK() {
-		return defLUK;
-	}
-	public void setDefLUK(double defLUK) {
-		this.defLUK = defLUK;
 	}
 	public double getCurrentHP() {
 		return currentHP;
@@ -153,24 +117,6 @@ public abstract class FAECharacter
 	public void setCurrentDEF(double currentDEF) {
 		this.currentDEF = currentDEF;
 	}
-	public double getCurrentPOW() {
-		return currentPOW;
-	}
-	public void setCurrentPOW(double currentPOW) {
-		this.currentPOW = currentPOW;
-	}
-	public double getCurrentSPD() {
-		return currentSPD;
-	}
-	public void setCurrentSPD(double currentSPD) {
-		this.currentSPD = currentSPD;
-	}
-	public double getCurrentLUK() {
-		return currentLUK;
-	}
-	public void setCurrentLUK(double currentLUK) {
-		this.currentLUK = currentLUK;
-	}
 	public int getLevel() {
 		return level;
 	}
@@ -182,5 +128,59 @@ public abstract class FAECharacter
 	}
 	public void setSkill(Skill skill) {
 		this.skill = skill;
+	}
+	public int getBaseSPC() {
+		return baseSPC;
+	}
+	public void setBaseSPC(int baseSPC) {
+		this.baseSPC = baseSPC;
+	}
+	public int getBaseAGI() {
+		return baseAGI;
+	}
+	public void setBaseAGI(int baseAGI) {
+		this.baseAGI = baseAGI;
+	}
+	public int getBaseCRT() {
+		return baseCRT;
+	}
+	public void setBaseCRT(int baseCRT) {
+		this.baseCRT = baseCRT;
+	}
+	public double getDefSPC() {
+		return defSPC;
+	}
+	public void setDefSPC(double defSPC) {
+		this.defSPC = defSPC;
+	}
+	public double getDefAGI() {
+		return defAGI;
+	}
+	public void setDefAGI(double defAGI) {
+		this.defAGI = defAGI;
+	}
+	public double getDefCRT() {
+		return defCRT;
+	}
+	public void setDefCRT(double defCRT) {
+		this.defCRT = defCRT;
+	}
+	public double getCurrentSPC() {
+		return currentSPC;
+	}
+	public void setCurrentSPC(double currentSPC) {
+		this.currentSPC = currentSPC;
+	}
+	public double getCurrentAGI() {
+		return currentAGI;
+	}
+	public void setCurrentAGI(double currentAGI) {
+		this.currentAGI = currentAGI;
+	}
+	public double getCurrentCRT() {
+		return currentCRT;
+	}
+	public void setCurrentCRT(double currentCRT) {
+		this.currentCRT = currentCRT;
 	}
 }

@@ -27,11 +27,13 @@ public class BossMonster extends FAECharacter
 	 * 							only have this attribute.
 	 * 							Basically, this will be added to the boss' currentHP and the isNowSecondWind will
 	 * 							be set to true to display its HP and SP as ???. Since bosses 8 to 14 are rematches
-	 * 							of bosses 1 to 7, their HP and SP, they are automatically in the state of
+	 * 							of bosses 1 to 7, their HP and SP, they are initially set to 1 to the quick state of
 	 * 							Second Wind. (Yup, HP and SP are displayed as ???.)
 	 * isNowSecondWind		: The indicator if the BossMonster is now in Second Wind Phase. If true,
 	 * 							the values in chanceAttackWind2, chanceDefendWind2, chanceSkillWind2 will be used
 	 * 							and its defATK, defDEF, defPOW, defSPD, and defLUK will be increased by 25%.
+	 * missionBossKeys		: The number of keys the player should have to battle the boss.
+	 * missionWins			: The number of mob wins the player should have to battle the boss.
 	 * dice					: The pseudo-random number generator.
 	 */
 	

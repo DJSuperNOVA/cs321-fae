@@ -15,8 +15,6 @@ public class HumanPlayer extends FAECharacter
 	 * Losses				: The number of battles lost and forfeited by the player.
 	 * Bosses Defeated		: The number of bosses defeated by the player. The number of unlocked areas
 	 * 	(bossWins)				for the player depends here.
-	 * Win/Loss Ratio (WLR)	: The ratio of wins and losses. The strength of spawning mobs in game depend on this.
-	 * Defeat Value			: The amount of money the player might lose when defeated in battle.
 	 * Boss Keys			: The value earned that can be used to battle and defeat the next boss to unlock
 	 * 							a new area. It is usually dropped by defeated mobs after battle.
 	 * Inventory			: The list of items carried by the player.
@@ -26,9 +24,9 @@ public class HumanPlayer extends FAECharacter
 	 */
 	
 	private String battleClass;
-	private double xp, au, defeatValue, wlr;
+	private double xp, au;
 	private int wins, losses, bossWins, bossKeys;
-	private double plusHP, plusSP, plusATK, plusDEF, plusPOW, plusSPD, plusLUK;
+	private double plusHP, plusSP, plusATK, plusDEF, plusSPC, plusAGI, plusCRT;
 	private ArrayList<GameItem> inventory;
 	
 	//GETTERS AND SETTERS
@@ -49,18 +47,6 @@ public class HumanPlayer extends FAECharacter
 	}
 	public void setAu(double au) {
 		this.au = au;
-	}
-	public double getDefeatValue() {
-		return defeatValue;
-	}
-	public void setDefeatValue(double defeatValue) {
-		this.defeatValue = defeatValue;
-	}
-	public double getWLR() {
-		return wlr;
-	}
-	public void setWLR(double wlr) {
-		this.wlr = wlr;
 	}
 	public int getWins() {
 		return wins;
@@ -116,22 +102,22 @@ public class HumanPlayer extends FAECharacter
 	public void setPlusDEF(double plusDEF) {
 		this.plusDEF = plusDEF;
 	}
-	public double getPlusPOW() {
-		return plusPOW;
+	public double getPlusSPC() {
+		return plusSPC;
 	}
-	public void setPlusPOW(double plusPOW) {
-		this.plusPOW = plusPOW;
+	public void setPlusSPC(double plusSPC) {
+		this.plusSPC = plusSPC;
 	}
-	public double getPlusSPD() {
-		return plusSPD;
+	public double getPlusAGI() {
+		return plusAGI;
 	}
-	public void setPlusSPD(double plusSPD) {
-		this.plusSPD = plusSPD;
+	public void setPlusAGI(double plusAGI) {
+		this.plusAGI = plusAGI;
 	}
-	public double getPlusLUK() {
-		return plusLUK;
+	public double getPlusCRT() {
+		return plusCRT;
 	}
-	public void setPlusLUK(double plusLUK) {
-		this.plusLUK = plusLUK;
+	public void setPlusCRT(double plusCRT) {
+		this.plusCRT = plusCRT;
 	}
 }

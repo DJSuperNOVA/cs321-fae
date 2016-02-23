@@ -22,7 +22,7 @@ public class BattleUI extends JPanel
 	private JLabel l_player, lblEnemy, l_playerLvl, l_playerHP, l_enemyLvl, l_playerSP, l_enemyHP,
 				l_enemySp, l_bg;
 	private JProgressBar pb_playerHP, pb_playerSP, pb_enemyHP, pb_enemySP;
-	private JButton b_skill, b_attack, b_defend, b_inventory, b_heal, b_flee;
+	private JButton b_skill, b_attack, b_defend, b_item, b_heal, b_flee;
 	private JTextArea ta_progress;
 
 	private SystemManager systemManager;
@@ -152,15 +152,15 @@ public class BattleUI extends JPanel
 		b_skill.setBounds(169, 416, 150, 85);
 		add(b_skill);
 		
-		b_inventory = new JButton("INVENTORY");
-		b_inventory.setFocusPainted(false);
-		b_inventory.setContentAreaFilled(false);
-		b_inventory.setForeground(Color.WHITE);
-		b_inventory.setOpaque(false);
-		b_inventory.setVerticalAlignment(SwingConstants.BOTTOM);
-		b_inventory.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_inventory.setBounds(328, 416, 150, 85);
-		add(b_inventory);
+		b_item = new JButton("USE ITEM");
+		b_item.setFocusPainted(false);
+		b_item.setContentAreaFilled(false);
+		b_item.setForeground(Color.WHITE);
+		b_item.setOpaque(false);
+		b_item.setVerticalAlignment(SwingConstants.BOTTOM);
+		b_item.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_item.setBounds(328, 416, 150, 85);
+		add(b_item);
 		
 		b_defend = new JButton("DEFEND");
 		b_defend.setFocusPainted(false);
