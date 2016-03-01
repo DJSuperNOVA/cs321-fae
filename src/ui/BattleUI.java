@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import managers.ImageManager;
 import managers.SystemManager;
 
 import javax.swing.JLabel;
@@ -26,12 +27,14 @@ public class BattleUI extends JPanel
 	private JTextArea ta_progress;
 
 	private SystemManager systemManager;
+	private ImageManager imageManager;
 	private BattleHandler battleHandler;
 	
 	public BattleUI(SystemManager systemManager) 
 	{
 		this.systemManager = systemManager;
 		battleHandler = new BattleHandler();
+		imageManager = new ImageManager();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -132,7 +135,11 @@ public class BattleUI extends JPanel
 		pb_enemySP.setBounds(798, 391, 244, 14);
 		add(pb_enemySP);
 		
-		b_attack = new JButton("ATTACK");
+		b_attack = new JButton();
+		b_attack.setActionCommand("ATTACK");
+		b_attack.setBorder(null);
+		b_attack.setIcon(imageManager.getBattleGraphic("Attack"));
+		b_attack.setRolloverIcon(imageManager.getBattleGraphic("Attack_Hover"));
 		b_attack.setFocusPainted(false);
 		b_attack.setContentAreaFilled(false);
 		b_attack.setForeground(Color.WHITE);
@@ -142,7 +149,11 @@ public class BattleUI extends JPanel
 		b_attack.setBounds(10, 416, 150, 85);
 		add(b_attack);
 		
-		b_skill = new JButton("USE SKILL");
+		b_skill = new JButton();
+		b_skill.setActionCommand("USE SKILL");
+		b_skill.setBorder(null);
+		b_skill.setIcon(imageManager.getBattleGraphic("UseSkill"));
+		b_skill.setRolloverIcon(imageManager.getBattleGraphic("UseSkill_Hover"));
 		b_skill.setFocusPainted(false);
 		b_skill.setContentAreaFilled(false);
 		b_skill.setForeground(Color.WHITE);
@@ -152,7 +163,11 @@ public class BattleUI extends JPanel
 		b_skill.setBounds(169, 416, 150, 85);
 		add(b_skill);
 		
-		b_item = new JButton("USE ITEM");
+		b_item = new JButton();
+		b_item.setActionCommand("INVENTORY");
+		b_item.setBorder(null);
+		b_item.setIcon(imageManager.getBattleGraphic("Inventory"));
+		b_item.setRolloverIcon(imageManager.getBattleGraphic("Inventory_Hover"));
 		b_item.setFocusPainted(false);
 		b_item.setContentAreaFilled(false);
 		b_item.setForeground(Color.WHITE);
@@ -162,7 +177,11 @@ public class BattleUI extends JPanel
 		b_item.setBounds(328, 416, 150, 85);
 		add(b_item);
 		
-		b_defend = new JButton("DEFEND");
+		b_defend = new JButton();
+		b_defend.setActionCommand("DEFEND");
+		b_defend.setBorder(null);
+		b_defend.setIcon(imageManager.getBattleGraphic("Defend"));
+		b_defend.setRolloverIcon(imageManager.getBattleGraphic("Defend_Hover"));
 		b_defend.setFocusPainted(false);
 		b_defend.setContentAreaFilled(false);
 		b_defend.setForeground(Color.WHITE);
@@ -172,7 +191,11 @@ public class BattleUI extends JPanel
 		b_defend.setBounds(10, 510, 150, 85);
 		add(b_defend);
 		
-		b_heal = new JButton("HEAL");
+		b_heal = new JButton();
+		b_heal.setActionCommand("HEAL");
+		b_heal.setBorder(null);
+		b_heal.setIcon(imageManager.getBattleGraphic("Heal"));
+		b_heal.setRolloverIcon(imageManager.getBattleGraphic("Heal_Hover"));
 		b_heal.setFocusPainted(false);
 		b_heal.setContentAreaFilled(false);
 		b_heal.setForeground(Color.WHITE);
@@ -182,7 +205,11 @@ public class BattleUI extends JPanel
 		b_heal.setBounds(169, 510, 150, 85);
 		add(b_heal);
 		
-		b_flee = new JButton("FLEE");
+		b_flee = new JButton();
+		b_flee.setActionCommand("FLEE");
+		b_flee.setBorder(null);
+		b_flee.setIcon(imageManager.getBattleGraphic("Flee"));
+		b_flee.setRolloverIcon(imageManager.getBattleGraphic("Flee_Hover"));
 		b_flee.setFocusPainted(false);
 		b_flee.setContentAreaFilled(false);
 		b_flee.setForeground(Color.WHITE);
@@ -203,7 +230,7 @@ public class BattleUI extends JPanel
 		add(ta_progress);
 		
 		l_bg = new JLabel();
-		l_bg.setIcon(new ImageIcon("../cs321-fae/src/graphics/Common_BG.png"));
+		l_bg.setIcon(imageManager.getCommonBG());
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		

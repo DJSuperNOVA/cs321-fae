@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import managers.SystemManager;
+import managers.ImageManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,17 +21,22 @@ public class MainMenuUI extends JPanel
 	private JLabel l_bg;
 	
 	private SystemManager systemManager;
+	private ImageManager imageManager;
 	private MainMenuHandler mainMenuHandler;
 
 	public MainMenuUI(SystemManager systemManager) 
 	{
 		this.systemManager = systemManager;
+		imageManager = new ImageManager();
 		mainMenuHandler = new MainMenuHandler();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 		
-		b_newGame = new JButton("New Game");
+		b_newGame = new JButton();
+		b_newGame.setIcon(imageManager.getMainMenuGraphic("New"));
+		b_newGame.setRolloverIcon(imageManager.getMainMenuGraphic("New_Hover"));
+		b_newGame.setBorder(null);
 		b_newGame.setForeground(Color.WHITE);
 		b_newGame.setFocusPainted(false);
 		b_newGame.setContentAreaFilled(false);
@@ -38,7 +44,10 @@ public class MainMenuUI extends JPanel
 		b_newGame.setBounds(32, 517, 225, 50);
 		add(b_newGame);
 		
-		b_loadGame = new JButton("Load Game");
+		b_loadGame = new JButton();
+		b_loadGame.setIcon(imageManager.getMainMenuGraphic("Load"));
+		b_loadGame.setRolloverIcon(imageManager.getMainMenuGraphic("Load_Hover"));
+		b_loadGame.setBorder(null);
 		b_loadGame.setForeground(Color.WHITE);
 		b_loadGame.setFocusPainted(false);
 		b_loadGame.setContentAreaFilled(false);
@@ -46,7 +55,10 @@ public class MainMenuUI extends JPanel
 		b_loadGame.setBounds(290, 517, 225, 50);
 		add(b_loadGame);
 		
-		b_information = new JButton("Information");
+		b_information = new JButton();
+		b_information.setIcon(imageManager.getMainMenuGraphic("Information"));
+		b_information.setRolloverIcon(imageManager.getMainMenuGraphic("Information_Hover"));
+		b_information.setBorder(null);
 		b_information.setForeground(Color.WHITE);
 		b_information.setFocusPainted(false);
 		b_information.setContentAreaFilled(false);
@@ -54,7 +66,10 @@ public class MainMenuUI extends JPanel
 		b_information.setBounds(548, 517, 225, 50);
 		add(b_information);
 		
-		b_exit = new JButton("Exit");
+		b_exit = new JButton();
+		b_exit.setIcon(imageManager.getMainMenuGraphic("Quit"));
+		b_exit.setRolloverIcon(imageManager.getMainMenuGraphic("Quit_Hover"));
+		b_exit.setBorder(null);
 		b_exit.setForeground(Color.WHITE);
 		b_exit.setFocusPainted(false);
 		b_exit.setContentAreaFilled(false);
@@ -63,7 +78,7 @@ public class MainMenuUI extends JPanel
 		add(b_exit);
 		
 		l_bg = new JLabel();
-		l_bg.setIcon(new ImageIcon("../cs321-fae/src/graphics/MainMenu_TitleScreen.png"));
+		l_bg.setIcon(imageManager.getMainMenuGraphic("TitleScreen"));
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		
@@ -77,15 +92,15 @@ public class MainMenuUI extends JPanel
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			String action = e.getActionCommand();
+			Object action = e.getSource();
 			
-			if(action.equals("New Game"))
+			if(action.equals(b_newGame))
 				systemManager.showNewGameUI();
-			else if(action.equals("Load Game"))
+			else if(action.equals(b_loadGame))
 				systemManager.showLoadSaveUI(true);
-			else if(action.equals("Information"))
+			else if(action.equals(b_information))
 				systemManager.showInformationUI();
-			else if(action.equals("Exit"))
+			else if(action.equals(b_exit))
 				System.exit(0);
 		}
 		

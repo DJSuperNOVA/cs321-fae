@@ -2,8 +2,11 @@ package ui;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import managers.ImageManager;
+import managers.LanguageManager;
 import managers.SystemManager;
 
 import java.awt.Font;
@@ -17,9 +20,12 @@ import java.awt.Color;
 
 public class IntroductionUI extends JPanel 
 {
-	private JLabel l_story, l_bg;
+	private JLabel l_bg;
+	private JTextArea ta_story;
 	private JButton b_next;
 	
+	private ImageManager imageManager;
+	private LanguageManager languageManager;
 	private SystemManager systemManager;
 	private IntroductionHandler introductionHandler;
 
@@ -27,19 +33,29 @@ public class IntroductionUI extends JPanel
 	{
 		this.systemManager = systemManager;
 		introductionHandler = new IntroductionHandler();
+		imageManager = new ImageManager();
+		languageManager = new LanguageManager("cutscene");
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 		
-		l_story = new JLabel();
-		l_story.setForeground(Color.WHITE);
-		l_story.setHorizontalAlignment(SwingConstants.CENTER);
-		l_story.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_story.setText("<html><center>Quick story<br>Mention game objectives</center></html>");
-		l_story.setBounds(10, 11, 1046, 524);
-		add(l_story);
+		ta_story = new JTextArea();
+		ta_story.setForeground(Color.WHITE);
+		ta_story.setOpaque(false);
+		ta_story.setLineWrap(true);
+		ta_story.setWrapStyleWord(true);
+		ta_story.setAlignmentX(CENTER_ALIGNMENT);
+		ta_story.setAlignmentY(CENTER_ALIGNMENT);
+		ta_story.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_story.setText(languageManager.getCutsceneText(systemManager.getHumanPlayer().getBossWins()));
+		ta_story.setBounds(10, 11, 1046, 524);
+		add(ta_story);
 		
-		b_next = new JButton("Next");
+		b_next = new JButton();
+		b_next.setActionCommand("Next");
+		b_next.setBorder(null);
+		b_next.setIcon(imageManager.getIntroductionGraphic("Next"));
+		b_next.setRolloverIcon(imageManager.getIntroductionGraphic("Next_Hover"));
 		b_next.setContentAreaFilled(false);
 		b_next.setForeground(Color.WHITE);
 		b_next.setFocusPainted(false);
@@ -49,7 +65,7 @@ public class IntroductionUI extends JPanel
 		add(b_next);
 		
 		l_bg = new JLabel();
-		l_bg.setIcon(new ImageIcon("../cs321-fae/src/graphics/Common_BG.png"));
+		l_bg.setIcon(imageManager.getCommonBG());
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		

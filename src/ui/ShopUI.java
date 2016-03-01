@@ -1,9 +1,12 @@
 package ui;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import managers.SystemManager;
@@ -14,26 +17,36 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ShopUI extends JPanel 
 {
 	private JList<String> jl_items;
 	private JLabel l_statsShop, l_itemShop, l_money, l_have, l_hpText, l_spText, l_attackText, l_defenseText,
-				l_specialText, l_agilityText, l_criticalText, l_baseHP, l_baseSP, l_baseAttack, l_baseDefense,
-				l_baseSpecial, l_baseAgility, l_baseCritical, l_addedHP, l_addedSP, l_addedDefense, l_addedAttack,
-				l_addedSpecial, l_addedCritical, l_addedAgility, l_totalPointsText, l_perPriceText, l_totalPriceText,
+				l_powerText, l_agilityText, l_criticalText, l_baseHP, l_baseSP, l_baseAttack, l_baseDefense,
+				l_basePower, l_baseAgility, l_baseCritical, l_addedHP, l_addedSP, l_addedDefense, l_addedAttack,
+				l_addedPower, l_addedCritical, l_addedAgility, l_totalPointsText, l_perPriceText, l_totalPriceText,
 				l_totalPrice, l_perPrice, l_totalPoints, l_information, l_itemInfo, l_itemPrice, l_itemPriceText,
 				l_quantityText, l_quantity, l_bg;
-	private JButton b_downHP, b_downAttack, b_downDefense, b_downPower, b_downSP, b_downSpeed, b_downCritical,
-				b_upSP, b_upHP, b_upAttack, b_upDefense, b_upPower, b_upCritical, b_upSpeed, b_back, b_upgrade,
+	private JButton b_downHP, b_downAttack, b_downDefense, b_downPower, b_downSP, b_downAgility, b_downCritical,
+				b_upSP, b_upHP, b_upAttack, b_upDefense, b_upPower, b_upCritical, b_upAgility, b_back, b_upgrade,
 				b_buy, b_upQuantity, b_downQuantity;
+	
+	private final int YESNO = JOptionPane.YES_NO_OPTION;
+	private final int YES = JOptionPane.YES_OPTION;
+	private final int NO = JOptionPane.NO_OPTION;
 
+	private Integer money, totalPoints, totalPrice, quantity;
+	private String selectedItem;
+	
 	private SystemManager systemManager;
 	private ShopHandler shopHandler;
 	
@@ -41,6 +54,12 @@ public class ShopUI extends JPanel
 	{
 		this.systemManager = systemManager;
 		shopHandler = new ShopHandler();
+		
+		money = 99999;
+		totalPoints = 0;
+		totalPrice = 0;
+		quantity = 0;
+		selectedItem = "";
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -57,24 +76,87 @@ public class ShopUI extends JPanel
 		l_itemShop.setBounds(541, 11, 90, 34);
 		add(l_itemShop);
 		
-		l_money = new JLabel("<html>Money:<br>Au 1000</html>");
+		l_money = new JLabel("<html>Money:<br>Au " + money + " </html>");
 		l_money.setForeground(Color.WHITE);
 		l_money.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		l_money.setBounds(541, 56, 253, 49);
 		add(l_money);
 		
-		l_have = new JLabel("<html>In Inventory:<br>99</html>");
+		l_have = new JLabel("<html>In Inventory:<br>-</html>");
 		l_have.setForeground(Color.WHITE);
 		l_have.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		l_have.setBounds(804, 56, 252, 49);
 		add(l_have);
 		
+		l_itemInfo = new JLabel("<html>Item Name:<br>Item Description:<br>Item Price Per unit:</html>");
+		l_itemInfo.setForeground(Color.WHITE);
+		l_itemInfo.setVerticalAlignment(SwingConstants.TOP);
+		l_itemInfo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_itemInfo.setBounds(10, 374, 521, 151);
+		add(l_itemInfo);
+		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
-		listModel.addElement("Items Go Here");
+		listModel.addElement("HP Potion");
+		listModel.addElement("SP Potion");
 		
 		jl_items = new JList<String>(listModel);
+		jl_items.addMouseListener(new MouseAdapter() 
+		{
+			public void mouseClicked(MouseEvent e) 
+			{
+				if(e.getClickCount() == 1) 
+				{
+			           selectedItem = jl_items.getSelectedValue();
+			           quantity = 10;
+
+						l_itemInfo.setText("<html>Item Name: " + selectedItem + " <br>"
+								+ "Item Description: Restores HP by 50"
+								+ "<br>Item Price Per unit: Au 10</html>");
+						l_have.setText("<html>In Inventory:<br> " + quantity + " </html>");
+						
+				}
+				else if(e.getClickCount() == 2)
+				{
+					selectedItem = "";
+					quantity = 0;
+					l_have.setText("<html>In Inventory:<br>-</html>");
+					l_itemInfo.setText("<html>Item Name:<br>Item Description:<br>Item Price Per unit:</html>");
+					jl_items.removeSelectionInterval(jl_items.getSelectedIndices()[0], jl_items.getSelectedIndices()[0]);
+				}
+			}
+		});
 		jl_items.setSelectionBackground(Color.DARK_GRAY);
 		jl_items.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+//		jl_items.setSelectionModel(new DefaultListSelectionModel()
+//		{
+//
+//			boolean gestureStarted = false;
+//
+//			@Override
+//			public void setSelectionInterval(int index0, int index1) 
+//			{
+//				if(!gestureStarted)
+//					if (isSelectedIndex(index0)) 
+//					{
+//						
+//						super.removeSelectionInterval(index0, index1);
+//					}
+//					else 
+//					{
+//						
+//						super.addSelectionInterval(index0, index1);
+//					}
+//				gestureStarted = true;
+//			}
+//
+//			@Override
+//			public void setValueIsAdjusting(boolean isAdjusting) 
+//			{
+//				if (isAdjusting == false) 
+//					gestureStarted = false;
+//			}
+//
+//		});
 		jl_items.setOpaque(false);
 		jl_items.setCellRenderer(new TransparentListCellRenderer());
 		jl_items.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
@@ -105,11 +187,11 @@ public class ShopUI extends JPanel
 		l_defenseText.setBounds(10, 125, 90, 20);
 		add(l_defenseText);
 		
-		l_specialText = new JLabel("SPECIAL");
-		l_specialText.setForeground(Color.WHITE);
-		l_specialText.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_specialText.setBounds(10, 145, 90, 20);
-		add(l_specialText);
+		l_powerText = new JLabel("SPECIAL");
+		l_powerText.setForeground(Color.WHITE);
+		l_powerText.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_powerText.setBounds(10, 145, 90, 20);
+		add(l_powerText);
 		
 		l_agilityText = new JLabel("AGILITY");
 		l_agilityText.setForeground(Color.WHITE);
@@ -151,12 +233,12 @@ public class ShopUI extends JPanel
 		l_baseDefense.setBounds(144, 125, 65, 20);
 		add(l_baseDefense);
 		
-		l_baseSpecial = new JLabel("0");
-		l_baseSpecial.setForeground(Color.WHITE);
-		l_baseSpecial.setHorizontalAlignment(SwingConstants.CENTER);
-		l_baseSpecial.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_baseSpecial.setBounds(144, 145, 65, 20);
-		add(l_baseSpecial);
+		l_basePower = new JLabel("0");
+		l_basePower.setForeground(Color.WHITE);
+		l_basePower.setHorizontalAlignment(SwingConstants.CENTER);
+		l_basePower.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_basePower.setBounds(144, 145, 65, 20);
+		add(l_basePower);
 		
 		l_baseAgility = new JLabel("0");
 		l_baseAgility.setForeground(Color.WHITE);
@@ -217,14 +299,14 @@ public class ShopUI extends JPanel
 		b_downPower.setBounds(100, 145, 44, 20);
 		add(b_downPower);
 
-		b_downSpeed = new JButton("-");
-		b_downSpeed.setContentAreaFilled(false);
-		b_downSpeed.setFocusPainted(false);
-		b_downSpeed.setOpaque(false);
-		b_downSpeed.setForeground(Color.WHITE);
-		b_downSpeed.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_downSpeed.setBounds(100, 165, 44, 20);
-		add(b_downSpeed);
+		b_downAgility = new JButton("-");
+		b_downAgility.setContentAreaFilled(false);
+		b_downAgility.setFocusPainted(false);
+		b_downAgility.setOpaque(false);
+		b_downAgility.setForeground(Color.WHITE);
+		b_downAgility.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_downAgility.setBounds(100, 165, 44, 20);
+		add(b_downAgility);
 		
 		b_downCritical = new JButton("-");
 		b_downCritical.setContentAreaFilled(false);
@@ -280,14 +362,14 @@ public class ShopUI extends JPanel
 		b_upPower.setBounds(209, 145, 44, 20);
 		add(b_upPower);
 		
-		b_upSpeed = new JButton("+");
-		b_upSpeed.setContentAreaFilled(false);
-		b_upSpeed.setFocusPainted(false);
-		b_upSpeed.setOpaque(false);
-		b_upSpeed.setForeground(Color.WHITE);
-		b_upSpeed.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_upSpeed.setBounds(209, 165, 44, 20);
-		add(b_upSpeed);
+		b_upAgility = new JButton("+");
+		b_upAgility.setContentAreaFilled(false);
+		b_upAgility.setFocusPainted(false);
+		b_upAgility.setOpaque(false);
+		b_upAgility.setForeground(Color.WHITE);
+		b_upAgility.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_upAgility.setBounds(209, 165, 44, 20);
+		add(b_upAgility);
 		
 		b_upCritical = new JButton("+");
 		b_upCritical.setContentAreaFilled(false);
@@ -326,12 +408,12 @@ public class ShopUI extends JPanel
 		l_addedDefense.setBounds(255, 125, 197, 20);
 		add(l_addedDefense);
 		
-		l_addedSpecial = new JLabel("0");
-		l_addedSpecial.setForeground(Color.WHITE);
-		l_addedSpecial.setHorizontalAlignment(SwingConstants.CENTER);
-		l_addedSpecial.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_addedSpecial.setBounds(255, 145, 197, 20);
-		add(l_addedSpecial);
+		l_addedPower = new JLabel("0");
+		l_addedPower.setForeground(Color.WHITE);
+		l_addedPower.setHorizontalAlignment(SwingConstants.CENTER);
+		l_addedPower.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_addedPower.setBounds(255, 145, 197, 20);
+		add(l_addedPower);
 		
 		l_addedAgility = new JLabel("0");
 		l_addedAgility.setForeground(Color.WHITE);
@@ -381,7 +463,7 @@ public class ShopUI extends JPanel
 		l_totalPoints.setBounds(192, 230, 65, 20);
 		add(l_totalPoints);
 				
-		l_perPrice = new JLabel("0");
+		l_perPrice = new JLabel("100");
 		l_perPrice.setForeground(Color.WHITE);
 		l_perPrice.setHorizontalAlignment(SwingConstants.RIGHT);
 		l_perPrice.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
@@ -409,13 +491,6 @@ public class ShopUI extends JPanel
 		l_information.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		l_information.setBounds(10, 329, 235, 34);
 		add(l_information);
-		
-		l_itemInfo = new JLabel("<html>Item Name<br>Item Description<br>Item Price Per unit</html>");
-		l_itemInfo.setForeground(Color.WHITE);
-		l_itemInfo.setVerticalAlignment(SwingConstants.TOP);
-		l_itemInfo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_itemInfo.setBounds(10, 374, 521, 151);
-		add(l_itemInfo);
 		
 		l_quantityText = new JLabel("Quantity");
 		l_quantityText.setForeground(Color.WHITE);
@@ -475,7 +550,24 @@ public class ShopUI extends JPanel
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		
+		checkStats();
+		
 		b_back.addActionListener(shopHandler);
+		b_upHP.addActionListener(shopHandler);
+		b_downHP.addActionListener(shopHandler);
+		b_upSP.addActionListener(shopHandler);
+		b_downSP.addActionListener(shopHandler);
+		b_upAttack.addActionListener(shopHandler);
+		b_downAttack.addActionListener(shopHandler);
+		b_upDefense.addActionListener(shopHandler);
+		b_downDefense.addActionListener(shopHandler);
+		b_upPower.addActionListener(shopHandler);
+		b_downPower.addActionListener(shopHandler);
+		b_upAgility.addActionListener(shopHandler);
+		b_downAgility.addActionListener(shopHandler);
+		b_upCritical.addActionListener(shopHandler);
+		b_downCritical.addActionListener(shopHandler);
+		b_upgrade.addActionListener(shopHandler);
 	}
 	
 	private class ShopHandler implements ActionListener
@@ -483,22 +575,239 @@ public class ShopUI extends JPanel
 		public void actionPerformed(ActionEvent e)
 		{
 			String action = e.getActionCommand();
+			Integer reply;
+			
 			if(action.equals("Back"))
 				systemManager.showNavigationUI();
+			else if(e.getSource() == b_upHP)
+			{
+				l_baseHP.setText(Integer.parseInt(l_baseHP.getText()) + 1 + "");
+				l_addedHP.setText(Integer.parseInt(l_addedHP.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downHP)
+			{
+				if(!l_baseHP.getText().equals("0"))
+				{
+					l_baseHP.setText(Integer.parseInt(l_baseHP.getText()) - 1 + "");
+					l_addedHP.setText(Integer.parseInt(l_addedHP.getText()) - 1 + "");
+				}
+			}
+			else if(e.getSource() == b_upSP)
+			{
+				l_baseSP.setText(Integer.parseInt(l_baseSP.getText()) + 1 + "");
+				l_addedSP.setText(Integer.parseInt(l_addedSP.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downSP)
+			{
+				if(!l_baseSP.getText().equals("0"))
+				{
+					l_baseSP.setText(Integer.parseInt(l_baseSP.getText()) - 1 + "");
+					l_addedSP.setText(Integer.parseInt(l_addedSP.getText()) - 1 + "");
+				}
+			}
+			else if(e.getSource() == b_upAttack)
+			{
+				l_baseAttack.setText(Integer.parseInt(l_baseAttack.getText()) + 1 + "");
+				l_addedAttack.setText(Integer.parseInt(l_addedAttack.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downAttack)
+			{
+				if(!l_baseAttack.getText().equals("0"))
+				{
+					l_baseAttack.setText(Integer.parseInt(l_baseAttack.getText()) - 1 + "");
+					l_addedAttack.setText(Integer.parseInt(l_addedAttack.getText()) - 1 + "");
+				}
+			}
+			else if(e.getSource() == b_upDefense)
+			{
+				l_baseDefense.setText(Integer.parseInt(l_baseDefense.getText()) + 1 + "");
+				l_addedDefense.setText(Integer.parseInt(l_addedDefense.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downDefense)
+			{
+				if(!l_baseDefense.getText().equals("0"))
+				{
+					l_baseDefense.setText(Integer.parseInt(l_baseDefense.getText()) - 1 + "");
+					l_addedDefense.setText(Integer.parseInt(l_addedDefense.getText()) - 1 + "");
+				}
+			}
+			else if(e.getSource() == b_upPower)
+			{
+				l_basePower.setText(Integer.parseInt(l_basePower.getText()) + 1 + "");
+				l_addedPower.setText(Integer.parseInt(l_addedPower.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downPower)
+			{
+				if(!l_basePower.getText().equals("0"))
+				{
+					l_basePower.setText(Integer.parseInt(l_basePower.getText()) - 1 + "");
+					l_addedPower.setText(Integer.parseInt(l_addedPower.getText()) - 1 + "");
+				}
+			}
+			else if(e.getSource() == b_upAgility)
+			{
+				l_baseAgility.setText(Integer.parseInt(l_baseAgility.getText()) + 1 + "");
+				l_addedAgility.setText(Integer.parseInt(l_addedAgility.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downAgility)
+			{
+				if(!l_baseAgility.getText().equals("0"))
+				{
+					l_baseAgility.setText(Integer.parseInt(l_baseAgility.getText()) - 1 + "");
+					l_addedAgility.setText(Integer.parseInt(l_addedAgility.getText()) - 1 + "");
+				}
+			}
+			else if(e.getSource() == b_upCritical)
+			{
+				l_baseCritical.setText(Integer.parseInt(l_baseCritical.getText()) + 1 + "");
+				l_addedCritical.setText(Integer.parseInt(l_addedCritical.getText()) + 1 + "");
+			}
+			else if(e.getSource() == b_downCritical)
+			{
+				if(!l_baseCritical.getText().equals("0"))
+				{
+					l_baseCritical.setText(Integer.parseInt(l_baseCritical.getText()) - 1 + "");
+					l_addedCritical.setText(Integer.parseInt(l_addedCritical.getText()) - 1 + "");
+				}
+			}
+			else if(action.equals("Upgrade"))
+			{
+				if(!(money < totalPrice))
+				{
+					reply = JOptionPane.showConfirmDialog(null, "Changes are permanent. Continue?", "Confirm", YESNO);
+					if(reply == YES)
+					{
+						money = money - totalPrice;
+						l_money.setText("<html>Money:<br>Au " + money + " </html>");
+						resetAfterUpgrade();
+					}
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Not enough gold.");
+			}
+			
+			totalPoints = Integer.parseInt(l_addedHP.getText()) + Integer.parseInt(l_addedSP.getText()) +
+					Integer.parseInt(l_addedAttack.getText()) + Integer.parseInt(l_addedDefense.getText()) +
+					Integer.parseInt(l_addedPower.getText()) + Integer.parseInt(l_addedAgility.getText()) +
+					Integer.parseInt(l_addedCritical.getText());
+			totalPrice = totalPoints * 100;
+			
+			l_totalPoints.setText(totalPoints.toString());
+			l_totalPrice.setText(totalPrice.toString());
+			
+			checkStats();
+			
+			repaint();
 		}
+	}
+	
+	public void checkStats()
+	{
+		if(totalPoints != 0)
+			b_upgrade.setEnabled(true);
+		else
+			b_upgrade.setEnabled(false);
+		
+		if(!l_addedHP.getText().equals("0"))
+			b_downHP.setEnabled(true);
+		else
+			b_downHP.setEnabled(false);
+		
+		if(!l_baseHP.getText().equals("999"))
+			b_upHP.setEnabled(true);
+		else
+			b_upHP.setEnabled(false);
+		
+		if(!l_addedSP.getText().equals("0"))
+			b_downSP.setEnabled(true);
+		else
+			b_downSP.setEnabled(false);
+		
+		if(!l_baseSP.getText().equals("999"))
+			b_upSP.setEnabled(true);
+		else
+			b_upSP.setEnabled(false);
+		
+		if(!l_addedAttack.getText().equals("0"))
+			b_downAttack.setEnabled(true);
+		else
+			b_downAttack.setEnabled(false);
+		
+		if(!l_baseAttack.getText().equals("999"))
+			b_upAttack.setEnabled(true);
+		else
+			b_upAttack.setEnabled(false);
+		
+		if(!l_addedDefense.getText().equals("0"))
+			b_downDefense.setEnabled(true);
+		else
+			b_downDefense.setEnabled(false);
+		
+		if(!l_baseDefense.getText().equals("999"))
+			b_upDefense.setEnabled(true);
+		else
+			b_upDefense.setEnabled(false);
+		
+		if(!l_addedPower.getText().equals("0"))
+			b_downPower.setEnabled(true);
+		else
+			b_downPower.setEnabled(false);
+		
+		if(!l_basePower.getText().equals("999"))
+			b_upPower.setEnabled(true);
+		else
+			b_upPower.setEnabled(false);
+		
+		if(!l_addedAgility.getText().equals("0"))
+			b_downAgility.setEnabled(true);
+		else
+			b_downAgility.setEnabled(false);
+		
+		if(!l_baseAgility.getText().equals("999"))
+			b_upAgility.setEnabled(true);
+		else
+			b_upAgility.setEnabled(false);
+		
+		if(!l_addedCritical.getText().equals("0"))
+			b_downCritical.setEnabled(true);
+		else
+			b_downCritical.setEnabled(false);
+		
+		if(!l_baseCritical.getText().equals("999"))
+			b_upCritical.setEnabled(true);
+		else
+			b_upCritical.setEnabled(false);
+	}
+	
+	public void resetAfterUpgrade()
+	{
+		l_addedHP.setText("0");
+		l_addedSP.setText("0");
+		l_addedAttack.setText("0");
+		l_addedDefense.setText("0");
+		l_addedPower.setText("0");
+		l_addedAgility.setText("0");
+		l_addedCritical.setText("0");
+		l_totalPoints.setText("0");
+		l_totalPrice.setText("0");
 	}
 	
 	private class TransparentListCellRenderer extends DefaultListCellRenderer 
 	{
+		Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
+		Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) 
-        {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            setForeground(Color.WHITE);
-            setOpaque(isSelected);
-            return this;
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index
+				, boolean isSelected, boolean cellHasFocus) 
+		{
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+			setForeground(Color.WHITE);
+			setOpaque(isSelected);
+			setBorder(cellHasFocus ? lineBorder : emptyBorder);
+			return this;
         }
+
 
     }
 

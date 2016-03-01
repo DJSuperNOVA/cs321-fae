@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import domain.HumanPlayer;
 import ui.*;
 
 public class SystemManager extends JFrame
@@ -21,11 +22,14 @@ public class SystemManager extends JFrame
 	private NewGameUI newGameUI;
 	private ShopUI shopUI;
 	
+	private HumanPlayer humanPlayer;
+	
 	public SystemManager()
 	{
 		container = getContentPane();
 		card = new CardLayout();
 		container.setLayout(card);
+		setHumanPlayer(new HumanPlayer());
 		setBounds(100, 100, 1072, 629);
 
 		mainMenuUI = new MainMenuUI(this);
@@ -138,5 +142,13 @@ public class SystemManager extends JFrame
 	public static void main(String[] args)
 	{
 		new SystemManager().showMainMenuUI();
+	}
+
+	public HumanPlayer getHumanPlayer() {
+		return humanPlayer;
+	}
+
+	public void setHumanPlayer(HumanPlayer humanPlayer) {
+		this.humanPlayer = humanPlayer;
 	}
 }
