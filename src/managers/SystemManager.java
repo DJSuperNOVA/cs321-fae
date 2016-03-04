@@ -13,7 +13,7 @@ public class SystemManager extends JFrame
 	
 	private BattleUI battleUI;
 	private InformationUI informationUI;
-	private IntroductionUI introductionUI;
+	private StoryUI storyUI;
 	private InventoryUI inventoryUI;
 	private LoadSaveUI loadUI;
 	private LoadSaveUI saveUI;
@@ -47,8 +47,9 @@ public class SystemManager extends JFrame
 		informationUI = new InformationUI(this);
 		container.add(informationUI, "Information");
 
-		introductionUI = new IntroductionUI(this);
-		container.add(introductionUI, "Introduction");
+		//reverted it back
+		storyUI = new StoryUI(this);
+		container.add(storyUI, "Story");
 
 		navigationUI = new NavigationUI(this);
 		container.add(navigationUI, "Navigation");
@@ -104,10 +105,10 @@ public class SystemManager extends JFrame
 		repaint();
 	}
 
-	public void showIntroductionUI()
+	public void showStoryUI()
 	{
-		setTitle("Introduction");
-		card.show(container, "Introduction");
+		setTitle("Story");
+		card.show(container, "Story");
 		repaint();
 	}
 
@@ -144,11 +145,18 @@ public class SystemManager extends JFrame
 		new SystemManager().showMainMenuUI();
 	}
 
-	public HumanPlayer getHumanPlayer() {
+	public HumanPlayer getHumanPlayer()
+	{
 		return humanPlayer;
 	}
 
-	public void setHumanPlayer(HumanPlayer humanPlayer) {
+	public void setHumanPlayer(HumanPlayer humanPlayer) 
+	{
 		this.humanPlayer = humanPlayer;
+	}
+	
+	public void rollStory(int bossWins)
+	{
+		storyUI.rollStoryText(bossWins);
 	}
 }
