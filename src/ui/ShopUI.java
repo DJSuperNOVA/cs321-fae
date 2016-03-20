@@ -38,7 +38,7 @@ public class ShopUI extends JPanel
 				l_quantityText, l_quantity, l_bg;
 	private JButton b_downHP, b_downAttack, b_downDefense, b_downPower, b_downSP, b_downAgility, b_downCritical,
 				b_upSP, b_upHP, b_upAttack, b_upDefense, b_upPower, b_upCritical, b_upAgility, b_back, b_upgrade,
-				b_buy, b_upQuantity, b_downQuantity;
+				b_purchase, b_upQuantity, b_downQuantity;
 	
 	private final int YESNO = JOptionPane.YES_NO_OPTION;
 	private final int YES = JOptionPane.YES_OPTION;
@@ -469,14 +469,14 @@ public class ShopUI extends JPanel
 		l_itemPriceText.setBounds(834, 157, 76, 20);
 		add(l_itemPriceText);
 		
-		b_buy = new JButton("Purchase");
-		b_buy.setContentAreaFilled(false);
-		b_buy.setFocusPainted(false);
-		b_buy.setOpaque(false);
-		b_buy.setForeground(Color.WHITE);
-		b_buy.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_buy.setBounds(834, 206, 197, 76);
-		add(b_buy);
+		b_purchase = new JButton("Purchase");
+		b_purchase.setContentAreaFilled(false);
+		b_purchase.setFocusPainted(false);
+		b_purchase.setOpaque(false);
+		b_purchase.setForeground(Color.WHITE);
+		b_purchase.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_purchase.setBounds(834, 206, 197, 76);
+		add(b_purchase);
 		
 		b_upQuantity = new JButton("+");
 		b_upQuantity.setContentAreaFilled(false);
