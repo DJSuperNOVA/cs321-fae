@@ -1,5 +1,5 @@
 package domain;
-import java.util.Random;
+
 public class MobMonster extends FAECharacter
 {
 	/*
@@ -26,7 +26,12 @@ public class MobMonster extends FAECharacter
 	private int mobID, firstArea;
 	private double chanceAttack, chanceDefend, chanceSkill, chanceFlee, chanceBossKeyDrop;
 	private double baseXPYield, baseAuYield, defXPYield, defAuYield;
-	private Random dice;
+	private Skill skill;
+	
+	public MobMonster()
+	{
+		skill = new Skill();
+	}
 	
 	//GETTERS AND SETTERS
 	public int getMobID() {
@@ -95,10 +100,10 @@ public class MobMonster extends FAECharacter
 	public void setDefAuYield(double defAuYield) {
 		this.defAuYield = defAuYield;
 	}
-	public Random getDice() {
-		return dice;
+	public Skill getSkill() {
+		return skill;
 	}
-	public void setDice(Random dice) {
-		this.dice = dice;
+	public void setSkill(Skill skill) {
+		this.skill = skill;
 	}
 }

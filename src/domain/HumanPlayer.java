@@ -1,5 +1,6 @@
 package domain;
 import java.util.*;
+import managers.StatsManager;
 public class HumanPlayer extends FAECharacter
 {
 	/*
@@ -28,6 +29,19 @@ public class HumanPlayer extends FAECharacter
 	private int wins, losses, bossWins, bossKeys;
 	private double plusHP, plusSP, plusATK, plusDEF, plusSPC, plusAGI, plusCRT;
 	private ArrayList<GameItem> inventory;
+	private ArrayList<Skill> skillSet;
+	private StatsManager statsManager = new StatsManager();
+	
+	public void calculateDefStats()
+	{
+		super.setDefHP(super.getBaseHP() + plusHP);
+		super.setDefSP(super.getBaseSP() + plusSP);
+		super.setDefATK(super.getBaseATK() + plusATK);
+		super.setDefDEF(super.getBaseDEF() + plusDEF);
+		super.setDefSPC(super.getBaseSPC() + plusSPC);
+		super.setDefAGI(super.getBaseAGI() + plusAGI);
+		super.setDefCRT(super.getBaseCRT() + plusCRT);
+	}
 	
 	//GETTERS AND SETTERS
 	public String getBattleClass() {
@@ -42,11 +56,17 @@ public class HumanPlayer extends FAECharacter
 	public void setXP(double xp) {
 		this.xp = xp;
 	}
+	public void addXP(double xp) {
+		this.xp += xp;
+	}
 	public double getAu() {
 		return au;
 	}
 	public void setAu(double au) {
 		this.au = au;
+	}
+	public void addAu(double au) {
+		this.au += au;
 	}
 	public int getWins() {
 		return wins;
@@ -119,5 +139,29 @@ public class HumanPlayer extends FAECharacter
 	}
 	public void setPlusCRT(double plusCRT) {
 		this.plusCRT = plusCRT;
+	}
+	public ArrayList<Skill> getSkillSet() {
+		return skillSet;
+	}
+	public void setSkillSet(ArrayList<Skill> skillSet) {
+		this.skillSet = skillSet;
+	}
+	
+	public void refreshLevel(String battleClass, double xp)
+	{
+		super.setLevel(statsManager.getPlayerLevel(battleClass, xp));
+		refreshBaseStats(super.getLevel());
+	}
+
+	private void refreshBaseStats(int level)
+	{
+		super.setBaseHP(statsManager.getPlayerHPbaseStat(getBattleClass(), level));
+		super.setBaseSP(statsManager.getPlayerSPbaseStat(getBattleClass(), level));
+		super.setBaseATK(statsManager.getPlayerATKbaseStat(getBattleClass(), level));
+		super.setBaseDEF(statsManager.getPlayerDEFbaseStat(getBattleClass(), level));
+		super.setBaseSPC(statsManager.getPlayerSPCbaseStat(getBattleClass(), level));
+		super.setBaseAGI(statsManager.getPlayerAGIbaseStat(getBattleClass(), level));
+		super.setBaseCRT(statsManager.getPlayerCRTbaseStat(getBattleClass(), level));
+		calculateDefStats();
 	}
 }

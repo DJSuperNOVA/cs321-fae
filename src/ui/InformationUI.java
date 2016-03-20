@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import managers.ImageManager;
 import managers.SystemManager;
 
 import javax.swing.ImageIcon;
@@ -24,17 +25,23 @@ public class InformationUI extends JPanel
 	private JLabel l_bg;
 	
 	private SystemManager systemManager;
+	private ImageManager imageManager;
 	private InformationHandler informationHandler;
 
 	public InformationUI(SystemManager systemManager) 
 	{
 		this.systemManager = systemManager;
 		informationHandler = new InformationHandler();
+		imageManager = new ImageManager();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 		
-		b_about = new JButton("About");
+		b_about = new JButton();
+		b_about.setActionCommand("About");
+		b_about.setBorder(null);
+		b_about.setIcon(imageManager.getInformationGraphic("About"));
+		b_about.setRolloverIcon(imageManager.getInformationGraphic("About_Hover"));
 		b_about.setFocusPainted(false);
 		b_about.setOpaque(false);
 		b_about.setContentAreaFilled(false);
@@ -43,7 +50,11 @@ public class InformationUI extends JPanel
 		b_about.setBounds(10, 11, 235, 95);
 		add(b_about);
 		
-		b_credits = new JButton("Credits");
+		b_credits = new JButton();
+		b_credits.setActionCommand("Credits");
+		b_credits.setBorder(null);
+		b_credits.setIcon(imageManager.getInformationGraphic("Credits"));
+		b_credits.setRolloverIcon(imageManager.getInformationGraphic("Credits_Hover"));
 		b_credits.setFocusPainted(false);
 		b_credits.setOpaque(false);
 		b_credits.setContentAreaFilled(false);
@@ -52,7 +63,11 @@ public class InformationUI extends JPanel
 		b_credits.setBounds(10, 117, 235, 95);
 		add(b_credits);
 		
-		b_howTo = new JButton("How to Play");
+		b_howTo = new JButton();
+		b_howTo.setActionCommand("how to Play");
+		b_howTo.setBorder(null);
+		b_howTo.setIcon(imageManager.getInformationGraphic("HowTo"));
+		b_howTo.setRolloverIcon(imageManager.getInformationGraphic("HowTo_Hover"));
 		b_howTo.setFocusPainted(false);
 		b_howTo.setOpaque(false);
 		b_howTo.setContentAreaFilled(false);
@@ -61,7 +76,11 @@ public class InformationUI extends JPanel
 		b_howTo.setBounds(10, 223, 235, 95);
 		add(b_howTo);
 		
-		b_back = new JButton("Back");
+		b_back = new JButton();
+		b_back.setActionCommand("Back");
+		b_back.setBorder(null);
+		b_back.setIcon(imageManager.getInformationGraphic("Back"));
+		b_back.setRolloverIcon(imageManager.getInformationGraphic("Back_Hover"));
 		b_back.setFocusPainted(false);
 		b_back.setOpaque(false);
 		b_back.setContentAreaFilled(false);
@@ -82,7 +101,7 @@ public class InformationUI extends JPanel
 		ta_info.setColumns(10);
 		
 		l_bg = new JLabel();
-		l_bg.setIcon(new ImageIcon("../cs321-fae/src/graphics/Common_BG.png"));
+		l_bg.setIcon(imageManager.getCommonBG());
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		
@@ -96,6 +115,8 @@ public class InformationUI extends JPanel
 			String action = e.getActionCommand();
 			if(action.equals("Back"))
 				systemManager.showMainMenuUI();
+			
+			repaint();
 		}
 	}
 

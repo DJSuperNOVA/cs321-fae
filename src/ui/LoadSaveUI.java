@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import managers.ImageManager;
 import managers.SystemManager;
 
 import javax.swing.JTextArea;
@@ -25,12 +26,14 @@ public class LoadSaveUI extends JPanel
 	private JLabel l_loadSave, l_bg;
 	
 	private SystemManager systemManager;
+	private ImageManager imageManager;
 	private LoadSaveHandler loadSaveHandler;
 
 	public LoadSaveUI(SystemManager systemManager, boolean forLoad) 
 	{
 		this.systemManager = systemManager;
 		this.forLoad = forLoad;
+		imageManager = new ImageManager();
 		loadSaveHandler = new LoadSaveHandler();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -47,7 +50,7 @@ public class LoadSaveUI extends JPanel
 		b_firstChar.setOpaque(false);
 		b_firstChar.setForeground(Color.WHITE);
 		b_firstChar.setFocusPainted(false);
-		b_firstChar.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_firstChar.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_firstChar.setBounds(10, 11, 291, 322);
 		p_firstSlot.add(b_firstChar);
 		
@@ -57,7 +60,7 @@ public class LoadSaveUI extends JPanel
 		ta_firstInfo.setEditable(false);
 		ta_firstInfo.setHighlighter(null);
 		ta_firstInfo.setText("Name: -\r\nArea: -\r\nLevel: -");
-		ta_firstInfo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_firstInfo.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_firstInfo.setBounds(10, 344, 291, 62);
 		p_firstSlot.add(ta_firstInfo);
 		
@@ -72,7 +75,7 @@ public class LoadSaveUI extends JPanel
 		b_secondChar.setOpaque(false);
 		b_secondChar.setForeground(Color.WHITE);
 		b_secondChar.setFocusPainted(false);
-		b_secondChar.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_secondChar.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_secondChar.setBounds(10, 11, 291, 322);
 		p_secondSlot.add(b_secondChar);
 		
@@ -82,7 +85,7 @@ public class LoadSaveUI extends JPanel
 		ta_secondInfo.setEditable(false);
 		ta_secondInfo.setHighlighter(null);
 		ta_secondInfo.setText("Name: -\r\nArea: -\r\nLevel: -");
-		ta_secondInfo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_secondInfo.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_secondInfo.setBounds(10, 345, 291, 62);
 		p_secondSlot.add(ta_secondInfo);
 		
@@ -97,7 +100,7 @@ public class LoadSaveUI extends JPanel
 		b_thirdChar.setOpaque(false);
 		b_thirdChar.setForeground(Color.WHITE);
 		b_thirdChar.setFocusPainted(false);
-		b_thirdChar.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_thirdChar.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_thirdChar.setBounds(10, 11, 291, 323);
 		p_thirdSlot.add(b_thirdChar);
 		
@@ -122,7 +125,11 @@ public class LoadSaveUI extends JPanel
 		
 		if(forLoad)
 		{
-			b_load = new JButton("Load");
+			b_load = new JButton();
+			b_load.setActionCommand("Load");
+			b_load.setBorder(null);
+			b_load.setIcon(imageManager.getLoadSaveGraphic("Load"));
+			b_load.setRolloverIcon(imageManager.getLoadSaveGraphic("Load_Hover"));
 			b_load.setContentAreaFilled(false);
 			b_load.setOpaque(false);
 			b_load.setForeground(Color.WHITE);
@@ -131,7 +138,11 @@ public class LoadSaveUI extends JPanel
 			b_load.setBounds(35, 543, 205, 45);
 			add(b_load);
 			
-			b_delete = new JButton("Delete");
+			b_delete = new JButton();
+			b_delete.setActionCommand("Delete");
+			b_delete.setBorder(null);
+			b_delete.setIcon(imageManager.getLoadSaveGraphic("Delete"));
+			b_delete.setRolloverIcon(imageManager.getLoadSaveGraphic("Delete_Hover"));
 			b_delete.setContentAreaFilled(false);
 			b_delete.setOpaque(false);
 			b_delete.setForeground(Color.WHITE);
@@ -140,7 +151,11 @@ public class LoadSaveUI extends JPanel
 			b_delete.setBounds(432, 543, 205, 45);
 			add(b_delete);
 			
-			b_back = new JButton("Back to Main Menu");
+			b_back = new JButton();
+			b_back.setActionCommand("Back to Main Menu");
+			b_back.setBorder(null);
+			b_back.setIcon(imageManager.getLoadSaveGraphic("Back"));
+			b_back.setRolloverIcon(imageManager.getLoadSaveGraphic("Back_Hover"));
 			b_back.setContentAreaFilled(false);
 			b_back.setOpaque(false);
 			b_back.setForeground(Color.WHITE);
@@ -151,7 +166,11 @@ public class LoadSaveUI extends JPanel
 		}
 		else
 		{
-			b_save = new JButton("Save");
+			b_save = new JButton();
+			b_save.setActionCommand("Save");
+			b_save.setBorder(null);
+			b_save.setIcon(imageManager.getLoadSaveGraphic("Save"));
+			b_save.setRolloverIcon(imageManager.getLoadSaveGraphic("Save_Hover"));
 			b_save.setContentAreaFilled(false);
 			b_save.setOpaque(false);
 			b_save.setForeground(Color.WHITE);
@@ -160,7 +179,11 @@ public class LoadSaveUI extends JPanel
 			b_save.setBounds(300, 543, 205, 45);
 			add(b_save);
 			
-			b_back = new JButton("Back to Game");
+			b_back = new JButton();
+			b_back.setActionCommand("Back to Game");
+			b_back.setBorder(null);
+			b_back.setIcon(imageManager.getLoadSaveGraphic("Back"));
+			b_back.setRolloverIcon(imageManager.getLoadSaveGraphic("Back_Hover"));
 			b_back.setContentAreaFilled(false);
 			b_back.setOpaque(false);
 			b_back.setForeground(Color.WHITE);
@@ -171,7 +194,7 @@ public class LoadSaveUI extends JPanel
 		}
 		
 		l_bg = new JLabel();
-		l_bg.setIcon(new ImageIcon("../cs321-fae/src/graphics/Common_BG.png"));
+		l_bg.setIcon(imageManager.getCommonBG());
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		
@@ -187,6 +210,8 @@ public class LoadSaveUI extends JPanel
 				systemManager.showMainMenuUI();
 			else if(action.equals("Back to Game"))
 				systemManager.showNavigationUI();
+			
+			repaint();
 		}
 	}
 }

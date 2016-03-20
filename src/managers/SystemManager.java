@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import domain.HumanPlayer;
 import ui.*;
 
 public class SystemManager extends JFrame
@@ -12,7 +13,7 @@ public class SystemManager extends JFrame
 	
 	private BattleUI battleUI;
 	private InformationUI informationUI;
-	private IntroductionUI introductionUI;
+	private StoryUI storyUI;
 	private InventoryUI inventoryUI;
 	private LoadSaveUI loadUI;
 	private LoadSaveUI saveUI;
@@ -21,11 +22,16 @@ public class SystemManager extends JFrame
 	private NewGameUI newGameUI;
 	private ShopUI shopUI;
 	
+	private HumanPlayer humanPlayer;
+	
+	private String playerClass;
+	
 	public SystemManager()
 	{
 		container = getContentPane();
 		card = new CardLayout();
 		container.setLayout(card);
+		humanPlayer = new HumanPlayer();
 		setBounds(100, 100, 1072, 629);
 
 		mainMenuUI = new MainMenuUI(this);
@@ -43,8 +49,8 @@ public class SystemManager extends JFrame
 		informationUI = new InformationUI(this);
 		container.add(informationUI, "Information");
 
-		introductionUI = new IntroductionUI(this);
-		container.add(introductionUI, "Introduction");
+		storyUI = new StoryUI(this);
+		container.add(storyUI, "Story");
 
 		navigationUI = new NavigationUI(this);
 		container.add(navigationUI, "Navigation");
@@ -100,10 +106,10 @@ public class SystemManager extends JFrame
 		repaint();
 	}
 
-	public void showIntroductionUI()
+	public void showStoryUI()
 	{
-		setTitle("Introduction");
-		card.show(container, "Introduction");
+		setTitle("Story");
+		card.show(container, "Story");
 		repaint();
 	}
 
@@ -128,15 +134,50 @@ public class SystemManager extends JFrame
 		repaint();
 	}
 
-	public void showBattleUI()
+	public void showBattleUI(String monsterID)
 	{
 		setTitle("Battle");
 		card.show(container, "Battle");
+		battleUI.processPlayerImage(playerClass); //this
+		battleUI.processMonsterID(monsterID); //this
+		battleUI.initializeBattleManager();
+		battleUI.updateHPSPBars();
 		repaint();
 	}
 
+	public HumanPlayer getHumanPlayer()
+	{
+		return humanPlayer;
+	}
+
+	public void setHumanPlayer(HumanPlayer humanPlayer) 
+	{
+		this.humanPlayer = humanPlayer;
+	}
+	
+	public String getPlayerClass() //this
+	{
+		return playerClass;
+	}
+	
+	public void setPlayerClass(String playerClass) //this
+	{
+		this.playerClass = playerClass;
+	}
+	
+	public StoryUI getStoryUI()
+	{
+		return storyUI;
+	}
+	
 	public static void main(String[] args)
 	{
-		new SystemManager().showMainMenuUI();
+		java.awt.EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				new SystemManager().showMainMenuUI();
+			}
+		});
 	}
 }

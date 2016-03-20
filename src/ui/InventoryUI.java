@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
+import managers.ImageManager;
 import managers.SystemManager;
 
 import javax.swing.JList;
@@ -27,12 +28,14 @@ public class InventoryUI extends JPanel
 	private JButton b_use, b_sell, b_back;
 
 	private SystemManager systemManager;
+	private ImageManager imageManager;
 	private InventoryHandler inventoryHandler;
 	
 	public InventoryUI(SystemManager systemManager) 
 	{
 		this.systemManager = systemManager;
 		inventoryHandler = new InventoryHandler();
+		imageManager = new ImageManager();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -63,7 +66,11 @@ public class InventoryUI extends JPanel
 		l_stats.setBounds(454, 154, 602, 352);
 		add(l_stats);
 		
-		b_use = new JButton("Use Item");
+		b_use = new JButton();
+		b_use.setActionCommand("Use Item");
+		b_use.setBorder(null);
+		b_use.setIcon(imageManager.getInventoryGraphic("UseItem"));
+		b_use.setRolloverIcon(imageManager.getInventoryGraphic("UseItem_Hover"));
 		b_use.setFocusPainted(false);
 		b_use.setContentAreaFilled(false);
 		b_use.setOpaque(false);
@@ -72,7 +79,11 @@ public class InventoryUI extends JPanel
 		b_use.setBounds(454, 517, 195, 70);
 		add(b_use);
 		
-		b_sell = new JButton("Sell Item");
+		b_sell = new JButton();
+		b_sell.setActionCommand("Sell Item");
+		b_sell.setBorder(null);
+		b_sell.setIcon(imageManager.getInventoryGraphic("Sell"));
+		b_sell.setRolloverIcon(imageManager.getInventoryGraphic("Sell_Hover"));
 		b_sell.setFocusPainted(false);
 		b_sell.setContentAreaFilled(false);
 		b_sell.setOpaque(false);
@@ -81,7 +92,11 @@ public class InventoryUI extends JPanel
 		b_sell.setBounds(658, 517, 195, 70);
 		add(b_sell);
 		
-		b_back = new JButton("Back");
+		b_back = new JButton();
+		b_back.setActionCommand("Back");
+		b_back.setBorder(null);
+		b_back.setIcon(imageManager.getInventoryGraphic("Back"));
+		b_back.setRolloverIcon(imageManager.getInventoryGraphic("Back_Hover"));
 		b_back.setFocusPainted(false);
 		b_back.setContentAreaFilled(false);
 		b_back.setOpaque(false);
@@ -91,7 +106,7 @@ public class InventoryUI extends JPanel
 		add(b_back);
 		
 		l_bg = new JLabel();
-		l_bg.setIcon(new ImageIcon("../cs321-fae/src/graphics/Common_BG.png"));
+		l_bg.setIcon(imageManager.getCommonBG());
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		
@@ -105,6 +120,8 @@ public class InventoryUI extends JPanel
 			String action = e.getActionCommand();
 			if(action.equals("Back"))
 				systemManager.showNavigationUI();
+			
+			repaint();
 		}
 	}
 	
