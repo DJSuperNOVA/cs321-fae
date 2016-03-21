@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class FAECharacter 
 {
@@ -38,7 +39,7 @@ public abstract class FAECharacter
 	private double defHP, defSP, defATK, defDEF, defSPC, defAGI, defCRT;
 	private double currentHP, currentSP, currentATK, currentDEF, currentSPC, currentAGI, currentCRT;
 	private int level;
-	private ArrayList<Skill> skillSet;
+	private Random dice = new Random();
 	
 	//GETTERS AND SETTERS
 	public String getName() {
@@ -179,10 +180,14 @@ public abstract class FAECharacter
 	public void setCurrentCRT(double currentCRT) {
 		this.currentCRT = currentCRT;
 	}
-	public ArrayList<Skill> getSkillSet() {
-		return skillSet;
+	public Random getDice() {
+		return dice;
 	}
-	public void setSkillSet(ArrayList<Skill> skillSet) {
-		this.skillSet = skillSet;
+	public void setDice(Random dice) {
+		this.dice = dice;
+	}
+	public double rollDoubleDice()
+	{
+		return dice.nextDouble();
 	}
 }

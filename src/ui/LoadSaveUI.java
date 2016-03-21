@@ -50,7 +50,7 @@ public class LoadSaveUI extends JPanel
 		b_firstChar.setOpaque(false);
 		b_firstChar.setForeground(Color.WHITE);
 		b_firstChar.setFocusPainted(false);
-		b_firstChar.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_firstChar.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_firstChar.setBounds(10, 11, 291, 322);
 		p_firstSlot.add(b_firstChar);
 		
@@ -60,7 +60,7 @@ public class LoadSaveUI extends JPanel
 		ta_firstInfo.setEditable(false);
 		ta_firstInfo.setHighlighter(null);
 		ta_firstInfo.setText("Name: -\r\nArea: -\r\nLevel: -");
-		ta_firstInfo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_firstInfo.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_firstInfo.setBounds(10, 344, 291, 62);
 		p_firstSlot.add(ta_firstInfo);
 		
@@ -75,7 +75,7 @@ public class LoadSaveUI extends JPanel
 		b_secondChar.setOpaque(false);
 		b_secondChar.setForeground(Color.WHITE);
 		b_secondChar.setFocusPainted(false);
-		b_secondChar.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_secondChar.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_secondChar.setBounds(10, 11, 291, 322);
 		p_secondSlot.add(b_secondChar);
 		
@@ -85,7 +85,7 @@ public class LoadSaveUI extends JPanel
 		ta_secondInfo.setEditable(false);
 		ta_secondInfo.setHighlighter(null);
 		ta_secondInfo.setText("Name: -\r\nArea: -\r\nLevel: -");
-		ta_secondInfo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_secondInfo.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_secondInfo.setBounds(10, 345, 291, 62);
 		p_secondSlot.add(ta_secondInfo);
 		
@@ -100,7 +100,7 @@ public class LoadSaveUI extends JPanel
 		b_thirdChar.setOpaque(false);
 		b_thirdChar.setForeground(Color.WHITE);
 		b_thirdChar.setFocusPainted(false);
-		b_thirdChar.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_thirdChar.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_thirdChar.setBounds(10, 11, 291, 323);
 		p_thirdSlot.add(b_thirdChar);
 		
@@ -210,6 +210,8 @@ public class LoadSaveUI extends JPanel
 				systemManager.showMainMenuUI();
 			else if(action.equals("Back to Game"))
 				systemManager.showNavigationUI();
+			
+			repaint();
 		}
 	}
 }

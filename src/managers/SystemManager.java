@@ -24,12 +24,14 @@ public class SystemManager extends JFrame
 	
 	private HumanPlayer humanPlayer;
 	
+	private String playerClass;
+	
 	public SystemManager()
 	{
 		container = getContentPane();
 		card = new CardLayout();
 		container.setLayout(card);
-		setHumanPlayer(new HumanPlayer());
+		humanPlayer = new HumanPlayer();
 		setBounds(100, 100, 1072, 629);
 
 		mainMenuUI = new MainMenuUI(this);
@@ -47,7 +49,6 @@ public class SystemManager extends JFrame
 		informationUI = new InformationUI(this);
 		container.add(informationUI, "Information");
 
-		//reverted it back
 		storyUI = new StoryUI(this);
 		container.add(storyUI, "Story");
 
@@ -133,16 +134,15 @@ public class SystemManager extends JFrame
 		repaint();
 	}
 
-	public void showBattleUI()
+	public void showBattleUI(String monsterID)
 	{
 		setTitle("Battle");
 		card.show(container, "Battle");
+		battleUI.processPlayerImage(playerClass); //this
+		battleUI.processMonsterID(monsterID); //this
+		battleUI.initializeBattleManager();
+//		battleUI.updateHPandSPDisplays();
 		repaint();
-	}
-
-	public static void main(String[] args)
-	{
-		new SystemManager().showMainMenuUI();
 	}
 
 	public HumanPlayer getHumanPlayer()
@@ -155,8 +155,28 @@ public class SystemManager extends JFrame
 		this.humanPlayer = humanPlayer;
 	}
 	
-	public void rollStory(int bossWins)
+	public String getPlayerClass() //this
 	{
-		storyUI.rollStoryText(bossWins);
+		return playerClass;
+	}
+	
+	public void setPlayerClass(String playerClass) //this
+	{
+		this.playerClass = playerClass;
+	}
+	
+	public StoryUI getStoryUI()
+	{
+		return storyUI;
+	}
+	
+	public NavigationUI getNavigationUI()
+	{
+		return navigationUI;
+	}
+	
+	public static void main(String[] args)
+	{
+		new SystemManager().showMainMenuUI();
 	}
 }

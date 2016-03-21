@@ -120,6 +120,8 @@ public class InventoryUI extends JPanel
 			String action = e.getActionCommand();
 			if(action.equals("Back"))
 				systemManager.showNavigationUI();
+			
+			repaint();
 		}
 	}
 	

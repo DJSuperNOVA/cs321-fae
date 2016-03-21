@@ -42,6 +42,7 @@ public class BossMonster extends FAECharacter
 	private double chanceAttackWind2, chanceDefendWind2, chanceSkillWind2;
 	private double defXPYield, defAuYield, secondWindHP, secondWindSP;
 	private boolean isNowSecondWind;
+	private Skill skill;
 	private Random dice;
 	
 	//GETTERS AND SETTERS
@@ -129,5 +130,15 @@ public class BossMonster extends FAECharacter
 	public void setDice(Random dice) {
 		this.dice = dice;
 	}
+	public Skill getSkill() {
+		return skill;
+	}
+	public void setSkill(Skill skill) {
+		this.skill = skill;
+	}
 	
+	public double rollDoubleDice()
+	{
+		return dice.nextDouble();
+	}
 }

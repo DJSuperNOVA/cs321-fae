@@ -1,17 +1,22 @@
 package ui;
 
+import java.util.Random;
+
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import managers.ImageManager;
 import managers.SystemManager;
+import managers.StatsManager;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
+import java.text.DecimalFormat;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -29,26 +34,32 @@ public class NavigationUI extends JPanel
 	private SystemManager systemManager;
 	private ImageManager imageManager;
 	private NavigationHandler navigationHandler;
+	private StatsManager statsManager;
+	
+	private Random random;
+	private DecimalFormat d0 = new DecimalFormat("####");
 	
 	public NavigationUI(SystemManager systemManager) 
 	{
 		this.systemManager = systemManager;
 		navigationHandler = new NavigationHandler();
 		imageManager = new ImageManager();
+		statsManager = new StatsManager();
+		random = new Random();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 		
 		l_area = new JLabel("Area 1: Peiyuu Village");
 		l_area.setForeground(Color.WHITE);
-		l_area.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_area.setFont(new Font("Nyala", Font.PLAIN, 24));
 		l_area.setBounds(30, 11, 285, 30);
 		add(l_area);
 		
 		l_instructions = new JLabel("Click anywhere in the map to fight mobs.");
 		l_instructions.setForeground(Color.WHITE);
-		l_instructions.setFont(new Font("Bookman Old Style", Font.PLAIN, 14));
-		l_instructions.setBounds(30, 39, 285, 30);
+		l_instructions.setFont(new Font("Nyala", Font.PLAIN, 20));
+		l_instructions.setBounds(30, 39, 410, 30);
 		add(l_instructions);
 		
 		b_loc1 = new JButton();
@@ -58,7 +69,7 @@ public class NavigationUI extends JPanel
 		b_loc1.setFocusPainted(false);
 		b_loc1.setOpaque(false);
 		b_loc1.setForeground(Color.WHITE);
-		b_loc1.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc1.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc1.setBounds(70, 80, 125, 125);
 		add(b_loc1);
 		
@@ -69,7 +80,7 @@ public class NavigationUI extends JPanel
 		b_loc2.setFocusPainted(false);
 		b_loc2.setOpaque(false);
 		b_loc2.setForeground(Color.WHITE);
-		b_loc2.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc2.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc2.setBounds(195, 80, 125, 125);
 		add(b_loc2);
 		
@@ -80,7 +91,7 @@ public class NavigationUI extends JPanel
 		b_loc3.setFocusPainted(false);
 		b_loc3.setOpaque(false);
 		b_loc3.setForeground(Color.WHITE);
-		b_loc3.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc3.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc3.setBounds(320, 80, 125, 125);
 		add(b_loc3);
 		
@@ -91,7 +102,7 @@ public class NavigationUI extends JPanel
 		b_loc4.setFocusPainted(false);
 		b_loc4.setOpaque(false);
 		b_loc4.setForeground(Color.WHITE);
-		b_loc4.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc4.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc4.setBounds(445, 80, 125, 125);
 		add(b_loc4);
 		
@@ -102,7 +113,7 @@ public class NavigationUI extends JPanel
 		b_loc5.setFocusPainted(false);
 		b_loc5.setOpaque(false);
 		b_loc5.setForeground(Color.WHITE);
-		b_loc5.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc5.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc5.setBounds(70, 205, 125, 125);
 		add(b_loc5);
 		
@@ -113,7 +124,7 @@ public class NavigationUI extends JPanel
 		b_loc6.setFocusPainted(false);
 		b_loc6.setOpaque(false);
 		b_loc6.setForeground(Color.WHITE);
-		b_loc6.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc6.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc6.setBounds(195, 205, 125, 125);
 		add(b_loc6);
 		
@@ -124,7 +135,7 @@ public class NavigationUI extends JPanel
 		b_loc7.setFocusPainted(false);
 		b_loc7.setOpaque(false);
 		b_loc7.setForeground(Color.WHITE);
-		b_loc7.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		b_loc7.setFont(new Font("Nyala", Font.PLAIN, 20));
 		b_loc7.setBounds(320, 205, 125, 125);
 		add(b_loc7);
 		
@@ -289,10 +300,10 @@ public class NavigationUI extends JPanel
 		ta_status = new JTextArea();
 		ta_status.setOpaque(false);
 		ta_status.setForeground(Color.WHITE);
-		ta_status.setText("Name\t\tLv\r\nHP\t\tSP\r\nAu");
+		ta_status.setText("");
 		ta_status.setEditable(false);
 		ta_status.setHighlighter(null);
-		ta_status.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_status.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_status.setBounds(655, 106, 376, 64);
 		add(ta_status);
 		
@@ -300,15 +311,15 @@ public class NavigationUI extends JPanel
 		ta_stats.setOpaque(false);
 		ta_stats.setForeground(Color.WHITE);
 		ta_stats.setText("Stats");
-		ta_stats.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_stats.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_stats.setEditable(false);
 		ta_stats.setHighlighter(null);
-		ta_stats.setBounds(655, 171, 376, 114);
+		ta_stats.setBounds(655, 171, 376, 159);
 		add(ta_stats);
 		
 		l_missions = new JLabel("Missions");
 		l_missions.setForeground(Color.WHITE);
-		l_missions.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_missions.setFont(new Font("Nyala", Font.PLAIN, 20));
 		l_missions.setBounds(655, 312, 80, 30);
 		add(l_missions);
 		
@@ -318,7 +329,7 @@ public class NavigationUI extends JPanel
 		tf_wins.setEditable(false);
 		tf_wins.setHighlighter(null);
 		tf_wins.setText("Battle Wins:");
-		tf_wins.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		tf_wins.setFont(new Font("Nyala", Font.PLAIN, 20));
 		tf_wins.setBounds(655, 342, 376, 38);
 		add(tf_wins);
 		tf_wins.setColumns(10);
@@ -329,7 +340,7 @@ public class NavigationUI extends JPanel
 		tf_keys.setEditable(false);
 		tf_keys.setHighlighter(null);
 		tf_keys.setText("Boss Keys:");
-		tf_keys.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		tf_keys.setFont(new Font("Nyala", Font.PLAIN, 20));
 		tf_keys.setColumns(10);
 		tf_keys.setBounds(655, 391, 376, 38);
 		add(tf_keys);
@@ -340,6 +351,7 @@ public class NavigationUI extends JPanel
 		add(l_bg);
 		
 		b_shop.addActionListener(navigationHandler);
+		b_rest.addActionListener(navigationHandler);
 		b_save.addActionListener(navigationHandler);
 		b_quit.addActionListener(navigationHandler);
 		b_inventory.addActionListener(navigationHandler);
@@ -367,15 +379,53 @@ public class NavigationUI extends JPanel
 				systemManager.showShopUI();
 			else if(action.equals("Inventory"))
 				systemManager.showInventoryUI();
+			else if(action.equals("Rest to Inn"))
+				healPlayer();
 			else if(action.equals("Save Game"))
 				systemManager.showLoadSaveUI(false);
 			else if(action.equals("Quit"))
 				System.exit(0);
-			else if(action.substring(0, 3).equals("Loc"))
-				systemManager.showBattleUI();
-			else if(action.equals("Fight Boss"))
-				systemManager.showBattleUI();
+			else if(action.substring(0, 3).equals("Loc")) //this
+			{
+				String mobID = "m" + randomizeSpawn();
+				systemManager.showBattleUI(mobID);
+			}
+			else if(action.equals("Fight Boss")) //this
+			{
+//				String bossID = "b";
+//				systemManager.showBattleUI(bossID);
+			}
+			repaint();
 		}
 	}
+	
+	public void healPlayer() 
+	{
+		systemManager.getHumanPlayer().setCurrentHP(systemManager.getHumanPlayer().getDefHP());
+		systemManager.getHumanPlayer().setCurrentSP(systemManager.getHumanPlayer().getDefSP());
+		systemManager.getHumanPlayer().setAu(systemManager.getHumanPlayer().getAu()-5);
+		systemManager.getNavigationUI().refreshNavigationUI();
+		JOptionPane.showMessageDialog(this, "Our hero took a quick rest.\nHP and SP fully restored.");
+	}
+	
+	public int randomizeSpawn() //this
+	{
+		int randomMob = random.nextInt( 4 - 1 + 1 ) + 1;
+		return randomMob;
+	}
 
+	public void refreshNavigationUI()
+	{
+		ta_status.setText(systemManager.getHumanPlayer().getName() + "\tLv: " + systemManager.getHumanPlayer().getLevel() + "\n"
+				+ "HP : " + d0.format(systemManager.getHumanPlayer().getCurrentHP()) + " / " + d0.format(systemManager.getHumanPlayer().getDefHP()) + "\t"
+				+ "\tSP : " + d0.format(systemManager.getHumanPlayer().getCurrentSP()) + " / " + d0.format(systemManager.getHumanPlayer().getDefSP()) + "\n"
+				+ "Money\t: Au " + d0.format(systemManager.getHumanPlayer().getAu()));
+		ta_stats.setText("XP\t: " + d0.format(systemManager.getHumanPlayer().getXP()) + " / " + d0.format(statsManager.getPlayerXPtoNextLevel(systemManager.getPlayerClass(), systemManager.getHumanPlayer().getLevel())) + "\n"
+				+ "Attack\t: " + d0.format(systemManager.getHumanPlayer().getCurrentATK()) + "\n"
+				+ "Defense\t: " + d0.format(systemManager.getHumanPlayer().getCurrentDEF()) + "\n"
+				+ "Special\t: " + d0.format(systemManager.getHumanPlayer().getCurrentSPC()) + "\n"
+				+ "Agility\t: " + d0.format(systemManager.getHumanPlayer().getCurrentAGI()) + "\n"
+				+ "Critical\t: " + d0.format(systemManager.getHumanPlayer().getCurrentCRT()));
+		
+	}
 }

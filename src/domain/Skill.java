@@ -13,6 +13,22 @@ public class Skill
 	private double skillSPCost;
 	private int requiredLevel;
 	
+	public Skill()
+	{
+		skillName = "";
+		skillHPCost = 0;
+		skillSPCost = 0;
+		requiredLevel = 0;
+	}
+	
+	public Skill(String skillName, double skillHPCost, double skillSPCost, int requiredLevel)
+	{
+		this.skillName = skillName;
+		this.skillHPCost = skillHPCost;
+		this.skillSPCost = skillSPCost;
+		this.requiredLevel = requiredLevel;
+	}
+	
 	//GETTERS AND SETTERS
 	public String getSkillName() {
 		return skillName;

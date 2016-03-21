@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import domain.HumanPlayer;
 import managers.ImageManager;
 import managers.LanguageManager;
 import managers.StatsManager;
@@ -34,6 +35,8 @@ public class NewGameUI extends JPanel
 	private SystemManager systemManager;
 	private StatsManager statsManager;
 	private NewGameHandler newGameHandler;
+	
+	private String playerClass;
 
 	public NewGameUI(SystemManager systemManager) 
 	{
@@ -151,6 +154,7 @@ public class NewGameUI extends JPanel
 		add(l_information);
 		
 		ta_description = new JTextArea();
+		ta_description.setEnabled(false);
 		ta_description.setForeground(Color.WHITE);
 		ta_description.setLineWrap(true);
 		ta_description.setWrapStyleWord(true);
@@ -236,7 +240,6 @@ public class NewGameUI extends JPanel
 		b_start.setForeground(Color.WHITE);
 		b_start.setContentAreaFilled(false);
 		b_start.setFocusPainted(false);
-		b_start.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_start.setBounds(331, 535, 200, 45);
 		add(b_start);
 		
@@ -247,7 +250,6 @@ public class NewGameUI extends JPanel
 		b_back.setForeground(Color.WHITE);
 		b_back.setContentAreaFilled(false);
 		b_back.setFocusPainted(false);
-		b_back.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_back.setBounds(536, 535, 200, 45);
 		add(b_back);
 		
@@ -283,7 +285,9 @@ public class NewGameUI extends JPanel
 				{
 					initializeHumanPlayer();
 					systemManager.showStoryUI();
-					systemManager.rollStory(0);
+					systemManager.getStoryUI().rollText(0);
+					systemManager.setPlayerClass(playerClass); //this
+					systemManager.getNavigationUI().refreshNavigationUI();
 				}
 			}
 			else if(action.equals(b_back))
@@ -299,6 +303,7 @@ public class NewGameUI extends JPanel
 				b_swordsman.setSelected(true);
 				b_mage.setSelected(false);
 				tf_name.setText("");
+				playerClass = "Swordsman"; //this
 			}
 			else if(action.equals(b_mage))
 			{
@@ -308,8 +313,10 @@ public class NewGameUI extends JPanel
 				b_swordsman.setSelected(false);
 				b_mage.setSelected(true);
 				tf_name.setText("");
+				playerClass = "Mage"; //this
 			}
-
+			
+			repaint();
 		}
 
 		private void resetSelection()
@@ -351,19 +358,38 @@ public class NewGameUI extends JPanel
 		
 		private void initializeHumanPlayer()
 		{
-			systemManager.getHumanPlayer().setName(tf_name.getText());
-			systemManager.getHumanPlayer().setBattleClass(l_classType.getText());
-			systemManager.getHumanPlayer().setXP(0);
-			systemManager.getHumanPlayer().setAu(300);
-			systemManager.getHumanPlayer().setBossWins(0);
-			systemManager.getHumanPlayer().setBossKeys(0);
-			systemManager.getHumanPlayer().setPlusHP(0);
-			systemManager.getHumanPlayer().setPlusSP(0);
-			systemManager.getHumanPlayer().setPlusATK(0);
-			systemManager.getHumanPlayer().setPlusDEF(0);
-			systemManager.getHumanPlayer().setPlusSPC(0);
-			systemManager.getHumanPlayer().setPlusAGI(0);
-			systemManager.getHumanPlayer().setPlusCRT(0);
+			HumanPlayer humanPlayer = new HumanPlayer();
+			humanPlayer.setName(tf_name.getText());
+			humanPlayer.setBattleClass(playerClass);
+			humanPlayer.setXP(0);
+			humanPlayer.setAu(300);
+			humanPlayer.setBossWins(0);
+			humanPlayer.setBossKeys(0);
+			humanPlayer.setLevel(statsManager.getPlayerLevel(playerClass, humanPlayer.getXP()));
+			humanPlayer.setBaseHP(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseSP(statsManager.getPlayerSPbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseATK(statsManager.getPlayerATKbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseDEF(statsManager.getPlayerDEFbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseSPC(statsManager.getPlayerSPCbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseAGI(statsManager.getPlayerAGIbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseCRT(statsManager.getPlayerCRTbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setPlusHP(0);
+			humanPlayer.setPlusSP(0);
+			humanPlayer.setPlusATK(0);
+			humanPlayer.setPlusDEF(0);
+			humanPlayer.setPlusSPC(0);
+			humanPlayer.setPlusAGI(0);
+			humanPlayer.setPlusCRT(0);
+			humanPlayer.calculateDefStats();
+			humanPlayer.setCurrentHP(humanPlayer.getDefHP());
+			humanPlayer.setCurrentSP(humanPlayer.getDefSP());
+			humanPlayer.setCurrentATK(humanPlayer.getDefATK());
+			humanPlayer.setCurrentDEF(humanPlayer.getDefDEF());
+			humanPlayer.setCurrentSPC(humanPlayer.getDefSPC());
+			humanPlayer.setCurrentAGI(humanPlayer.getDefAGI());
+			humanPlayer.setCurrentCRT(humanPlayer.getDefCRT());
+			humanPlayer.setSkillSet(statsManager.getSkillSet(playerClass));
+			systemManager.setHumanPlayer(humanPlayer);
 		}
 	}
 }

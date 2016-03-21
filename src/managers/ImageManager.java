@@ -21,9 +21,14 @@ public class ImageManager
 		return new ImageIcon("resources/graphics/Information/Information_" + graphic + ".png");
 	}
 	
-	public ImageIcon getIntroductionGraphic(String graphic)
+	public ImageIcon getAreaSelectionGraphic(String graphic)
 	{
-		return new ImageIcon("resources/graphics/Introduction/Introduction_" + graphic + ".png");
+		return new ImageIcon("resources/graphics/AreaSelection/Area" + graphic + ".png");
+	}
+	
+	public ImageIcon getStoryGraphic(String graphic)
+	{
+		return new ImageIcon("resources/graphics/Story/Story_" + graphic + ".png");
 	}
 	
 	public ImageIcon getNavigationGraphic(String graphic)
@@ -53,22 +58,27 @@ public class ImageManager
 	
 	public ImageIcon getBattleBG(int area)
 	{
-		return new ImageIcon("resources/graphics/Battle/Battle_BG-A" + area + ".png");
+		return new ImageIcon("resources/graphics/Battle/MOBS/Battle_BG-A" + area + ".png");
 	}
 	
-	public ImageIcon getBattlePlayer(String battleClass)
+	public ImageIcon getBattlePlayer(String battleClass) //this
 	{
-		return new ImageIcon("resources/graphics/Battle/Battle_" + battleClass + ".png");
+		return new ImageIcon("resources/graphics/Battle/BATTLE SPRITES/Battle_" + battleClass + ".png");
 	}
 	
-	public ImageIcon getBattleMobOpponent(int mobID)
+	public ImageIcon getBattleButton(String move, String battleClass)
 	{
-		return new ImageIcon("resources/graphics/Battle/Battle_Mob" + mobID + ".png");
+		return new ImageIcon("resources/graphics/Battle/Battle_" + move + "_" + battleClass + ".png");
 	}
 	
-	public ImageIcon getBattleBossOpponent(int bossID)
+	public ImageIcon getBattleMobOpponent(int mobID) //this
 	{
-		return new ImageIcon("resources/graphics/Battle/Battle_Boss" + bossID + ".png");
+		return new ImageIcon("resources/graphics/Battle/BATTLE SPRITES/Battle_Mob" + mobID + ".png");
+	}
+	
+	public ImageIcon getBattleBossOpponent(int bossID) //this
+	{
+		return new ImageIcon("resources/graphics/Battle/BATTLE SPRITES/Battle_Boss" + bossID + ".png");
 	}
 	
 	public ImageIcon getShopGraphic(String graphic)

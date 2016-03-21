@@ -20,7 +20,7 @@ import java.awt.Color;
 
 public class StoryUI extends JPanel 
 {
-	private JLabel l_bg;
+	private JLabel l_bg, l_storyImage;
 	private JTextArea ta_story;
 	private JButton b_next;
 
@@ -40,6 +40,8 @@ public class StoryUI extends JPanel
 		setLayout(null);
 
 		ta_story = new JTextArea();
+		ta_story.setEditable(false);
+		ta_story.setEnabled(false);
 		ta_story.setForeground(Color.WHITE);
 		ta_story.setOpaque(false);
 		ta_story.setLineWrap(true);
@@ -48,14 +50,15 @@ public class StoryUI extends JPanel
 		ta_story.setAlignmentY(CENTER_ALIGNMENT);
 		ta_story.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_story.setText("");
+		ta_story.setText(languageManager.getCutsceneText(0).replaceAll("~]", "\n"));
 		ta_story.setBounds(50, 369, 954, 166);
 		add(ta_story);
 
 		b_next = new JButton();
 		b_next.setActionCommand("Next");
 		b_next.setBorder(null);
-		b_next.setIcon(imageManager.getIntroductionGraphic("Next"));
-		b_next.setRolloverIcon(imageManager.getIntroductionGraphic("Next_Hover"));
+		b_next.setIcon(imageManager.getStoryGraphic("Next"));
+		b_next.setRolloverIcon(imageManager.getStoryGraphic("Next_Hover"));
 		b_next.setContentAreaFilled(false);
 		b_next.setForeground(Color.WHITE);
 		b_next.setFocusPainted(false);
@@ -63,6 +66,11 @@ public class StoryUI extends JPanel
 		b_next.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_next.setBounds(490, 546, 90, 45);
 		add(b_next);
+		
+		l_storyImage = new JLabel();
+		l_storyImage.setIcon(imageManager.getStoryGraphic("Part" + 0));
+		l_storyImage.setBounds(8, 10, 1066, 325);
+		add(l_storyImage);
 
 		l_bg = new JLabel();
 		l_bg.setIcon(imageManager.getCommonBG());
@@ -72,26 +80,27 @@ public class StoryUI extends JPanel
 		b_next.addActionListener(storyHandler);
 	}
 
-	public void rollStoryText(int bossWins)
+	public void rollText(int bossWins)
 	{
-		String wholeStoryText = new String(languageManager.getCutsceneText(bossWins).replaceAll("~]", "\n"));
-		String[] rollingText = wholeStoryText.split("");
-		b_next.setVisible(false);
-		ta_story.setText("");
-		try 
+		String wholeText = new String(languageManager.getCutsceneText(0));
+		String[] textArray = wholeText.split("");
+		String toRoll = new String("");
+		for(String s: textArray)
 		{
-			for(String currentLetter: rollingText)
-			{
-				ta_story.setText(ta_story.getText().concat(currentLetter));
-				Thread.sleep(50);
-			}
-		} catch (InterruptedException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			if(s.equals("~]"))
+//				s = new String("\n");
+			toRoll += s;
+			ta_story.setText(toRoll);
+//			System.out.print(s);
+//			try {
+//				Thread.sleep(10);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 	}
-
+	
 	private class StoryHandler implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -99,7 +108,8 @@ public class StoryUI extends JPanel
 			String action = e.getActionCommand();
 			if(action.equals("Next"))
 				systemManager.showNavigationUI();
+			
+			repaint();
 		}
 	}
-
 }
