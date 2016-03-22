@@ -58,12 +58,17 @@ public class ImageManager
 	
 	public ImageIcon getBattleBG(int area)
 	{
-		return new ImageIcon("resources/graphics/Battle/Battle_BG-A" + area + ".png");
+		return new ImageIcon("resources/graphics/Battle/MOBS/Battle_BG-A" + area + ".png");
 	}
 	
 	public ImageIcon getBattlePlayer(String battleClass) //this
 	{
 		return new ImageIcon("resources/graphics/Battle/BATTLE SPRITES/Battle_" + battleClass + ".png");
+	}
+	
+	public ImageIcon getBattleButton(String move, String battleClass)
+	{
+		return new ImageIcon("resources/graphics/Battle/Battle_" + move + "_" + battleClass + ".png");
 	}
 	
 	public ImageIcon getBattleMobOpponent(int mobID) //this

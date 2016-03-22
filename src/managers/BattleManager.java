@@ -1,6 +1,7 @@
 package managers;
 import domain.*;
 import java.text.DecimalFormat;
+import java.util.Random;
 public class BattleManager 
 {
 	private HumanPlayer player;
@@ -12,12 +13,29 @@ public class BattleManager
 	private double playerResist, opponentResist, inflictedDamage, inflictedPlayerDamage;
 	private String battleEvent;
 	private DecimalFormat d0;
+	private Random dice;
+	
+	/*
+	 * The BattleManager is the one who handle processes happening on the battle.
+	 * The displays and grabbing of input will come from BattleUI.
+	 * 
+	 * NOTE: Game Items (especially Spell Card Items) may alter the battle in which it will
+	 * break the convention in the usual role-playing games, which Fight Against Evil will
+	 * take advantage of, such as the HPs and SPs of both players beyond their defStats.
+	 * 
+	 * About Spell cards and battle item effects:
+	 * While Spell cards can be a great advantage for the player in battle,
+	 * it can also add risk to the player to commit suicide when using Game Items,
+	 * as some items (yes, specially Spell Cards) can also inflict damage to the player.  
+	 */
 
-	public BattleManager(HumanPlayer player, boolean isMobBattle, int opponentID, int area, int diceResult)
+	public BattleManager(HumanPlayer player, boolean isMobBattle, int opponentID, int area)
 	{
 		this.player = player;
 		this.isMobBattle = isMobBattle;
+		dice = new Random();
 		statsManager = new StatsManager();
+		int diceResult = dice.nextInt(statsManager.getMaxMobLevel(area)-statsManager.getMinMobLevel(area))+statsManager.getMinMobLevel(area)+1;
 		initiatePlayerToBattle();
 		initiateOpponentToBattle(opponentID, diceResult);
 		d0 = new DecimalFormat("####");
@@ -35,8 +53,6 @@ public class BattleManager
 		player.setCurrentSPC(player.getDefSPC());
 		player.setCurrentAGI(player.getDefAGI());
 		player.setCurrentCRT(player.getDefCRT());
-		player.setCurrentHP(player.getDefHP());
-		player.setCurrentSP(player.getDefSP());
 		playerResist = 0.0;
 	}
 
@@ -59,8 +75,8 @@ public class BattleManager
 			mobMonster.setCurrentSPC(mobMonster.getDefSPC());
 			mobMonster.setCurrentAGI(mobMonster.getDefAGI());
 			mobMonster.setCurrentCRT(mobMonster.getDefCRT());
-			mobMonster.setDefXPYield(mobMonster.getBaseXPYield() + (mobMonster.getBaseXPYield()*0.065)*(mobMonster.getLevel()*0.75));
-			mobMonster.setDefAuYield(mobMonster.getBaseAuYield() + (mobMonster.getBaseAuYield()*0.065)*(mobMonster.getLevel()*0.65));
+			mobMonster.setDefXPYield(mobMonster.getBaseXPYield() + (mobMonster.getBaseXPYield()*0.095)*(mobMonster.getLevel()*0.75));
+			mobMonster.setDefAuYield(mobMonster.getBaseAuYield() + (mobMonster.getBaseAuYield()*0.095)*(mobMonster.getLevel()*0.65));
 		}
 		else
 		{
@@ -161,7 +177,9 @@ public class BattleManager
 		else
 			healValue = player.getDefHP()*0.3;
 		battleEvent += player.getName() + " used Healing Spell and regained " + d0.format(healValue) + " HP.\n";
-		player.setCurrentHP(player.getCurrentHP()+healValue);
+		if(player.getCurrentHP() + healValue >= player.getDefHP())
+			player.setCurrentHP(player.getDefHP());
+		else player.setCurrentHP(player.getCurrentHP()+healValue);
 		player.setCurrentSP(player.getCurrentSP()-2);
 	}
 
@@ -219,6 +237,9 @@ public class BattleManager
 	{
 		double healValue = 0.0;
 		healValue = bossMonster.getDefHP()*0.05;
+		//YES THIS IS INTENTIONAL HAHAHAHA
+		//The boss can regain HP beyond its Default HP to have that
+		//actual "boss" feel. (and also to troll the player :D )
 		bossMonster.setCurrentHP(bossMonster.getCurrentHP()+healValue);
 		bossMonster.setCurrentSP(bossMonster.getCurrentSP()-2);
 	}
@@ -443,27 +464,33 @@ public class BattleManager
 		return toReturn;
 	}
 
-	public HumanPlayer getPlayer() {
+	public HumanPlayer getPlayer() 
+	{
 		return player;
 	}
 
-	public void setPlayer(HumanPlayer player) {
+	public void setPlayer(HumanPlayer player) 
+	{
 		this.player = player;
 	}
 
-	public MobMonster getMobMonster() {
+	public MobMonster getMobMonster() 
+	{
 		return mobMonster;
 	}
 
-	public void setMobMonster(MobMonster mobMonster) {
+	public void setMobMonster(MobMonster mobMonster) 
+	{
 		this.mobMonster = mobMonster;
 	}
 
-	public BossMonster getBossMonster() {
+	public BossMonster getBossMonster() 
+	{
 		return bossMonster;
 	}
 
-	public void setBossMonster(BossMonster bossMonster) {
+	public void setBossMonster(BossMonster bossMonster) 
+	{
 		this.bossMonster = bossMonster;
 	}
 
@@ -471,9 +498,11 @@ public class BattleManager
 		return isMobBattle;
 	}
 
-	public void setMobBattle(boolean isMobBattle) {
+	public void setMobBattle(boolean isMobBattle) 
+	{
 		this.isMobBattle = isMobBattle;
 	}
+	
 	public double getInflictedDamage()
 	{
 		return inflictedDamage;
@@ -488,7 +517,8 @@ public class BattleManager
 		return battleEvent;
 	}
 
-	public void setBattleEvent(String battleEvent) {
+	public void setBattleEvent(String battleEvent) 
+	{
 		this.battleEvent = battleEvent;
 	}
 	

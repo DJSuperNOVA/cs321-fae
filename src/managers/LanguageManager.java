@@ -24,8 +24,6 @@ public class LanguageManager
 	{
 		if(langpack.equals("cutscene"))
 			scanCutscenes();
-		else if(langpack.equals("battle"))
-			scanBattleEvents();
 		else if(langpack.equals("newGame"))
 			scanNewGameDescriptions();
 		else if(langpack.equals("item"))
@@ -59,17 +57,6 @@ public class LanguageManager
 		 */
 	}
 	
-	private void scanBattleEvents() 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public String getTemporaryBattleEvent()
-	{
-		return "Coding the Battle System is one of the 40% that is still to be implemented. Please Click \"Flee\" to exit.";
-	}
-
 	private void scanNewGameDescriptions() 
 	{
 		try 

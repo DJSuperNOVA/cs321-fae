@@ -16,7 +16,7 @@ public class StatsManager
 
 	private Scanner in;
 	private double[] swordsmanXPChart, mageXPChart;
-	private ArrayList<Integer[]> swordsmanBaseStats, mageBaseStats;
+	private ArrayList<Integer[]> swordsmanBaseStats, mageBaseStats, mobLevelRanges;
 	private ArrayList<String> mobStatsRaw, bossStatsRaw;
 	private ArrayList<Skill> swordsmanSkillSet, mageSkillSet;
 	
@@ -30,6 +30,38 @@ public class StatsManager
 		scanMageSkillSet();
 		scanMobBaseStats();
 		scanBossBaseStats();
+		scanMobLevelRanges();
+	}
+
+	private void scanMobLevelRanges() 
+	{
+		try
+		{
+			in = new Scanner(new File("resources/data/moblevelrange.fae"));
+		} catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		Integer[] range;
+		String[] splitInfo;
+		mobLevelRanges = new ArrayList<Integer[]>();
+		while(in.hasNext())
+		{
+			splitInfo = in.next().split(",");
+			range = new Integer[2];
+			for(int i = 0; i < splitInfo.length; i++)
+				range[i] = Integer.parseInt(splitInfo[i]);
+			mobLevelRanges.add(range);
+		}		
+	}
+	
+	public int getMinMobLevel(int area)
+	{
+		return mobLevelRanges.get(area-1)[0];
+	}
+	public int getMaxMobLevel(int area)
+	{
+		return mobLevelRanges.get(area-1)[1];
 	}
 
 	private void scanMageSkillSet() 

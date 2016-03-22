@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 
 import managers.ImageManager;
 import managers.SystemManager;
+import managers.LanguageManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,12 +28,15 @@ public class InformationUI extends JPanel
 	private SystemManager systemManager;
 	private ImageManager imageManager;
 	private InformationHandler informationHandler;
+	private LanguageManager languageManager;
+	
 
 	public InformationUI(SystemManager systemManager) 
 	{
 		this.systemManager = systemManager;
 		informationHandler = new InformationHandler();
 		imageManager = new ImageManager();
+		languageManager = new LanguageManager("info");
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -42,12 +46,14 @@ public class InformationUI extends JPanel
 		b_about.setBorder(null);
 		b_about.setIcon(imageManager.getInformationGraphic("About"));
 		b_about.setRolloverIcon(imageManager.getInformationGraphic("About_Hover"));
+		b_about.setSelectedIcon(imageManager.getInformationGraphic("About_Hover"));
 		b_about.setFocusPainted(false);
 		b_about.setOpaque(false);
 		b_about.setContentAreaFilled(false);
 		b_about.setForeground(Color.WHITE);
 		b_about.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_about.setBounds(10, 11, 235, 95);
+		b_about.setSelected(true);
 		add(b_about);
 		
 		b_credits = new JButton();
@@ -55,6 +61,7 @@ public class InformationUI extends JPanel
 		b_credits.setBorder(null);
 		b_credits.setIcon(imageManager.getInformationGraphic("Credits"));
 		b_credits.setRolloverIcon(imageManager.getInformationGraphic("Credits_Hover"));
+		b_credits.setSelectedIcon(imageManager.getInformationGraphic("Credits_Hover"));
 		b_credits.setFocusPainted(false);
 		b_credits.setOpaque(false);
 		b_credits.setContentAreaFilled(false);
@@ -68,6 +75,7 @@ public class InformationUI extends JPanel
 		b_howTo.setBorder(null);
 		b_howTo.setIcon(imageManager.getInformationGraphic("HowTo"));
 		b_howTo.setRolloverIcon(imageManager.getInformationGraphic("HowTo_Hover"));
+		b_howTo.setSelectedIcon(imageManager.getInformationGraphic("HowTo_Hover"));
 		b_howTo.setFocusPainted(false);
 		b_howTo.setOpaque(false);
 		b_howTo.setContentAreaFilled(false);
@@ -94,18 +102,21 @@ public class InformationUI extends JPanel
 		ta_info.setForeground(Color.WHITE);
 		ta_info.setEditable(false);
 		ta_info.setHighlighter(null);
-		ta_info.setText("Click a Button and Blah Blah Blah");
-		ta_info.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		ta_info.setText(languageManager.getAboutInformation().replaceAll("~]", "\n\n"));
+		ta_info.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_info.setBounds(253, 11, 803, 578);
 		add(ta_info);
 		ta_info.setColumns(10);
-		
+		ta_info.setLineWrap(true);
+		ta_info.setWrapStyleWord(true);
 		l_bg = new JLabel();
 		l_bg.setIcon(imageManager.getCommonBG());
 		l_bg.setBounds(0, 0, 1066, 600);
 		add(l_bg);
 		
 		b_back.addActionListener(informationHandler);
+		b_about.addActionListener(informationHandler);
+		b_credits.addActionListener(informationHandler);
 	}
 	
 	private class InformationHandler implements ActionListener
@@ -115,7 +126,20 @@ public class InformationUI extends JPanel
 			String action = e.getActionCommand();
 			if(action.equals("Back"))
 				systemManager.showMainMenuUI();
-			
+			else if(action.equals("About"))
+			{
+				ta_info.setText(languageManager.getAboutInformation().replaceAll("~]", "\n\n"));
+				b_about.setSelected(true);
+				b_credits.setSelected(false);
+				b_howTo.setSelected(false);
+			}
+			else if(action.equals("Credits"))
+			{
+				ta_info.setText(languageManager.getCreditsInformation().replaceAll("~]", "\n\n"));
+				b_about.setSelected(false);
+				b_credits.setSelected(true);
+				b_howTo.setSelected(false);
+			}
 			repaint();
 		}
 	}

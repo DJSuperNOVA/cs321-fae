@@ -1,5 +1,7 @@
-Fight Against Evil (Java Turn-based Version)
-by PROJECT CS1
-***
-This version of Fight Against Evil is for our Software Enginerring class. It features basic elements of a turn-based role-playing game such as players and their opponents having stats like HP (Hit Points), SP (Skill Points), ATK (Attack), DEF (Defense), SPC (Special), AGI (Agility), and CRT (Critical); damages inflicted to the fighters undergo certain formulas using the stats; buying items both usable during battle or navigation; and loading/saving your progress.
-The original intention for the game is to be a role-playing game for mobile platforms, complete with a well-established storyline, real-time movement, but due to lack of time, people, and resources, we have decided to develop a turn-based version first. But the intended, action-based verison will be in the works soon.
+Fight Against Evil (Java Turn-based Version)~]
+by PROJECT CS1~]
+***~]
+This version of Fight Against Evil is for our Software Engineering case study.~]
+It features basic elements of a turn-based role-playing game such as players and their opponents having stats like HP (Hit Points), SP (Skill Points), ATK (Attack), DEF (Defense), SPC (Special), AGI (Agility), and CRT (Critical); damages inflicted to the fighters undergo certain formulas using the stats; buying items both usable during battle or navigation; and loading/saving your progress.~]
+The original intention for the game is to be a role-playing game for mobile platforms, complete with a well-established storyline, real-time movement, and optimized visuals & graphics. But due to lack of time, people, and resources, we have decided to develop a turn-based version first.~]
+The intended, action-based verison will be in the works soon.

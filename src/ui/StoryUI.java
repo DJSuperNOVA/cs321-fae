@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -102,10 +101,10 @@ public class StoryUI extends JPanel
 				for (String s: textArray) 
 				{
 					toRoll += s;
-					ta_story.setText(toRoll.replaceAll(":", "\n"));
+					ta_story.setText(toRoll.replaceAll("~]", "\n"));
 					Thread.sleep(50);
 					time += 50;
-					if(time == 50)
+					if(time == 5000) //delay before setting the next button enabled
 						b_next.setEnabled(true);
 				}
 				return null;
@@ -127,7 +126,6 @@ public class StoryUI extends JPanel
 			}
 
 		}.execute();
-		
 	}
 	
 	private class StoryHandler implements ActionListener

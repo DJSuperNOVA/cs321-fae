@@ -170,6 +170,11 @@ public class SystemManager extends JFrame
 		return storyUI;
 	}
 	
+	public NavigationUI getNavigationUI()
+	{
+		return navigationUI;
+	}
+	
 	public static void main(String[] args)
 	{
 		java.awt.EventQueue.invokeLater(new Runnable() 
@@ -178,6 +183,6 @@ public class SystemManager extends JFrame
 			{
 				new SystemManager().showMainMenuUI();
 			}
-		});
+		});	
 	}
 }

@@ -287,6 +287,7 @@ public class NewGameUI extends JPanel
 					systemManager.showStoryUI();
 					systemManager.getStoryUI().rollText(0);
 					systemManager.setPlayerClass(playerClass); //this
+					systemManager.getNavigationUI().refreshNavigationUI();
 				}
 			}
 			else if(action.equals(b_back))
@@ -366,12 +367,12 @@ public class NewGameUI extends JPanel
 			humanPlayer.setBossKeys(0);
 			humanPlayer.setLevel(statsManager.getPlayerLevel(playerClass, humanPlayer.getXP()));
 			humanPlayer.setBaseHP(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
-			humanPlayer.setBaseSP(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
-			humanPlayer.setBaseATK(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
-			humanPlayer.setBaseDEF(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
-			humanPlayer.setBaseSPC(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
-			humanPlayer.setBaseAGI(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
-			humanPlayer.setBaseCRT(statsManager.getPlayerHPbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseSP(statsManager.getPlayerSPbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseATK(statsManager.getPlayerATKbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseDEF(statsManager.getPlayerDEFbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseSPC(statsManager.getPlayerSPCbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseAGI(statsManager.getPlayerAGIbaseStat(playerClass, humanPlayer.getLevel()));
+			humanPlayer.setBaseCRT(statsManager.getPlayerCRTbaseStat(playerClass, humanPlayer.getLevel()));
 			humanPlayer.setPlusHP(0);
 			humanPlayer.setPlusSP(0);
 			humanPlayer.setPlusATK(0);
@@ -380,6 +381,13 @@ public class NewGameUI extends JPanel
 			humanPlayer.setPlusAGI(0);
 			humanPlayer.setPlusCRT(0);
 			humanPlayer.calculateDefStats();
+			humanPlayer.setCurrentHP(humanPlayer.getDefHP());
+			humanPlayer.setCurrentSP(humanPlayer.getDefSP());
+			humanPlayer.setCurrentATK(humanPlayer.getDefATK());
+			humanPlayer.setCurrentDEF(humanPlayer.getDefDEF());
+			humanPlayer.setCurrentSPC(humanPlayer.getDefSPC());
+			humanPlayer.setCurrentAGI(humanPlayer.getDefAGI());
+			humanPlayer.setCurrentCRT(humanPlayer.getDefCRT());
 			humanPlayer.setSkillSet(statsManager.getSkillSet(playerClass));
 			systemManager.setHumanPlayer(humanPlayer);
 		}
