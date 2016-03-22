@@ -36,7 +36,7 @@ public class ImageManager
 		return new ImageIcon("resources/graphics/Navigation/Navigation_" + graphic + ".png");
 	}
 	
-	public ImageIcon getAreaLocation(int area, int location)
+	public ImageIcon getAreaLocation(int area, String location)
 	{
 		return new ImageIcon("resources/graphics/Navigation/Navigation_A" + area + "-" + location + ".png");
 	}

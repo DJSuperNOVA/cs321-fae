@@ -12,10 +12,13 @@ import managers.SystemManager;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
+
 import java.awt.Color;
 
 public class StoryUI extends JPanel 
@@ -55,6 +58,7 @@ public class StoryUI extends JPanel
 		add(ta_story);
 
 		b_next = new JButton();
+		b_next.setDisabledIcon(imageManager.getStoryGraphic("Next_Disabled"));
 		b_next.setActionCommand("Next");
 		b_next.setBorder(null);
 		b_next.setIcon(imageManager.getStoryGraphic("Next"));
@@ -63,6 +67,7 @@ public class StoryUI extends JPanel
 		b_next.setForeground(Color.WHITE);
 		b_next.setFocusPainted(false);
 		b_next.setOpaque(false);
+		b_next.setEnabled(false);
 		b_next.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_next.setBounds(490, 546, 90, 45);
 		add(b_next);
@@ -84,21 +89,43 @@ public class StoryUI extends JPanel
 	{
 		String wholeText = new String(languageManager.getCutsceneText(0));
 		String[] textArray = wholeText.split("");
-		String toRoll = new String("");
-		for(String s: textArray)
+		
+		new SwingWorker<Void, String>() 
 		{
-//			if(s.equals("~]"))
-//				s = new String("\n");
-			toRoll += s;
-			ta_story.setText(toRoll);
-//			System.out.print(s);
-//			try {
-//				Thread.sleep(10);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-		}
+			String toRoll = new String("");
+			int time = 0;
+
+			@Override
+			protected Void doInBackground() throws Exception 
+			{
+				for (String s: textArray) 
+				{
+					toRoll += s;
+					ta_story.setText(toRoll.replaceAll("~]", "\n"));
+					Thread.sleep(50);
+					time += 50;
+					if(time == 5000) //delay before setting the next button enabled
+						b_next.setEnabled(true);
+				}
+				return null;
+			}
+
+			@Override
+			protected void process(List<String> chunks) 
+			{
+				for (String chunk : chunks) 
+				{
+					ta_story.append(chunk + "\n");
+				}
+			}
+
+			@Override
+			protected void done() 
+			{
+				
+			}
+
+		}.execute();
 	}
 	
 	private class StoryHandler implements ActionListener
