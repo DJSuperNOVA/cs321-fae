@@ -64,7 +64,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc1 = new JButton();
 		b_loc1.setActionCommand("Loc1");
-		b_loc1.setIcon(imageManager.getAreaLocation(1, 1));
+		b_loc1.setIcon(imageManager.getAreaLocation(1, "1b"));
+		b_loc1.setRolloverIcon(imageManager.getAreaLocation(1, "1"));
 		b_loc1.setContentAreaFilled(false);
 		b_loc1.setFocusPainted(false);
 		b_loc1.setOpaque(false);
@@ -75,7 +76,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc2 = new JButton();
 		b_loc2.setActionCommand("Loc2");
-		b_loc2.setIcon(imageManager.getAreaLocation(1, 2));
+		b_loc2.setIcon(imageManager.getAreaLocation(1, "2b"));
+		b_loc2.setRolloverIcon(imageManager.getAreaLocation(1, "2"));
 		b_loc2.setContentAreaFilled(false);
 		b_loc2.setFocusPainted(false);
 		b_loc2.setOpaque(false);
@@ -86,7 +88,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc3 = new JButton();
 		b_loc3.setActionCommand("Loc3");
-		b_loc3.setIcon(imageManager.getAreaLocation(1, 3));
+		b_loc3.setIcon(imageManager.getAreaLocation(1, "3b"));
+		b_loc3.setRolloverIcon(imageManager.getAreaLocation(1, "3"));
 		b_loc3.setContentAreaFilled(false);
 		b_loc3.setFocusPainted(false);
 		b_loc3.setOpaque(false);
@@ -97,7 +100,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc4 = new JButton();
 		b_loc4.setActionCommand("Loc4");
-		b_loc4.setIcon(imageManager.getAreaLocation(1, 4));
+		b_loc4.setIcon(imageManager.getAreaLocation(1, "4b"));
+		b_loc4.setRolloverIcon(imageManager.getAreaLocation(1, "4"));
 		b_loc4.setContentAreaFilled(false);
 		b_loc4.setFocusPainted(false);
 		b_loc4.setOpaque(false);
@@ -108,7 +112,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc5 = new JButton();
 		b_loc5.setActionCommand("Loc5");
-		b_loc5.setIcon(imageManager.getAreaLocation(1, 5));
+		b_loc5.setIcon(imageManager.getAreaLocation(1, "5b"));
+		b_loc5.setRolloverIcon(imageManager.getAreaLocation(1, "5"));
 		b_loc5.setContentAreaFilled(false);
 		b_loc5.setFocusPainted(false);
 		b_loc5.setOpaque(false);
@@ -119,7 +124,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc6 = new JButton();
 		b_loc6.setActionCommand("Loc6");
-		b_loc6.setIcon(imageManager.getAreaLocation(1, 6));
+		b_loc6.setIcon(imageManager.getAreaLocation(1, "6b"));
+		b_loc6.setRolloverIcon(imageManager.getAreaLocation(1, "6"));
 		b_loc6.setContentAreaFilled(false);
 		b_loc6.setFocusPainted(false);
 		b_loc6.setOpaque(false);
@@ -130,7 +136,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc7 = new JButton();
 		b_loc7.setActionCommand("Loc7");
-		b_loc7.setIcon(imageManager.getAreaLocation(1, 7));
+		b_loc7.setIcon(imageManager.getAreaLocation(1, "7b"));
+		b_loc7.setRolloverIcon(imageManager.getAreaLocation(1, "7"));
 		b_loc7.setContentAreaFilled(false);
 		b_loc7.setFocusPainted(false);
 		b_loc7.setOpaque(false);
@@ -141,7 +148,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc8 = new JButton();
 		b_loc8.setActionCommand("Loc8");
-		b_loc8.setIcon(imageManager.getAreaLocation(1, 8));
+		b_loc8.setIcon(imageManager.getAreaLocation(1, "8b"));
+		b_loc8.setRolloverIcon(imageManager.getAreaLocation(1, "8"));
 		b_loc8.setContentAreaFilled(false);
 		b_loc8.setFocusPainted(false);
 		b_loc8.setOpaque(false);
@@ -152,7 +160,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc9 = new JButton();
 		b_loc9.setActionCommand("Loc9");
-		b_loc9.setIcon(imageManager.getAreaLocation(1, 9));
+		b_loc9.setIcon(imageManager.getAreaLocation(1, "9b"));
+		b_loc9.setRolloverIcon(imageManager.getAreaLocation(1, "9"));
 		b_loc9.setContentAreaFilled(false);
 		b_loc9.setFocusPainted(false);
 		b_loc9.setOpaque(false);
@@ -163,7 +172,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc10 = new JButton();
 		b_loc10.setActionCommand("Loc10");
-		b_loc10.setIcon(imageManager.getAreaLocation(1, 10));
+		b_loc10.setIcon(imageManager.getAreaLocation(1, "10b"));
+		b_loc10.setRolloverIcon(imageManager.getAreaLocation(1, "10"));
 		b_loc10.setContentAreaFilled(false);
 		b_loc10.setFocusPainted(false);
 		b_loc10.setOpaque(false);
@@ -174,7 +184,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc11 = new JButton();
 		b_loc11.setActionCommand("Loc11");
-		b_loc11.setIcon(imageManager.getAreaLocation(1, 11));
+		b_loc11.setIcon(imageManager.getAreaLocation(1, "11b"));
+		b_loc11.setRolloverIcon(imageManager.getAreaLocation(1, "11"));
 		b_loc11.setContentAreaFilled(false);
 		b_loc11.setFocusPainted(false);
 		b_loc11.setOpaque(false);
@@ -185,7 +196,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc12 = new JButton();
 		b_loc12.setActionCommand("Loc12");
-		b_loc12.setIcon(imageManager.getAreaLocation(1, 12));
+		b_loc12.setIcon(imageManager.getAreaLocation(1, "12b"));
+		b_loc12.setRolloverIcon(imageManager.getAreaLocation(1, "12"));
 		b_loc12.setContentAreaFilled(false);
 		b_loc12.setFocusPainted(false);
 		b_loc12.setOpaque(false);

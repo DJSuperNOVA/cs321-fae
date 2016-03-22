@@ -141,7 +141,7 @@ public class SystemManager extends JFrame
 		battleUI.processPlayerImage(playerClass); //this
 		battleUI.processMonsterID(monsterID); //this
 		battleUI.initializeBattleManager();
-//		battleUI.updateHPandSPDisplays();
+		battleUI.updateHPSPBars();
 		repaint();
 	}
 
@@ -177,6 +177,12 @@ public class SystemManager extends JFrame
 	
 	public static void main(String[] args)
 	{
-		new SystemManager().showMainMenuUI();
+		java.awt.EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				new SystemManager().showMainMenuUI();
+			}
+		});	
 	}
 }
