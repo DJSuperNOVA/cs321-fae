@@ -2,7 +2,8 @@ package managers;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
+import managers.MusicManager;
+import managers.SoundFXManager;
 import domain.HumanPlayer;
 import ui.*;
 
@@ -11,6 +12,7 @@ public class SystemManager extends JFrame
 	private Container container;
 	private CardLayout card;
 	
+	private AreaSelectionUI areaSelectionUI;
 	private BattleUI battleUI;
 	private InformationUI informationUI;
 	private StoryUI storyUI;
@@ -22,9 +24,12 @@ public class SystemManager extends JFrame
 	private NewGameUI newGameUI;
 	private ShopUI shopUI;
 	
+	private MusicManager musicManager;
+	private SoundFXManager sfxManager;
 	private HumanPlayer humanPlayer;
 	
 	private String playerClass;
+	private int selectedArea;
 	
 	public SystemManager()
 	{
@@ -32,7 +37,10 @@ public class SystemManager extends JFrame
 		card = new CardLayout();
 		container.setLayout(card);
 		humanPlayer = new HumanPlayer();
+		musicManager = new MusicManager();
+		sfxManager = new SoundFXManager();
 		setBounds(100, 100, 1072, 629);
+		setSelectedArea(1);
 
 		mainMenuUI = new MainMenuUI(this);
 		container.add(mainMenuUI, "Main Menu");
@@ -51,6 +59,9 @@ public class SystemManager extends JFrame
 
 		storyUI = new StoryUI(this);
 		container.add(storyUI, "Story");
+		
+		areaSelectionUI = new AreaSelectionUI(this);
+		container.add(areaSelectionUI, "Area Selection");
 
 		navigationUI = new NavigationUI(this);
 		container.add(navigationUI, "Navigation");
@@ -68,6 +79,7 @@ public class SystemManager extends JFrame
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		musicManager.playMusic("bgm_main");
 	}
 	
 	public void showMainMenuUI()
@@ -141,7 +153,14 @@ public class SystemManager extends JFrame
 		battleUI.processPlayerImage(playerClass); //this
 		battleUI.processMonsterID(monsterID); //this
 		battleUI.initializeBattleManager();
-//		battleUI.updateHPandSPDisplays();
+		battleUI.updateHPSPBars();
+		repaint();
+	}
+	
+	public void showAreaSelectionUI()
+	{
+		setTitle("Area Select");
+		card.show(container, "Area Selection");
 		repaint();
 	}
 
@@ -170,6 +189,11 @@ public class SystemManager extends JFrame
 		return storyUI;
 	}
 	
+	public AreaSelectionUI getAreaSelectionUI()
+	{
+		return areaSelectionUI;
+	}
+	
 	public NavigationUI getNavigationUI()
 	{
 		return navigationUI;
@@ -177,6 +201,33 @@ public class SystemManager extends JFrame
 	
 	public static void main(String[] args)
 	{
-		new SystemManager().showMainMenuUI();
+		java.awt.EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				new SystemManager().showMainMenuUI();
+			}
+		});	
+	}
+
+	public int getSelectedArea() 
+	{
+		return selectedArea;
+	}
+
+	public void setSelectedArea(int selectedArea) 
+	{
+		this.selectedArea = selectedArea;
+	}
+	
+	public void playMusic(String filename)
+	{
+		musicManager.stopMusic();
+		musicManager.playMusic(filename);
+	}
+	
+	public void playSFX(String filename)
+	{
+		sfxManager.playSFX(filename);
 	}
 }

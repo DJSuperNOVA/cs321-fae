@@ -102,6 +102,7 @@ public class MainMenuUI extends JPanel
 				systemManager.showInformationUI();
 			else if(action.equals(b_exit))
 				System.exit(0);
+			systemManager.playSFX("common_confirm");
 			
 			repaint();
 		}

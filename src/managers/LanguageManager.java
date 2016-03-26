@@ -16,7 +16,7 @@ public class LanguageManager
 	 * - information
 	 */
 	
-	private String[] cutscenes, battleEvents, newGameDescriptions, itemDescriptions;
+	private String[] cutscenes, areaNames, newGameDescriptions, itemDescriptions;
 	private String about, credits;
 	private Scanner in;
 	
@@ -28,8 +28,32 @@ public class LanguageManager
 			scanNewGameDescriptions();
 		else if(langpack.equals("item"))
 			scanItemDescriptions();
+		else if(langpack.equals("areaNames"))
+			scanAreaNames();
 		else
 			scanInformationTexts();
+	}
+
+	private void scanAreaNames() 
+	{
+		try 
+		{
+			in = new Scanner(new File("resources/data/area_names.fae"));
+		} catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		String text = new String("");
+		while(in.hasNext())
+		{
+			text += in.next() + " ";
+		}
+		areaNames = text.split("~~");
+	}
+	
+	public String getAreaName(int areaNum)
+	{
+		return areaNames[areaNum-1];
 	}
 
 	private void scanCutscenes() 

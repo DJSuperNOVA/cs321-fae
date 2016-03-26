@@ -10,7 +10,7 @@ public class BattleManager
 	private StatsManager statsManager;
 	private boolean isMobBattle;
 	
-	private double playerResist, opponentResist, inflictedDamage;
+	private double playerResist, opponentResist, inflictedDamage, inflictedPlayerDamage;
 	private String battleEvent;
 	private DecimalFormat d0;
 	private Random dice;
@@ -304,14 +304,14 @@ public class BattleManager
 
 	public void inflictHPDamageToMobMonster(double damage)
 	{
-		inflictedDamage = damage-opponentResist;
-		if(inflictedDamage > 0) //negative damage is not allowed... that's why
+		inflictedPlayerDamage = damage-opponentResist;
+		if(inflictedPlayerDamage > 0) //negative damage is not allowed... that's why
 		{
-			if(inflictedDamage < mobMonster.getCurrentHP())
-				mobMonster.setCurrentHP(mobMonster.getCurrentHP()-inflictedDamage);
+			if(inflictedPlayerDamage < mobMonster.getCurrentHP())
+				mobMonster.setCurrentHP(mobMonster.getCurrentHP()-inflictedPlayerDamage);
 			else
 				mobMonster.setCurrentHP(0);
-			battleEvent += "The " + mobMonster.getName() + " took " + d0.format(inflictedDamage) + " damage!\n";
+			battleEvent += "The " + mobMonster.getName() + " took " + d0.format(inflictedPlayerDamage) + " damage!\n";
 		}
 		else
 			battleEvent += "The " + mobMonster.getName() + " fully resisted the attack!\n";
@@ -464,27 +464,33 @@ public class BattleManager
 		return toReturn;
 	}
 
-	public HumanPlayer getPlayer() {
+	public HumanPlayer getPlayer() 
+	{
 		return player;
 	}
 
-	public void setPlayer(HumanPlayer player) {
+	public void setPlayer(HumanPlayer player) 
+	{
 		this.player = player;
 	}
 
-	public MobMonster getMobMonster() {
+	public MobMonster getMobMonster() 
+	{
 		return mobMonster;
 	}
 
-	public void setMobMonster(MobMonster mobMonster) {
+	public void setMobMonster(MobMonster mobMonster) 
+	{
 		this.mobMonster = mobMonster;
 	}
 
-	public BossMonster getBossMonster() {
+	public BossMonster getBossMonster() 
+	{
 		return bossMonster;
 	}
 
-	public void setBossMonster(BossMonster bossMonster) {
+	public void setBossMonster(BossMonster bossMonster) 
+	{
 		this.bossMonster = bossMonster;
 	}
 
@@ -492,19 +498,27 @@ public class BattleManager
 		return isMobBattle;
 	}
 
-	public void setMobBattle(boolean isMobBattle) {
+	public void setMobBattle(boolean isMobBattle) 
+	{
 		this.isMobBattle = isMobBattle;
 	}
+	
 	public double getInflictedDamage()
 	{
 		return inflictedDamage;
+	}
+	
+	public double getInflictedPlayerDamage()
+	{
+		return inflictedPlayerDamage;
 	}
 
 	public String getBattleEvent() {
 		return battleEvent;
 	}
 
-	public void setBattleEvent(String battleEvent) {
+	public void setBattleEvent(String battleEvent) 
+	{
 		this.battleEvent = battleEvent;
 	}
 	

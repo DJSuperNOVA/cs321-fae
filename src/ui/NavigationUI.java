@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import managers.ImageManager;
+import managers.LanguageManager;
 import managers.SystemManager;
 import managers.StatsManager;
 
@@ -35,6 +36,7 @@ public class NavigationUI extends JPanel
 	private ImageManager imageManager;
 	private NavigationHandler navigationHandler;
 	private StatsManager statsManager;
+	private LanguageManager languageManager;
 	
 	private Random random;
 	private DecimalFormat d0 = new DecimalFormat("####");
@@ -45,26 +47,28 @@ public class NavigationUI extends JPanel
 		navigationHandler = new NavigationHandler();
 		imageManager = new ImageManager();
 		statsManager = new StatsManager();
+		languageManager = new LanguageManager("areaNames");
 		random = new Random();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 		
-		l_area = new JLabel("Area 1: Peiyuu Village");
+		l_area = new JLabel("Navigation");
 		l_area.setForeground(Color.WHITE);
-		l_area.setFont(new Font("Nyala", Font.PLAIN, 24));
-		l_area.setBounds(30, 11, 285, 30);
+		l_area.setFont(new Font("Trajan Pro", Font.PLAIN, 24));
+		l_area.setBounds(30, 11, 493, 30);
 		add(l_area);
 		
 		l_instructions = new JLabel("Click anywhere in the map to fight mobs.");
 		l_instructions.setForeground(Color.WHITE);
 		l_instructions.setFont(new Font("Nyala", Font.PLAIN, 20));
-		l_instructions.setBounds(30, 39, 410, 30);
+		l_instructions.setBounds(30, 39, 493, 30);
 		add(l_instructions);
 		
 		b_loc1 = new JButton();
 		b_loc1.setActionCommand("Loc1");
-		b_loc1.setIcon(imageManager.getAreaLocation(1, 1));
+		b_loc1.setIcon(imageManager.getAreaLocation(1, "1b"));
+		b_loc1.setRolloverIcon(imageManager.getAreaLocation(1, "1"));
 		b_loc1.setContentAreaFilled(false);
 		b_loc1.setFocusPainted(false);
 		b_loc1.setOpaque(false);
@@ -75,7 +79,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc2 = new JButton();
 		b_loc2.setActionCommand("Loc2");
-		b_loc2.setIcon(imageManager.getAreaLocation(1, 2));
+		b_loc2.setIcon(imageManager.getAreaLocation(1, "2b"));
+		b_loc2.setRolloverIcon(imageManager.getAreaLocation(1, "2"));
 		b_loc2.setContentAreaFilled(false);
 		b_loc2.setFocusPainted(false);
 		b_loc2.setOpaque(false);
@@ -86,7 +91,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc3 = new JButton();
 		b_loc3.setActionCommand("Loc3");
-		b_loc3.setIcon(imageManager.getAreaLocation(1, 3));
+		b_loc3.setIcon(imageManager.getAreaLocation(1, "3b"));
+		b_loc3.setRolloverIcon(imageManager.getAreaLocation(1, "3"));
 		b_loc3.setContentAreaFilled(false);
 		b_loc3.setFocusPainted(false);
 		b_loc3.setOpaque(false);
@@ -97,7 +103,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc4 = new JButton();
 		b_loc4.setActionCommand("Loc4");
-		b_loc4.setIcon(imageManager.getAreaLocation(1, 4));
+		b_loc4.setIcon(imageManager.getAreaLocation(1, "4b"));
+		b_loc4.setRolloverIcon(imageManager.getAreaLocation(1, "4"));
 		b_loc4.setContentAreaFilled(false);
 		b_loc4.setFocusPainted(false);
 		b_loc4.setOpaque(false);
@@ -108,7 +115,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc5 = new JButton();
 		b_loc5.setActionCommand("Loc5");
-		b_loc5.setIcon(imageManager.getAreaLocation(1, 5));
+		b_loc5.setIcon(imageManager.getAreaLocation(1, "5b"));
+		b_loc5.setRolloverIcon(imageManager.getAreaLocation(1, "5"));
 		b_loc5.setContentAreaFilled(false);
 		b_loc5.setFocusPainted(false);
 		b_loc5.setOpaque(false);
@@ -119,7 +127,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc6 = new JButton();
 		b_loc6.setActionCommand("Loc6");
-		b_loc6.setIcon(imageManager.getAreaLocation(1, 6));
+		b_loc6.setIcon(imageManager.getAreaLocation(1, "6b"));
+		b_loc6.setRolloverIcon(imageManager.getAreaLocation(1, "6"));
 		b_loc6.setContentAreaFilled(false);
 		b_loc6.setFocusPainted(false);
 		b_loc6.setOpaque(false);
@@ -130,7 +139,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc7 = new JButton();
 		b_loc7.setActionCommand("Loc7");
-		b_loc7.setIcon(imageManager.getAreaLocation(1, 7));
+		b_loc7.setIcon(imageManager.getAreaLocation(1, "7b"));
+		b_loc7.setRolloverIcon(imageManager.getAreaLocation(1, "7"));
 		b_loc7.setContentAreaFilled(false);
 		b_loc7.setFocusPainted(false);
 		b_loc7.setOpaque(false);
@@ -141,7 +151,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc8 = new JButton();
 		b_loc8.setActionCommand("Loc8");
-		b_loc8.setIcon(imageManager.getAreaLocation(1, 8));
+		b_loc8.setIcon(imageManager.getAreaLocation(1, "8b"));
+		b_loc8.setRolloverIcon(imageManager.getAreaLocation(1, "8"));
 		b_loc8.setContentAreaFilled(false);
 		b_loc8.setFocusPainted(false);
 		b_loc8.setOpaque(false);
@@ -152,7 +163,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc9 = new JButton();
 		b_loc9.setActionCommand("Loc9");
-		b_loc9.setIcon(imageManager.getAreaLocation(1, 9));
+		b_loc9.setIcon(imageManager.getAreaLocation(1, "9b"));
+		b_loc9.setRolloverIcon(imageManager.getAreaLocation(1, "9"));
 		b_loc9.setContentAreaFilled(false);
 		b_loc9.setFocusPainted(false);
 		b_loc9.setOpaque(false);
@@ -163,7 +175,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc10 = new JButton();
 		b_loc10.setActionCommand("Loc10");
-		b_loc10.setIcon(imageManager.getAreaLocation(1, 10));
+		b_loc10.setIcon(imageManager.getAreaLocation(1, "10b"));
+		b_loc10.setRolloverIcon(imageManager.getAreaLocation(1, "10"));
 		b_loc10.setContentAreaFilled(false);
 		b_loc10.setFocusPainted(false);
 		b_loc10.setOpaque(false);
@@ -174,7 +187,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc11 = new JButton();
 		b_loc11.setActionCommand("Loc11");
-		b_loc11.setIcon(imageManager.getAreaLocation(1, 11));
+		b_loc11.setIcon(imageManager.getAreaLocation(1, "11b"));
+		b_loc11.setRolloverIcon(imageManager.getAreaLocation(1, "11"));
 		b_loc11.setContentAreaFilled(false);
 		b_loc11.setFocusPainted(false);
 		b_loc11.setOpaque(false);
@@ -185,7 +199,8 @@ public class NavigationUI extends JPanel
 		
 		b_loc12 = new JButton();
 		b_loc12.setActionCommand("Loc12");
-		b_loc12.setIcon(imageManager.getAreaLocation(1, 12));
+		b_loc12.setIcon(imageManager.getAreaLocation(1, "12b"));
+		b_loc12.setRolloverIcon(imageManager.getAreaLocation(1, "12"));
 		b_loc12.setContentAreaFilled(false);
 		b_loc12.setFocusPainted(false);
 		b_loc12.setOpaque(false);
@@ -200,9 +215,9 @@ public class NavigationUI extends JPanel
 		l_areaName.setBounds(102, 466, 56, 30);
 		add(l_areaName);
 		
-		l_mobsDesc = new JLabel("Mob Level 1 to 5");
+		l_mobsDesc = new JLabel("Mob Levels: 1 to 5");
 		l_mobsDesc.setForeground(Color.WHITE);
-		l_mobsDesc.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
+		l_mobsDesc.setFont(new Font("Nyala", Font.PLAIN, 20));
 		l_mobsDesc.setBounds(375, 466, 148, 30);
 		add(l_mobsDesc);
 		
@@ -285,7 +300,7 @@ public class NavigationUI extends JPanel
 		add(b_inventory);
 		
 		b_areaInfo = new JButton();
-		b_areaInfo.setActionCommand("Area Info");
+		b_areaInfo.setActionCommand("Area Selection");  // THIS THIS THIS THIS NEEEDS TO BE CHANGED
 		b_areaInfo.setBorder(null);
 		b_areaInfo.setIcon(imageManager.getNavigationGraphic("AreaInfo"));
 		b_areaInfo.setRolloverIcon(imageManager.getNavigationGraphic("AreaInfo_Hover"));
@@ -368,6 +383,7 @@ public class NavigationUI extends JPanel
 		b_loc11.addActionListener(navigationHandler);
 		b_loc12.addActionListener(navigationHandler);
 		b_boss.addActionListener(navigationHandler);
+		b_areaInfo.addActionListener(navigationHandler);
 	}
 	
 	private class NavigationHandler implements ActionListener
@@ -389,6 +405,7 @@ public class NavigationUI extends JPanel
 			{
 				String mobID = "m" + randomizeSpawn();
 				systemManager.showBattleUI(mobID);
+				systemManager.playMusic("bgm_mobbattle");
 			}
 			else if(action.equals("Fight Boss")) //this
 			{
@@ -406,11 +423,12 @@ public class NavigationUI extends JPanel
 		systemManager.getHumanPlayer().setAu(systemManager.getHumanPlayer().getAu()-5);
 		systemManager.getNavigationUI().refreshNavigationUI();
 		JOptionPane.showMessageDialog(this, "Our hero took a quick rest.\nHP and SP fully restored.");
+		systemManager.playSFX("common_heal");
 	}
 	
 	public int randomizeSpawn() //this
 	{
-		int randomMob = random.nextInt( 4 - 1 + 1 ) + 1;
+		int randomMob = random.nextInt( 4 + 2*systemManager.getSelectedArea() ) + 1;
 		return randomMob;
 	}
 
@@ -426,6 +444,36 @@ public class NavigationUI extends JPanel
 				+ "Special\t: " + d0.format(systemManager.getHumanPlayer().getCurrentSPC()) + "\n"
 				+ "Agility\t: " + d0.format(systemManager.getHumanPlayer().getCurrentAGI()) + "\n"
 				+ "Critical\t: " + d0.format(systemManager.getHumanPlayer().getCurrentCRT()));
-		
+		l_area.setText(languageManager.getAreaName(systemManager.getSelectedArea()));
+		refreshAreaLocations(systemManager.getSelectedArea());
+		systemManager.playMusic("bgm_area"+systemManager.getSelectedArea());
+	}
+	
+	private void refreshAreaLocations(int area)
+	{
+		b_loc1.setIcon(imageManager.getAreaLocation(area, "1b"));
+		b_loc1.setRolloverIcon(imageManager.getAreaLocation(area, "1"));
+		b_loc2.setIcon(imageManager.getAreaLocation(area, "2b"));
+		b_loc2.setRolloverIcon(imageManager.getAreaLocation(area, "2"));
+		b_loc3.setIcon(imageManager.getAreaLocation(area, "3b"));
+		b_loc3.setRolloverIcon(imageManager.getAreaLocation(area, "3"));
+		b_loc4.setIcon(imageManager.getAreaLocation(area, "4b"));
+		b_loc4.setRolloverIcon(imageManager.getAreaLocation(area, "4"));
+		b_loc5.setIcon(imageManager.getAreaLocation(area, "5b"));
+		b_loc5.setRolloverIcon(imageManager.getAreaLocation(area, "5"));
+		b_loc6.setIcon(imageManager.getAreaLocation(area, "6b"));
+		b_loc6.setRolloverIcon(imageManager.getAreaLocation(area, "6"));
+		b_loc7.setIcon(imageManager.getAreaLocation(area, "7b"));
+		b_loc7.setRolloverIcon(imageManager.getAreaLocation(area, "7"));
+		b_loc8.setIcon(imageManager.getAreaLocation(area, "8b"));
+		b_loc8.setRolloverIcon(imageManager.getAreaLocation(area, "8"));
+		b_loc9.setIcon(imageManager.getAreaLocation(area, "9b"));
+		b_loc9.setRolloverIcon(imageManager.getAreaLocation(area, "9"));
+		b_loc10.setIcon(imageManager.getAreaLocation(area, "10b"));
+		b_loc10.setRolloverIcon(imageManager.getAreaLocation(area, "10"));
+		b_loc11.setIcon(imageManager.getAreaLocation(area, "11b"));
+		b_loc11.setRolloverIcon(imageManager.getAreaLocation(area, "11"));
+		b_loc12.setIcon(imageManager.getAreaLocation(area, "12b"));
+		b_loc12.setRolloverIcon(imageManager.getAreaLocation(area, "12"));	
 	}
 }

@@ -98,7 +98,7 @@ public class AreaSelectionUI extends JPanel
 		b_area8.setBorder(null);
 		add(b_area8);
 		
-		l_bg = new JLabel("New label");
+		l_bg = new JLabel();
 		l_bg.setBounds(0, 0, 1066, 600);
 		l_bg.setIcon(imageManager.getCommonBG());
 		add(l_bg);
@@ -108,9 +108,114 @@ public class AreaSelectionUI extends JPanel
 	
 	private class AreaSelectionHandler implements ActionListener
 	{
-		public void actionPerformed(ActionEvent arg0) 
+		public void actionPerformed(ActionEvent ae) 
 		{
+			systemManager.playSFX("common_confirm");
+			if(ae.getActionCommand().equals("Area1"))
+			{
+				systemManager.setSelectedArea(1);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area2"))
+			{
+				systemManager.setSelectedArea(2);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area3"))
+			{
+				systemManager.setSelectedArea(3);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area4"))
+			{
+				systemManager.setSelectedArea(4);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area5"))
+			{
+				systemManager.setSelectedArea(5);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area6"))
+			{
+				systemManager.setSelectedArea(6);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area7"))
+			{
+				systemManager.setSelectedArea(7);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
+			if(ae.getActionCommand().equals("Area8"))
+			{
+				systemManager.setSelectedArea(8);
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+			}
 			repaint();
 		}
+	}
+	
+	public void refreshAreaSelectionUI()
+	{
+		for(int i = 0; i <= systemManager.getHumanPlayer().getBossWins(); i++)
+		{
+			if(i == 0)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("1"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("1_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i == 1)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("2"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("2_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i == 2)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("3"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("3_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i == 3)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("4"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("4_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i == 4)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("5"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("5_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i == 5)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("6"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("6_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i == 6)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("7"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("7_Hover"));
+				b_area1.setEnabled(true);
+			}
+			if(i >= 7)
+			{
+				b_area1.setIcon(imageManager.getAreaSelectionGraphic("8"));
+				b_area1.setRolloverIcon(imageManager.getAreaSelectionGraphic("8_Hover"));
+				b_area1.setEnabled(true);
+			}
+		}
+		
 	}
 }
