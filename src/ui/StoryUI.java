@@ -102,9 +102,9 @@ public class StoryUI extends JPanel
 				{
 					toRoll += s;
 					ta_story.setText(toRoll.replaceAll("~]", "\n"));
-					Thread.sleep(50);
+					Thread.sleep(68);
 					time += 50;
-					if(time == 5000) //delay before setting the next button enabled
+					if(time == 50) //delay before setting the next button enabled
 						b_next.setEnabled(true);
 				}
 				return null;
@@ -134,7 +134,8 @@ public class StoryUI extends JPanel
 		{
 			String action = e.getActionCommand();
 			if(action.equals("Next"))
-				systemManager.showNavigationUI();
+				systemManager.showAreaSelectionUI();
+			systemManager.playSFX("common_confirm");
 			
 			repaint();
 		}

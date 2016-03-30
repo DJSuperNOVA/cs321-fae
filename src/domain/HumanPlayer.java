@@ -27,7 +27,7 @@ public class HumanPlayer extends FAECharacter
 	private String battleClass;
 	private double xp, au;
 	private int wins, losses, bossWins, bossKeys;
-	private double plusHP, plusSP, plusATK, plusDEF, plusSPC, plusAGI, plusCRT;
+	private double plusHP, plusSP, plusATK, plusDEF, plusSPC, plusAGI, plusCRT, totalPlusPoints;
 	private ArrayList<GameItem> inventory;
 	private ArrayList<Skill> skillSet;
 	private StatsManager statsManager = new StatsManager();
@@ -140,6 +140,16 @@ public class HumanPlayer extends FAECharacter
 	public void setPlusCRT(double plusCRT) {
 		this.plusCRT = plusCRT;
 	}
+
+	public double getTotalPlusPoints() {
+		totalPlusPoints = plusHP + plusSP + plusATK + plusDEF + plusAGI + plusSPC + plusCRT;
+		return totalPlusPoints;
+	}
+
+	public void setTotalPlusPoints(double totalPlusPoints) {
+		this.totalPlusPoints = totalPlusPoints;
+	}
+	
 	public ArrayList<Skill> getSkillSet() {
 		return skillSet;
 	}
@@ -164,4 +174,5 @@ public class HumanPlayer extends FAECharacter
 		super.setBaseCRT(statsManager.getPlayerCRTbaseStat(getBattleClass(), level));
 		calculateDefStats();
 	}
+
 }

@@ -287,7 +287,8 @@ public class NewGameUI extends JPanel
 					systemManager.showStoryUI();
 					systemManager.getStoryUI().rollText(0);
 					systemManager.setPlayerClass(playerClass); //this
-					systemManager.getNavigationUI().refreshNavigationUI();
+					systemManager.playSFX("common_confirm");
+					systemManager.playMusic("bgm_story");
 				}
 			}
 			else if(action.equals(b_back))
@@ -304,6 +305,7 @@ public class NewGameUI extends JPanel
 				b_mage.setSelected(false);
 				tf_name.setText("");
 				playerClass = "Swordsman"; //this
+				systemManager.playSFX("swordsman_attack");
 			}
 			else if(action.equals(b_mage))
 			{
@@ -314,6 +316,7 @@ public class NewGameUI extends JPanel
 				b_mage.setSelected(true);
 				tf_name.setText("");
 				playerClass = "Mage"; //this
+				systemManager.playSFX("mage_attack");
 			}
 			
 			repaint();
@@ -359,7 +362,7 @@ public class NewGameUI extends JPanel
 		private void initializeHumanPlayer()
 		{
 			HumanPlayer humanPlayer = new HumanPlayer();
-			humanPlayer.setName(tf_name.getText());
+			humanPlayer.setName(tf_name.getText().replaceAll(",", "_"));
 			humanPlayer.setBattleClass(playerClass);
 			humanPlayer.setXP(0);
 			humanPlayer.setAu(300);
@@ -389,6 +392,7 @@ public class NewGameUI extends JPanel
 			humanPlayer.setCurrentAGI(humanPlayer.getDefAGI());
 			humanPlayer.setCurrentCRT(humanPlayer.getDefCRT());
 			humanPlayer.setSkillSet(statsManager.getSkillSet(playerClass));
+			humanPlayer.setInventory(statsManager.getDefaultItems());
 			systemManager.setHumanPlayer(humanPlayer);
 		}
 	}

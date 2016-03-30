@@ -31,7 +31,7 @@ public class BattleUI extends JPanel
 	private JLabel l_player, l_enemy, l_playerLvl, l_playerHP, l_enemyLvl, l_playerSP, l_enemyHP,
 	l_enemySP, l_bg, l_battleBG;
 	private JProgressBar pb_playerHP, pb_playerSP, pb_enemyHP, pb_enemySP;
-	private JButton b_skill, b_attack, b_defend, b_item, b_heal, b_flee;
+	private JButton b_skill, b_skill1, b_skill2, b_skill3, b_attack, b_defend, b_item, b_heal, b_flee;
 	private JTextArea ta_progress;
 
 	private SystemManager systemManager;
@@ -43,8 +43,8 @@ public class BattleUI extends JPanel
 	private Task task;
 	private PropertyHandler propertyHandler;
 	
-	private boolean isBattleOver, isFirstAttack, isPlayerFirst, isTurnOver, isUsingSkill;
-	private int totalEnemyDamage, totalPlayerDamage, currentEnemyProgress, currentPlayerProgress, currentSPProgress;
+	private boolean isBattleOver, firstClick;
+	private int skillNo;
 	
 	public BattleUI(SystemManager systemManager) 
 	{
@@ -147,7 +147,7 @@ public class BattleUI extends JPanel
 		b_attack.setOpaque(false);
 		b_attack.setVerticalAlignment(SwingConstants.BOTTOM);
 		b_attack.setFont(new Font("Nyala", Font.PLAIN, 20));
-		b_attack.setBounds(10, 416, 150, 85);
+		b_attack.setBounds(10, 416, 70, 70);
 		add(b_attack);
 
 		b_skill = new JButton();
@@ -161,8 +161,50 @@ public class BattleUI extends JPanel
 		b_skill.setOpaque(false);
 		b_skill.setVerticalAlignment(SwingConstants.BOTTOM);
 		b_skill.setFont(new Font("Nyala", Font.PLAIN, 20));
-		b_skill.setBounds(169, 416, 150, 85);
+		b_skill.setBounds(169, 416, 70, 70);
 		add(b_skill);
+		
+		b_skill1 = new JButton();
+		b_skill1.setActionCommand("1");
+		b_skill1.setBorder(null);
+		b_skill1.setVisible(false);
+		b_skill1.setEnabled(false);
+		b_skill1.setFocusPainted(false);
+		b_skill1.setContentAreaFilled(false);
+		b_skill1.setForeground(Color.WHITE);
+		b_skill1.setOpaque(false);
+		b_skill1.setVerticalAlignment(SwingConstants.BOTTOM);
+		b_skill1.setFont(new Font("Nyala", Font.PLAIN, 20));
+		b_skill1.setBounds(239, 416, 70, 70);
+		add(b_skill1);
+		
+		b_skill2 = new JButton();
+		b_skill2.setActionCommand("2");
+		b_skill2.setBorder(null);
+		b_skill2.setVisible(false);
+		b_skill2.setEnabled(false);
+		b_skill2.setFocusPainted(false);
+		b_skill2.setContentAreaFilled(false);
+		b_skill2.setForeground(Color.WHITE);
+		b_skill2.setOpaque(false);
+		b_skill2.setVerticalAlignment(SwingConstants.BOTTOM);
+		b_skill2.setFont(new Font("Nyala", Font.PLAIN, 20));
+		b_skill2.setBounds(309, 416, 70, 70);
+		add(b_skill2);
+		
+		b_skill3 = new JButton();
+		b_skill3.setActionCommand("3");
+		b_skill3.setBorder(null);
+		b_skill3.setVisible(false);
+		b_skill3.setEnabled(false);
+		b_skill3.setFocusPainted(false);
+		b_skill3.setContentAreaFilled(false);
+		b_skill3.setForeground(Color.WHITE);
+		b_skill3.setOpaque(false);
+		b_skill3.setVerticalAlignment(SwingConstants.BOTTOM);
+		b_skill3.setFont(new Font("Nyala", Font.PLAIN, 20));
+		b_skill3.setBounds(379, 416, 70, 70);
+		add(b_skill3);
 
 		b_item = new JButton();
 		b_item.setActionCommand("INVENTORY");
@@ -173,10 +215,10 @@ public class BattleUI extends JPanel
 		b_item.setContentAreaFilled(false);
 		b_item.setForeground(Color.WHITE);
 		b_item.setOpaque(false);
-		b_item.setVisible(false); //temporary
+		b_item.setVisible(true); //temporary
 		b_item.setVerticalAlignment(SwingConstants.BOTTOM);
 		b_item.setFont(new Font("Nyala", Font.PLAIN, 20));
-		b_item.setBounds(328, 416, 150, 85);
+		b_item.setBounds(328, 416, 70, 70);
 		add(b_item);
 
 		b_defend = new JButton();
@@ -190,7 +232,7 @@ public class BattleUI extends JPanel
 		b_defend.setOpaque(false);
 		b_defend.setVerticalAlignment(SwingConstants.BOTTOM);
 		b_defend.setFont(new Font("Nyala", Font.PLAIN, 20));
-		b_defend.setBounds(10, 510, 150, 85);
+		b_defend.setBounds(10, 510, 70, 70);
 		add(b_defend);
 
 		b_heal = new JButton();
@@ -204,7 +246,7 @@ public class BattleUI extends JPanel
 		b_heal.setOpaque(false);
 		b_heal.setVerticalAlignment(SwingConstants.BOTTOM);
 		b_heal.setFont(new Font("Nyala", Font.PLAIN, 20));
-		b_heal.setBounds(169, 510, 150, 85);
+		b_heal.setBounds(169, 510, 70, 70);
 		add(b_heal);
 
 		b_flee = new JButton();
@@ -218,7 +260,7 @@ public class BattleUI extends JPanel
 		b_flee.setOpaque(false);
 		b_flee.setVerticalAlignment(SwingConstants.BOTTOM);
 		b_flee.setFont(new Font("Nyala", Font.PLAIN, 20));
-		b_flee.setBounds(328, 510, 150, 85);
+		b_flee.setBounds(328, 510, 70, 70);
 		add(b_flee);
 
 		ta_progress = new JTextArea();
@@ -232,9 +274,8 @@ public class BattleUI extends JPanel
 		ta_progress.setBounds(507, 416, 549, 180);
 		add(ta_progress);
 		
-		//TEMPORARY
 		l_battleBG = new JLabel();
-		l_battleBG.setIcon(imageManager.getBattleBG(1));
+		l_battleBG.setIcon(imageManager.getBattleBG(systemManager.getSelectedArea()));
 		l_battleBG.setBounds(11, 5, 1046, 300);
 		add(l_battleBG);
 
@@ -246,6 +287,9 @@ public class BattleUI extends JPanel
 		b_attack.addActionListener(battleHandler);
 		b_defend.addActionListener(battleHandler);
 		b_skill.addActionListener(battleHandler);
+		b_skill1.addActionListener(battleHandler);
+		b_skill2.addActionListener(battleHandler);
+		b_skill3.addActionListener(battleHandler);
 		b_heal.addActionListener(battleHandler);
 		b_flee.addActionListener(battleHandler);
 	}
@@ -254,6 +298,7 @@ public class BattleUI extends JPanel
 	{
 		battleManager = new BattleManager(systemManager.getHumanPlayer(), true, Integer.parseInt(monsterID.substring(1)) - 1, 1);
 		isBattleOver = false;
+		firstClick = true;
 		l_playerLvl.setText("Lv " + battleManager.getPlayer().getLevel() + " " + battleManager.getPlayer().getName());
 		l_playerHP.setText("HP " + d0.format(battleManager.getPlayer().getCurrentHP()) + " / " + d0.format(battleManager.getPlayer().getDefHP()));
 		l_playerSP.setText("SP "+ d0.format(battleManager.getPlayer().getCurrentSP()) + " / " + d0.format(battleManager.getPlayer().getDefSP()));
@@ -261,16 +306,34 @@ public class BattleUI extends JPanel
 		l_enemyLvl.setText("Lv " + battleManager.getMobMonster().getLevel() + " " + battleManager.getMobMonster().getName());
 		l_enemyHP.setText("HP " + d0.format(battleManager.getMobMonster().getCurrentHP()) + " / " + d0.format(battleManager.getMobMonster().getDefHP()));
 		l_enemySP.setText("SP "+ d0.format(battleManager.getMobMonster().getCurrentSP()) + " / " + d0.format(battleManager.getMobMonster().getDefSP()));
+		
 		ta_progress.setText("A " + battleManager.getMobMonster().getName() + " appeared!\n"
 				+ "What will " + battleManager.getPlayer().getName() + " do?");
+		
 		b_attack.setVisible(true);
 		b_attack.setIcon(imageManager.getBattleButton("Attack", battleManager.getPlayer().getBattleClass()));
 		b_attack.setRolloverIcon(imageManager.getBattleButton("Attack", battleManager.getPlayer().getBattleClass()+"_Hover"));
+		
 		b_defend.setVisible(true);
+		b_heal.setVisible(true);
+		b_flee.setActionCommand("FLEE");
+		
 		b_skill.setVisible(true);
+		b_skill.setDisabledIcon(imageManager.getBattleButton("Skill", battleManager.getPlayer().getBattleClass() + "_Disabled"));
 		b_skill.setIcon(imageManager.getBattleButton("Skill", battleManager.getPlayer().getBattleClass()));
 		b_skill.setRolloverIcon(imageManager.getBattleButton("Skill", battleManager.getPlayer().getBattleClass()+"_Hover"));
-		b_heal.setVisible(true);
+		
+		b_skill1.setDisabledIcon(imageManager.getBattleButton("Skill1", battleManager.getPlayer().getBattleClass() + "_Disabled"));
+		b_skill1.setIcon(imageManager.getBattleButton("Skill1", battleManager.getPlayer().getBattleClass()));
+		b_skill1.setRolloverIcon(imageManager.getBattleButton("Skill1", battleManager.getPlayer().getBattleClass()+"_Hover"));
+		
+		b_skill2.setDisabledIcon(imageManager.getBattleButton("Skill2", battleManager.getPlayer().getBattleClass() + "_Disabled"));
+		b_skill2.setIcon(imageManager.getBattleButton("Skill2", battleManager.getPlayer().getBattleClass()));
+		b_skill2.setRolloverIcon(imageManager.getBattleButton("Skill2", battleManager.getPlayer().getBattleClass()+"_Hover"));
+		
+		b_skill3.setDisabledIcon(imageManager.getBattleButton("Skill3", battleManager.getPlayer().getBattleClass() + "_Disabled"));
+		b_skill3.setIcon(imageManager.getBattleButton("Skill3", battleManager.getPlayer().getBattleClass()));
+		b_skill3.setRolloverIcon(imageManager.getBattleButton("Skill3", battleManager.getPlayer().getBattleClass()+"_Hover"));
 	}
 
 	public void processMonsterID(String monsterID) //this
@@ -285,11 +348,13 @@ public class BattleUI extends JPanel
 		{
 			l_enemy.setIcon(imageManager.getBattleBossOpponent(1));
 		}
+		l_enemy.setVisible(true);
 	}
 
 	public void processPlayerImage(String playerClass) //this
 	{
 		l_player.setIcon(imageManager.getBattlePlayer(playerClass));
+		l_player.setVisible(true);
 	}
 
 	private class BattleHandler implements ActionListener
@@ -316,12 +381,6 @@ public class BattleUI extends JPanel
 						mobFight("D", battleManager.rollOpponentMove());
 					}
 				}
-				else 
-				{
-					systemManager.showNavigationUI();
-					if(systemManager.getHumanPlayer().getCurrentHP() <= 0)
-						systemManager.getNavigationUI().healPlayer();
-				}
 			}
 			else if(action.equals("ATTACK"))
 			{
@@ -329,11 +388,6 @@ public class BattleUI extends JPanel
 				if(battleManager.isMobBattle())
 					mobFight("A", battleManager.rollOpponentMove());
 				else bossFight("A", battleManager.rollOpponentMove());
-				
-				isTurnOver = false;
-				task = new Task();
-				task.addPropertyChangeListener(propertyHandler);
-				task.execute();
 			}
 			else if(action.equals("DEFEND"))
 			{
@@ -344,27 +398,53 @@ public class BattleUI extends JPanel
 			}
 			else if(action.equals("USE SKILL"))
 			{
+				if(firstClick)
+				{
+					firstClick = false;
+					
+					b_skill1.setVisible(true);
+					b_skill2.setVisible(true);
+					b_skill3.setVisible(true);
+					
+					if(systemManager.getHumanPlayer().getLevel() >= 5)
+						b_skill1.setEnabled(true);
+					if(systemManager.getHumanPlayer().getLevel() >= 16)
+						b_skill2.setEnabled(true);
+					if(systemManager.getHumanPlayer().getLevel() >= 36)
+						b_skill3.setEnabled(true);
+				}
+				else
+				{
+					firstClick = true;
+
+					b_skill1.setVisible(false);
+					b_skill2.setVisible(false);
+					b_skill3.setVisible(false);
+					
+					b_skill1.setEnabled(false);
+					b_skill2.setEnabled(false);
+					b_skill3.setEnabled(false);
+				}
+			}
+			else if(action.equals("1") || action.equals("2") || action.equals("3"))
+			{
+				skillNo = Integer.parseInt(action) - 1;
 				battleManager.resetBattleEvent();
 				//not enough HP/SP will not execute it to not count as a turn.
 				//for the opponent however, will count it as a turn, but will fail to execute
-				if((battleManager.getPlayer().getSkillSet().get(0).getSkillSPCost()
+				if((battleManager.getPlayer().getSkillSet().get(skillNo).getSkillSPCost()
 						<= battleManager.getPlayer().getCurrentSP()) &&
-						(battleManager.getPlayer().getSkillSet().get(0).getSkillHPCost() 
+						(battleManager.getPlayer().getSkillSet().get(skillNo).getSkillHPCost() 
 								<= battleManager.getPlayer().getCurrentHP()))
 				{
 					if(battleManager.isMobBattle())
 						mobFight("S", battleManager.rollOpponentMove());
 					else if (!battleManager.isMobBattle())
 						bossFight("S", battleManager.rollOpponentMove());
-					
-					isTurnOver = false;
-					isUsingSkill = true;
-					task = new Task();
-					task.addPropertyChangeListener(propertyHandler);
-					task.execute();
 				}
-				else ta_progress.setText("Unable to use skill.");
+				else ta_progress.setText("Not enought SP. Unable to use skill.");
 			}
+			
 			else if(action.equals("HEAL"))
 			{
 				battleManager.resetBattleEvent();
@@ -379,148 +459,71 @@ public class BattleUI extends JPanel
 				}
 				else ta_progress.setText("Not enough SP to heal.");
 			}
-
+			else if(action.equals("TO NAVIGATION"))
+			{
+				systemManager.playSFX("common_confirm");
+				systemManager.getNavigationUI().refreshNavigationUI();
+				systemManager.showNavigationUI();
+				systemManager.getNavigationUI().healPlayer();
+			}
+			task = new Task();
+			task.addPropertyChangeListener(propertyHandler);
+			task.execute();
 			repaint();
 		}
 	}
 	
-
 	private class PropertyHandler implements PropertyChangeListener
 	{
 		public void propertyChange(PropertyChangeEvent evt) 
 		{
-			if(isPlayerFirst)
-			{
-				if ("progress".equals(evt.getPropertyName())) 
-				{
-					int progress = (Integer) evt.getNewValue();
-					pb_enemyHP.setValue(progress);
-				}
-			}
-			else
-			{
-				if ("progress".equals(evt.getPropertyName())) 
-				{
-					int progress = (Integer) evt.getNewValue();
-					pb_playerHP.setValue(progress);
-					pb_playerSP.setValue(currentSPProgress);
-				}
-			}
+				pb_playerHP.setValue((int) ((battleManager.getPlayer().getDefHP() - 
+						battleManager.getPlayer().getCurrentHP()) / 
+							battleManager.getPlayer().getDefHP() * 100));
+					pb_playerSP.setValue((int) ((battleManager.getPlayer().getDefSP() - 
+							battleManager.getPlayer().getCurrentSP()) / 
+							battleManager.getPlayer().getDefSP() * 100));
+					pb_enemyHP.setValue((int) ((battleManager.getMobMonster().getDefHP() - 
+							battleManager.getMobMonster().getCurrentHP()) / 
+							battleManager.getMobMonster().getDefHP() * 100));
+					pb_enemySP.setValue((int) ((battleManager.getMobMonster().getDefSP() - 
+							battleManager.getMobMonster().getCurrentSP()) / 
+							battleManager.getMobMonster().getDefSP() * 100));
+
 		}
 	}
 	
 	private class Task extends SwingWorker<Void, Void> 
 	{
-	
 		@Override
 		public Void doInBackground() 
 		{
-			int progress;
-			int currentSP = (int) (battleManager.getPlayer().getDefSP() - battleManager.getPlayer().getCurrentSP()) * 100;
-			
-			if(!isFirstAttack)
-				if(isPlayerFirst)
-					progress = currentEnemyProgress;
-				else
-					progress = currentPlayerProgress;
-			else
-			{
-				progress = 0;
-				isFirstAttack = false;
-			}
-			
-			if(isPlayerFirst)
-			{
-				totalEnemyDamage += (int) (battleManager.getInflictedPlayerDamage() / battleManager.getMobMonster().getDefHP() * 100);//14 23
-
-				setProgress(0);
-				while (currentEnemyProgress <= totalEnemyDamage) 
-				{
-					// Sleep for up to one second.
-					try 
-					{
-						if(isUsingSkill)
-							if(currentSPProgress <= currentSP)
-								currentSPProgress++;
-						Thread.sleep(15);
-					}
-					catch (InterruptedException ignore) 
-					{
-					}
-					// Make random progress.
-					++currentEnemyProgress;
-					setProgress(++progress);
-				}
-			}
-			else
-			{
-				totalPlayerDamage += (int) (battleManager.getInflictedDamage() / battleManager.getPlayer().getDefHP() * 100);//14 23
-				
-				setProgress(0);
-				while (currentPlayerProgress <= totalPlayerDamage) 
-				{
-					// Sleep for up to one second.
-					try 
-					{
-						Thread.sleep(15);
-					}
-					catch (InterruptedException ignore) 
-					{
-					}
-					// Make random progress.
-					++currentPlayerProgress;
-					setProgress(++progress);
-				}
-				
-			}
 			return null;
 		}
 
-		/*
-		 * Executed in event dispatching thread
-		 */
 		@Override
 		public void done() 
 		{
-			isUsingSkill = false;
 			
-			if(isTurnOver)
-			{
-				ta_progress.setText(battleManager.getBattleEvent());
-				return;
-			}
-			else
-				if(isPlayerFirst)
-				{
-					isTurnOver = true;
-					isPlayerFirst = false;
-					task = new Task();
-					task.addPropertyChangeListener(propertyHandler);
-					task.execute();
-				}
-				else
-				{
-					isTurnOver = true;
-					isPlayerFirst = true;
-					task = new Task();
-					task.addPropertyChangeListener(propertyHandler);
-					task.execute();
-				}
+
 		}
 	}
 
 	private void mobFight(String playerMove, String opponentMove)
 	{
+		firstClick = true;
+		b_skill1.setVisible(false);
+		b_skill2.setVisible(false);
+		b_skill3.setVisible(false);
+		
 		if(battleManager.getPlayer().getCurrentAGI() >= battleManager.getMobMonster().getCurrentAGI())
 		{
-			isPlayerFirst = true;
 			if(opponentMove.equals("D") || opponentMove.equals("F"))
 				mobMovesFirst(playerMove, opponentMove);
 			else playerMovesFirstVSMob(playerMove, opponentMove);
 		}
 		else
 		{
-			isPlayerFirst = false;
 			if(playerMove.equals("D") || playerMove.equals("H"))
 				playerMovesFirstVSMob(playerMove, opponentMove);
 			else mobMovesFirst(playerMove, opponentMove);
@@ -531,22 +534,40 @@ public class BattleUI extends JPanel
 	{
 		//String battleEvent = new String("");
 		if(playerMove.equals("A"))
+		{
 			battleManager.playerAttackToMob();
+			systemManager.playSFX(battleManager.getPlayer().getBattleClass() + "_attack");
+		}
 		else if(playerMove.equals("S"))
-			battleManager.playerUseSkillToMob(0);
+		{
+			battleManager.playerUseSkillToMob(skillNo);
+			systemManager.playSFX(battleManager.getPlayer().getBattleClass() + "_skill");
+		}
 		else if(playerMove.equals("D"))
+		{
 			battleManager.playerDefend();
+			systemManager.playSFX("common_back");
+		}
 		else if(playerMove.equals("H"))
+		{
 			battleManager.playerHeal();
+			systemManager.playSFX("common_heal");
+		}
 		checkBattleStatus(battleManager.getBattleStatus());
 		if(!isBattleOver)
 		{
 			if(opponentMove.equals("A"))
+			{
 				battleManager.mobAttack();
+				systemManager.playSFX("opponent_attack");
+			}
 			else if(opponentMove.equals("D"))
 				battleManager.mobDefend();
 			else if(opponentMove.equals("S"))
+			{
 				verifyAndExecuteMobSkill();
+				systemManager.playSFX("opponent_skill");
+			}
 			checkBattleStatus(battleManager.getBattleStatus());
 		}
 		updateDisplays();
@@ -556,9 +577,15 @@ public class BattleUI extends JPanel
 	{
 		//String battleEvent = new String("");
 		if(opponentMove.equals("A"))
+		{
 			battleManager.mobAttack();
+			systemManager.playSFX("opponent_attack");
+		}
 		else if(opponentMove.equals("S"))
+		{
 			verifyAndExecuteMobSkill();
+			systemManager.playSFX("opponent_skill");
+		}
 		else if(opponentMove.equals("D"))
 			battleManager.mobDefend();
 		else if(opponentMove.equals("F"))
@@ -567,9 +594,15 @@ public class BattleUI extends JPanel
 		if(!isBattleOver)
 		{
 			if(playerMove.equals("A"))
+			{
 				battleManager.playerAttackToMob();
+				systemManager.playSFX(battleManager.getPlayer().getBattleClass() + "_attack");
+			}
 			else if (playerMove.equals("S"))
-				battleManager.playerUseSkillToMob(0);
+			{
+				battleManager.playerUseSkillToMob(skillNo);
+				systemManager.playSFX(battleManager.getPlayer().getBattleClass() + "_skill");
+			}
 			checkBattleStatus(battleManager.getBattleStatus());
 		}
 		updateDisplays();
@@ -609,7 +642,7 @@ public class BattleUI extends JPanel
 		if(playerMove.equals("A"))
 			battleManager.playerAttackToMob();
 		else if(playerMove.equals("S"))
-			battleManager.playerUseSkillToMob(0);
+			battleManager.playerUseSkillToMob(skillNo);
 		else if(playerMove.equals("D"))
 			battleManager.playerDefend();
 		else if(playerMove.equals("H"))
@@ -644,7 +677,7 @@ public class BattleUI extends JPanel
 			if(playerMove.equals("A"))
 				battleManager.playerAttackToMob();
 			else if (playerMove.equals("S"))
-				battleManager.playerUseSkillToMob(0);
+				battleManager.playerUseSkillToMob(skillNo);
 			checkBattleStatus(battleManager.getBattleStatus());
 		}
 		updateDisplays();
@@ -661,18 +694,28 @@ public class BattleUI extends JPanel
 		if(currentStatus == 1)
 		{
 			isBattleOver = true;
+			systemManager.playMusic("bgm_victory");
+			l_enemy.setVisible(false);
 			battleManager.setBattleEvent(battleManager.getBattleEvent() + 
-					battleManager.getMobMonster().getName() + " is defeated! You received "
+					battleManager.getMobMonster().getName() + " is defeated! You gained "
 					+ d0.format(battleManager.getMobMonster().getDefXPYield()) + " XP and Au "
-					+ d0.format(battleManager.getMobMonster().getDefAuYield()) + ".\n"
-					+ "Click \"Flee\" to end battle.");
+					+ d0.format(battleManager.getMobMonster().getDefAuYield()) + ".\n");
+			systemManager.getHumanPlayer().setWins(systemManager.getHumanPlayer().getWins()+1);
+			if(isBossKeyDropped())
+			{
+				systemManager.getHumanPlayer().setBossKeys(systemManager.getHumanPlayer().getBossKeys()+1);
+				battleManager.setBattleEvent(battleManager.getBattleEvent() +
+						battleManager.getMobMonster().getName()+ " dropped a Boss Key!\n");
+			}
+			b_flee.setActionCommand("TO NAVIGATION");
 			battleManager.getPlayer().addXP(battleManager.getMobMonster().getDefXPYield());
 			battleManager.getPlayer().addAu(battleManager.getMobMonster().getDefAuYield());
 			battleManager.getPlayer().refreshLevel(systemManager.getHumanPlayer().getBattleClass(), systemManager.getHumanPlayer().getXP());
-			systemManager.setHumanPlayer(battleManager.getPlayer());
-			systemManager.getNavigationUI().refreshNavigationUI();
 			b_attack.setVisible(false);
 			b_skill.setVisible(false);
+			b_skill1.setVisible(false);
+			b_skill2.setVisible(false);
+			b_skill3.setVisible(false);
 			b_defend.setVisible(false);
 			b_heal.setVisible(false);
 
@@ -680,18 +723,32 @@ public class BattleUI extends JPanel
 		else if(currentStatus == 4)
 		{
 			isBattleOver = true;
+			systemManager.playMusic("bgm_defeat");
+			l_player.setVisible(false);
 			battleManager.setBattleEvent(battleManager.getBattleEvent()
 					+ "Our hero has fallen...\n"
 					+ "Loss Penalty: Au " + d0.format(systemManager.getHumanPlayer().getAu()/3) + ".\n" 
 					+ "Click \"Flee\" to end battle.");
+			b_flee.setActionCommand("TO NAVIGATION");
 			b_attack.setVisible(false);
 			b_skill.setVisible(false);
+			b_skill1.setVisible(false);
+			b_skill2.setVisible(false);
+			b_skill3.setVisible(false);
 			b_defend.setVisible(false);
 			b_heal.setVisible(false);
 			systemManager.getHumanPlayer().addAu(Double.parseDouble(d0.format(systemManager.getHumanPlayer().getAu()/3*(0-1))));
 			l_playerHP.setText("HP 0 / " + d0.format(battleManager.getPlayer().getDefHP()));
 			l_playerSP.setText("SP 0 / " + d0.format(battleManager.getPlayer().getDefSP()));
 		}
+	}
+
+	private boolean isBossKeyDropped() 
+	{
+		boolean isDropped = false;
+		if(battleManager.getPlayer().rollDoubleDice() >= battleManager.getMobMonster().getChanceBossKeyDrop())
+			isDropped = true;
+		return isDropped;
 	}
 
 	private int getMobAttemptFlee()
@@ -704,6 +761,7 @@ public class BattleUI extends JPanel
 
 	public void updateDisplays()
 	{
+		ta_progress.setText(battleManager.getBattleEvent());
 		l_playerHP.setText("HP " + d0.format(battleManager.getPlayer().getCurrentHP()) + " / " + d0.format(battleManager.getPlayer().getDefHP()));
 		l_playerSP.setText("SP " + d0.format(battleManager.getPlayer().getCurrentSP()) + " / " + d0.format(battleManager.getPlayer().getDefSP()));
 		if(battleManager.isMobBattle())
@@ -716,18 +774,11 @@ public class BattleUI extends JPanel
 			l_enemyHP.setText("HP " + d0.format(battleManager.getBossMonster().getCurrentHP()) + " / " + d0.format(battleManager.getBossMonster().getDefHP()));
 			l_enemySP.setText("SP " + d0.format(battleManager.getBossMonster().getCurrentSP()) + " / " + d0.format(battleManager.getBossMonster().getDefSP()));
 		}
+		
 	}
 	
 	public void updateHPSPBars()
 	{
-		totalEnemyDamage = 0;
-		totalPlayerDamage = 0;
-		currentEnemyProgress = 0;
-		currentPlayerProgress = 0;
-		currentSPProgress = 0;
-		isFirstAttack = true;
-		isUsingSkill = false;
-		
 		pb_playerHP.setValue(Integer.parseInt(d0.format(battleManager.getPlayer().getCurrentHP()/battleManager.getPlayer().getDefHP())) % 1);
 		pb_playerSP.setValue(Integer.parseInt(d0.format(battleManager.getPlayer().getCurrentSP()/battleManager.getPlayer().getDefSP())) % 1);
 		if(battleManager.isMobBattle())

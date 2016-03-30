@@ -5,7 +5,9 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import domain.BossMonster;
 import managers.ImageManager;
+import managers.LanguageManager;
 import managers.SystemManager;
 import managers.StatsManager;
 
@@ -28,13 +30,15 @@ public class NavigationUI extends JPanel
 	private JLabel l_area, l_instructions, l_bg;
 	private JButton b_loc1, b_loc2, b_loc3, b_loc4, b_loc5, b_loc6, b_loc7, b_loc8, b_loc9, b_loc10,
 					b_loc11, b_loc12, b_rest, b_boss, b_shop, b_save, b_quit, b_areaInfo, b_inventory;
-	private JLabel l_areaName, l_mobsDesc, l_missions;
+	private JLabel l_missionDetail, l_mobsDesc, l_missions;
 	private JTextArea ta_status, ta_stats;
 
 	private SystemManager systemManager;
 	private ImageManager imageManager;
 	private NavigationHandler navigationHandler;
 	private StatsManager statsManager;
+	private LanguageManager languageManager;
+	private BossMonster bossMonster;
 	
 	private Random random;
 	private DecimalFormat d0 = new DecimalFormat("####");
@@ -45,21 +49,22 @@ public class NavigationUI extends JPanel
 		navigationHandler = new NavigationHandler();
 		imageManager = new ImageManager();
 		statsManager = new StatsManager();
+		languageManager = new LanguageManager("areaNames");
 		random = new Random();
 		
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
 		
-		l_area = new JLabel("Area 1: Peiyuu Village");
+		l_area = new JLabel("Navigation");
 		l_area.setForeground(Color.WHITE);
-		l_area.setFont(new Font("Nyala", Font.PLAIN, 24));
-		l_area.setBounds(30, 11, 285, 30);
+		l_area.setFont(new Font("Trajan Pro", Font.PLAIN, 24));
+		l_area.setBounds(30, 11, 493, 30);
 		add(l_area);
 		
 		l_instructions = new JLabel("Click anywhere in the map to fight mobs.");
 		l_instructions.setForeground(Color.WHITE);
 		l_instructions.setFont(new Font("Nyala", Font.PLAIN, 20));
-		l_instructions.setBounds(30, 39, 410, 30);
+		l_instructions.setBounds(30, 39, 493, 30);
 		add(l_instructions);
 		
 		b_loc1 = new JButton();
@@ -206,18 +211,23 @@ public class NavigationUI extends JPanel
 		b_loc12.setBounds(445, 330, 125, 125);
 		add(b_loc12);
 		
-		l_areaName = new JLabel("Area 1");
-		l_areaName.setForeground(Color.WHITE);
-		l_areaName.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_areaName.setBounds(102, 466, 56, 30);
-		add(l_areaName);
+		l_missionDetail = new JLabel("Complete the missions to fight the boss.");
+		l_missionDetail.setForeground(Color.WHITE);
+		l_missionDetail.setFont(new Font("Nyala", Font.PLAIN, 20));
+		l_missionDetail.setBounds(70, 466, 350, 30);
+		add(l_missionDetail);
 		
-		l_mobsDesc = new JLabel("Mob Level 1 to 5");
+		l_mobsDesc = new JLabel("Mob Levels: 1 to 5");
 		l_mobsDesc.setForeground(Color.WHITE);
-		l_mobsDesc.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		l_mobsDesc.setBounds(375, 466, 148, 30);
+		l_mobsDesc.setFont(new Font("Nyala", Font.PLAIN, 20));
+		l_mobsDesc.setBounds(425, 466, 148, 30);
 		add(l_mobsDesc);
-		
+
+		/*
+		 * Player's HP and SP now always restored to full after every battle.
+		 * Beneficial to both players and the developers.
+		 * (I mean, even at testing phase, you really can't win a match without healing first.)
+		 * 
 		b_rest = new JButton();
 		b_rest.setActionCommand("Rest to Inn");
 		b_rest.setBorder(null);
@@ -230,6 +240,7 @@ public class NavigationUI extends JPanel
 		b_rest.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_rest.setBounds(30, 525, 170, 50);
 		add(b_rest);
+		*/
 		
 		b_shop = new JButton();
 		b_shop.setActionCommand("Shop");
@@ -241,7 +252,7 @@ public class NavigationUI extends JPanel
 		b_shop.setOpaque(false);
 		b_shop.setForeground(Color.WHITE);
 		b_shop.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_shop.setBounds(236, 525, 170, 50);
+		b_shop.setBounds(70, 525, 170, 50);
 		add(b_shop);
 		
 		b_boss = new JButton();
@@ -254,7 +265,7 @@ public class NavigationUI extends JPanel
 		b_boss.setOpaque(false);
 		b_boss.setForeground(Color.WHITE);
 		b_boss.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_boss.setBounds(445, 525, 170, 50);
+		b_boss.setBounds(400, 525, 170, 50);
 		add(b_boss);
 		
 		b_save = new JButton();
@@ -297,7 +308,7 @@ public class NavigationUI extends JPanel
 		add(b_inventory);
 		
 		b_areaInfo = new JButton();
-		b_areaInfo.setActionCommand("Area Info");
+		b_areaInfo.setActionCommand("Area Selection");  // THIS THIS THIS THIS NEEEDS TO BE CHANGED
 		b_areaInfo.setBorder(null);
 		b_areaInfo.setIcon(imageManager.getNavigationGraphic("AreaInfo"));
 		b_areaInfo.setRolloverIcon(imageManager.getNavigationGraphic("AreaInfo_Hover"));
@@ -363,7 +374,7 @@ public class NavigationUI extends JPanel
 		add(l_bg);
 		
 		b_shop.addActionListener(navigationHandler);
-		b_rest.addActionListener(navigationHandler);
+		//b_rest.addActionListener(navigationHandler);
 		b_save.addActionListener(navigationHandler);
 		b_quit.addActionListener(navigationHandler);
 		b_inventory.addActionListener(navigationHandler);
@@ -380,6 +391,7 @@ public class NavigationUI extends JPanel
 		b_loc11.addActionListener(navigationHandler);
 		b_loc12.addActionListener(navigationHandler);
 		b_boss.addActionListener(navigationHandler);
+		b_areaInfo.addActionListener(navigationHandler);
 	}
 	
 	private class NavigationHandler implements ActionListener
@@ -388,7 +400,10 @@ public class NavigationUI extends JPanel
 		{
 			String action = e.getActionCommand();
 			if(action.equals("Shop"))
+			{
+				systemManager.getShopUI().refreshStatsShopUI(systemManager.getSelectedArea());
 				systemManager.showShopUI();
+			}
 			else if(action.equals("Inventory"))
 				systemManager.showInventoryUI();
 			else if(action.equals("Rest to Inn"))
@@ -399,8 +414,10 @@ public class NavigationUI extends JPanel
 				System.exit(0);
 			else if(action.substring(0, 3).equals("Loc")) //this
 			{
+				systemManager.playSFX("common_confirm");
 				String mobID = "m" + randomizeSpawn();
 				systemManager.showBattleUI(mobID);
+				systemManager.playMusic("bgm_mobbattle");
 			}
 			else if(action.equals("Fight Boss")) //this
 			{
@@ -415,29 +432,76 @@ public class NavigationUI extends JPanel
 	{
 		systemManager.getHumanPlayer().setCurrentHP(systemManager.getHumanPlayer().getDefHP());
 		systemManager.getHumanPlayer().setCurrentSP(systemManager.getHumanPlayer().getDefSP());
-		systemManager.getHumanPlayer().setAu(systemManager.getHumanPlayer().getAu()-5);
+		//systemManager.getHumanPlayer().setAu(systemManager.getHumanPlayer().getAu()-5);
+		//Players are now always healed after battle, free of charge.
 		systemManager.getNavigationUI().refreshNavigationUI();
-		JOptionPane.showMessageDialog(this, "Our hero took a quick rest.\nHP and SP fully restored.");
 	}
 	
 	public int randomizeSpawn() //this
 	{
-		int randomMob = random.nextInt( 4 - 1 + 1 ) + 1;
+		int randomMob = random.nextInt( 4 + 2*systemManager.getSelectedArea() ) + 1;
 		return randomMob;
 	}
 
 	public void refreshNavigationUI()
 	{
+		bossMonster = statsManager.getBossMonster(systemManager.getSelectedArea());
+		l_mobsDesc.setText("Mob Levels: " + statsManager.getMinMobLevel(systemManager.getSelectedArea()) + " ~ " + statsManager.getMaxMobLevel(systemManager.getSelectedArea()));
 		ta_status.setText(systemManager.getHumanPlayer().getName() + "\tLv: " + systemManager.getHumanPlayer().getLevel() + "\n"
 				+ "HP : " + d0.format(systemManager.getHumanPlayer().getCurrentHP()) + " / " + d0.format(systemManager.getHumanPlayer().getDefHP()) + "\t"
 				+ "\tSP : " + d0.format(systemManager.getHumanPlayer().getCurrentSP()) + " / " + d0.format(systemManager.getHumanPlayer().getDefSP()) + "\n"
 				+ "Money\t: Au " + d0.format(systemManager.getHumanPlayer().getAu()));
-		ta_stats.setText("XP\t: " + d0.format(systemManager.getHumanPlayer().getXP()) + " / " + d0.format(statsManager.getPlayerXPtoNextLevel(systemManager.getPlayerClass(), systemManager.getHumanPlayer().getLevel())) + "\n"
+		ta_stats.setText("XP\t: " + d0.format(systemManager.getHumanPlayer().getXP()) + " / " + d0.format(systemManager.getStatsManager().getPlayerXPtoNextLevel(systemManager.getHumanPlayer().getBattleClass(), systemManager.getHumanPlayer().getLevel())) + "\n"
 				+ "Attack\t: " + d0.format(systemManager.getHumanPlayer().getCurrentATK()) + "\n"
 				+ "Defense\t: " + d0.format(systemManager.getHumanPlayer().getCurrentDEF()) + "\n"
 				+ "Special\t: " + d0.format(systemManager.getHumanPlayer().getCurrentSPC()) + "\n"
 				+ "Agility\t: " + d0.format(systemManager.getHumanPlayer().getCurrentAGI()) + "\n"
 				+ "Critical\t: " + d0.format(systemManager.getHumanPlayer().getCurrentCRT()));
-		
+		tf_wins.setText("Battle Wins\t: " + systemManager.getHumanPlayer().getWins() + " / " + bossMonster.getMissionWins());
+		if(systemManager.getHumanPlayer().getWins() >= bossMonster.getMissionWins())
+		{
+			tf_wins.setForeground(Color.GREEN);
+			tf_wins.setText("Battle Wins\t: " + bossMonster.getMissionWins() + " / " + bossMonster.getMissionWins());
+		}
+		else tf_wins.setForeground(Color.LIGHT_GRAY);
+		tf_keys.setText("Boss Keys\t: " + systemManager.getHumanPlayer().getBossKeys() + " / " + bossMonster.getMissionBossKeys());
+		if(systemManager.getHumanPlayer().getBossKeys() >= bossMonster.getMissionBossKeys())
+			tf_keys.setForeground(Color.GREEN);
+		else tf_keys.setForeground(Color.LIGHT_GRAY);
+		/*
+		 * Boss keys are allowed to exceed its required amount because it is spent every boss fight attempt.
+		 * However, if the boss is defeated, the counter will reset to 0.
+		 */
+		l_area.setText(languageManager.getAreaName(systemManager.getSelectedArea()));
+		refreshAreaLocations(systemManager.getSelectedArea());
+		systemManager.playMusic("bgm_area"+systemManager.getSelectedArea());
+	}
+	
+	private void refreshAreaLocations(int area)
+	{
+		b_loc1.setIcon(imageManager.getAreaLocation(area, "1b"));
+		b_loc1.setRolloverIcon(imageManager.getAreaLocation(area, "1"));
+		b_loc2.setIcon(imageManager.getAreaLocation(area, "2b"));
+		b_loc2.setRolloverIcon(imageManager.getAreaLocation(area, "2"));
+		b_loc3.setIcon(imageManager.getAreaLocation(area, "3b"));
+		b_loc3.setRolloverIcon(imageManager.getAreaLocation(area, "3"));
+		b_loc4.setIcon(imageManager.getAreaLocation(area, "4b"));
+		b_loc4.setRolloverIcon(imageManager.getAreaLocation(area, "4"));
+		b_loc5.setIcon(imageManager.getAreaLocation(area, "5b"));
+		b_loc5.setRolloverIcon(imageManager.getAreaLocation(area, "5"));
+		b_loc6.setIcon(imageManager.getAreaLocation(area, "6b"));
+		b_loc6.setRolloverIcon(imageManager.getAreaLocation(area, "6"));
+		b_loc7.setIcon(imageManager.getAreaLocation(area, "7b"));
+		b_loc7.setRolloverIcon(imageManager.getAreaLocation(area, "7"));
+		b_loc8.setIcon(imageManager.getAreaLocation(area, "8b"));
+		b_loc8.setRolloverIcon(imageManager.getAreaLocation(area, "8"));
+		b_loc9.setIcon(imageManager.getAreaLocation(area, "9b"));
+		b_loc9.setRolloverIcon(imageManager.getAreaLocation(area, "9"));
+		b_loc10.setIcon(imageManager.getAreaLocation(area, "10b"));
+		b_loc10.setRolloverIcon(imageManager.getAreaLocation(area, "10"));
+		b_loc11.setIcon(imageManager.getAreaLocation(area, "11b"));
+		b_loc11.setRolloverIcon(imageManager.getAreaLocation(area, "11"));
+		b_loc12.setIcon(imageManager.getAreaLocation(area, "12b"));
+		b_loc12.setRolloverIcon(imageManager.getAreaLocation(area, "12"));	
 	}
 }

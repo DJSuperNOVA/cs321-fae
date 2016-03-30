@@ -37,7 +37,7 @@ public class BossMonster extends FAECharacter
 	 * dice					: The pseudo-random number generator.
 	 */
 	
-	private int bossID;
+	private int bossID, missionBossKeys, missionWins;
 	private double chanceAttack, chanceDefend, chanceSkill, chanceHeal;
 	private double chanceAttackWind2, chanceDefendWind2, chanceSkillWind2;
 	private double defXPYield, defAuYield, secondWindHP, secondWindSP;
@@ -137,6 +137,18 @@ public class BossMonster extends FAECharacter
 		this.skill = skill;
 	}
 	
+	public int getMissionBossKeys() {
+		return missionBossKeys;
+	}
+	public void setMissionBossKeys(int missionBossKeys) {
+		this.missionBossKeys = missionBossKeys;
+	}
+	public int getMissionWins() {
+		return missionWins;
+	}
+	public void setMissionWins(int missionWins) {
+		this.missionWins = missionWins;
+	}
 	public double rollDoubleDice()
 	{
 		return dice.nextDouble();

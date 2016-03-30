@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import domain.BossMonster;
+import domain.GameItem;
 import domain.MobMonster;
 import domain.Skill;
 
@@ -19,9 +20,12 @@ public class StatsManager
 	private ArrayList<Integer[]> swordsmanBaseStats, mageBaseStats, mobLevelRanges;
 	private ArrayList<String> mobStatsRaw, bossStatsRaw;
 	private ArrayList<Skill> swordsmanSkillSet, mageSkillSet;
+	private ArrayList<GameItem> itemList;
+	private LanguageManager languageManager;
 	
 	public StatsManager()
 	{
+		languageManager = new LanguageManager("item");
 		scanSwordsmanXPChart();
 		scanMageXPChart();
 		scanSwordsmanBaseStats();
@@ -31,8 +35,84 @@ public class StatsManager
 		scanMobBaseStats();
 		scanBossBaseStats();
 		scanMobLevelRanges();
+		scanItems();
 	}
 
+	private void scanItems() 
+	{
+		try
+		{
+			in = new Scanner(new File("resources/data/item_list.fae"));
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		String rawInfo, splitInfo[];
+		GameItem gameItem;
+		itemList = new ArrayList<GameItem>();
+		while(in.hasNextLine())
+		{
+			rawInfo = new String(in.nextLine());
+			splitInfo = rawInfo.split(",");
+			gameItem = new GameItem();
+			gameItem.setItemID(splitInfo[0]);
+			gameItem.setAreaAvailable(Integer.parseInt(splitInfo[1]));
+			gameItem.setItemName(splitInfo[2]);
+			gameItem.setBuyingValue(Double.parseDouble(splitInfo[3]));
+			gameItem.setSellingValue(Double.parseDouble(splitInfo[4]));
+			gameItem.setEffectHPtoPlayer(Double.parseDouble(splitInfo[5]));
+			gameItem.setEffectSPtoPlayer(Double.parseDouble(splitInfo[6]));
+			gameItem.setEffectATKtoPlayer(Double.parseDouble(splitInfo[7]));
+			gameItem.setEffectDEFtoPlayer(Double.parseDouble(splitInfo[8]));
+			gameItem.setEffectSPCtoPlayer(Double.parseDouble(splitInfo[9]));
+			gameItem.setEffectAGItoPlayer(Double.parseDouble(splitInfo[10]));
+			gameItem.setEffectCRTtoPlayer(Double.parseDouble(splitInfo[11]));
+			gameItem.setEffectHPtoOpponent(Double.parseDouble(splitInfo[12]));
+			gameItem.setEffectSPtoOpponent(Double.parseDouble(splitInfo[13]));
+			gameItem.setEffectATKtoOpponent(Double.parseDouble(splitInfo[14]));
+			gameItem.setEffectDEFtoOpponent(Double.parseDouble(splitInfo[15]));
+			gameItem.setEffectSPCtoOpponent(Double.parseDouble(splitInfo[16]));
+			gameItem.setEffectAGItoOpponent(Double.parseDouble(splitInfo[17]));
+			gameItem.setEffectCRTtoOpponent(Double.parseDouble(splitInfo[18]));
+			gameItem.setItemDesc(languageManager.getItemDescription(gameItem.getItemID()));
+			itemList.add(gameItem);
+		}
+	}
+	
+	public GameItem getGameItem(String itemID)
+	{
+		GameItem itemToReturn = new GameItem();
+		for(GameItem item: itemList)
+		{
+			if(item.getItemID().equals(itemID))
+				itemToReturn = item;
+		}
+		return itemToReturn;
+	}
+
+	public ArrayList<GameItem> getPurchasableItemsOnArea(int area)
+	{
+		ArrayList<GameItem> listToReturn = new ArrayList<GameItem>();
+		for(GameItem item: itemList)
+		{
+			if(item.getAreaAvailable() == area)
+				listToReturn.add(item);
+		}
+		return listToReturn;
+	}
+	
+	public ArrayList<GameItem> getDefaultItems()
+	{
+		ArrayList<GameItem> listToReturn = new ArrayList<GameItem>();
+		for(GameItem item: itemList)
+		{
+			item.setItemQuantity(5);
+			if(item.getItemID().equals("I1") || item.getItemID().equals("I2") || item.getItemID().equals("I4"))
+				listToReturn.add(item);
+		}
+		return listToReturn;
+	}
+	
 	private void scanMobLevelRanges() 
 	{
 		try
@@ -374,7 +454,7 @@ public class StatsManager
 	public BossMonster getBossMonster(int bossID)
 	{
 		BossMonster bossMonsterToReturn = new BossMonster();
-		String[] rawStats = mobStatsRaw.get(bossID).split(",");
+		String[] rawStats = bossStatsRaw.get(bossID).split(",");
 		bossMonsterToReturn.setBossID(bossID);
 		bossMonsterToReturn.setName(rawStats[0]);
 		bossMonsterToReturn.setLevel(Integer.parseInt(rawStats[1]));
@@ -397,12 +477,9 @@ public class StatsManager
 		bossMonsterToReturn.setDefXPYield(Double.parseDouble(rawStats[18]));
 		bossMonsterToReturn.setDefAuYield(Double.parseDouble(rawStats[19]));
 		bossMonsterToReturn.setSkill(new Skill(rawStats[20], 0.0, Double.parseDouble(rawStats[21]), 0));
+		bossMonsterToReturn.setMissionBossKeys(Integer.parseInt(rawStats[22]));
+		bossMonsterToReturn.setMissionWins(Integer.parseInt(rawStats[23]));
 		return bossMonsterToReturn;
-	}
-
-	public static void main(String[] args)
-	{
-		new StatsManager();
 	}
 
 	public ArrayList<Skill> getSkillSet(String battleClass) 
