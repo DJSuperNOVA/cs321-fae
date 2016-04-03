@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -113,11 +115,23 @@ public class ShopUI extends JPanel
 		add(l_itemInfo);
 		
 		jl_items = new JList<String>();
-		jl_items.setBorder(new LineBorder(Color.CYAN, 1, true));
+		jl_items.setBorder(new LineBorder(Color.RED, 1, true));
 		jl_items.setOpaque(false);
 		jl_items.setDragEnabled(true);
+//		jl_items.addKeyListener(new KeyAdapter()
+//		{
+//			public void keyPressed(KeyEvent e)
+//			{
+//				int key = e.getKeyCode();
+//				
+//				if(key==KeyEvent.VK_SHIFT)
+//				{
+//					
+//				}
+//			}
+//		});
 		jl_items.setSelectionBackground(Color.DARK_GRAY);
-		jl_items.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		jl_items.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jl_items.setCellRenderer(new TransparentListCellRenderer());
 		jl_items.setFont(new Font("Nyala", Font.PLAIN, 20));
 		jl_items.setBounds(10, 56, 402, 281);
@@ -464,7 +478,7 @@ public class ShopUI extends JPanel
 		l_totalPointsText.setBounds(506, 500, 160, 30);
 		add(l_totalPointsText);
 		
-		l_perPriceText = new JLabel("Price per Stat Point: Au 100");
+		l_perPriceText = new JLabel("Price per Stat Point: Au 25");
 		l_perPriceText.setForeground(Color.WHITE);
 		l_perPriceText.setFont(new Font("Nyala", Font.PLAIN, 20));
 		l_perPriceText.setBounds(74, 544, 226, 30);
@@ -759,38 +773,50 @@ public class ShopUI extends JPanel
 							systemManager.getHumanPlayer().setAu(systemManager.getHumanPlayer().getAu() - totalItemPrice);
 							jl_items.removeSelectionInterval(jl_items.getSelectedIndices()[0], jl_items.getSelectedIndices()[0]);
 
-							l_quantity.setText("0");
-							l_itemPrice.setText("0");
-							b_purchase.setEnabled(false);
-							b_upQuantity.setEnabled(false);
-							b_downQuantity.setEnabled(false);
-							selectedItem = null;
-
 							l_have.setText("<html>In Inventory:<br>-</html>");
 							l_itemInfo.setText("<html>Item Name:<br>Item Description:"
 									+ "<br>Buying Price: Au<br>Selling Price: Au</html>");
 							l_money.setText("Money: Au " + d0.format(systemManager.getHumanPlayer().getAu()));
 
 							int iterator = 0;
-							item.setItemQuantity(quantityToBuy);
+							item.setQuantity(quantityToBuy);
 							
-							if(playerGameItem.equals(null))
+							if(playerGameItem.isEmpty())
+							{
+//								System.out.println("if");
 								playerGameItem.add(item);
+							}
 							else
 							{
+//								System.out.println("else");
 								try
 								{
 									for(GameItem playerItem: playerGameItem)
 									{
+										int itemQuantity = playerItem.getQuantity();
+//										System.out.println(playerGameItem.size());
+//										System.out.println(playerItem.getItemQuantity() + ", " + quantityToBuy);
+//										System.out.println(playerItem.getItemID() + " " + item.getItemID());
 										if(playerItem.getItemID().equals(item.getItemID()))
 										{
-											playerItem.setItemQuantity(playerItem.getItemQuantity() + quantityToBuy);
+//											System.out.println("if for");
+//											System.out.println(playerItem.getItemQuantity() + ", " + quantityToBuy);
+											playerItem.setQuantity(itemQuantity + quantityToBuy);
+//											System.out.println(playerItem.getItemQuantity() + ", " + quantityToBuy + "\n-----");
 											tempPlayerItems.remove(iterator);
-											tempPlayerItems.add(iterator, playerItem);
+											tempPlayerItems.add(playerItem);
+											
+											break;
 										}
 										else if(iterator + 1 == playerGameItem.size() && 
 												!playerItem.getItemID().equals(item.getItemID()))
+										{
+//											System.out.println("else if for");
+//											System.out.println(playerItem.getItemQuantity() + "- " + quantityToBuy + "\n-----");
 											tempPlayerItems.add(item);
+											break;
+										}
+//										System.out.println("after " + playerItem.getItemQuantity() + ", " + quantityToBuy + "\n");
 										iterator++;
 									}
 								}
@@ -801,6 +827,18 @@ public class ShopUI extends JPanel
 							}
 							playerGameItem = tempPlayerItems;
 							systemManager.getHumanPlayer().setInventory(playerGameItem);
+							
+//							System.out.println("********");
+//							for(GameItem items: playerGameItem)
+//								System.out.println(items.getItemName() + ", " + items.getItemQuantity());
+//							System.out.println("********");
+
+							l_quantity.setText("0");
+							l_itemPrice.setText("0");
+							b_purchase.setEnabled(false);
+							b_upQuantity.setEnabled(false);
+							b_downQuantity.setEnabled(false);
+							selectedItem = null;
 
 							break;
 						}
@@ -825,7 +863,7 @@ public class ShopUI extends JPanel
 					Integer.parseInt(l_addedAttack.getText()) + Integer.parseInt(l_addedDefense.getText()) +
 					Integer.parseInt(l_addedSpecial.getText()) + Integer.parseInt(l_addedAgility.getText()) +
 					Integer.parseInt(l_addedCritical.getText());
-			totalPrice = (totalPoints - Integer.parseInt(d0.format(systemManager.getHumanPlayer().getTotalPlusPoints()))) * 100;
+			totalPrice = (totalPoints - Integer.parseInt(d0.format(systemManager.getHumanPlayer().getTotalPlusPoints()))) * 25;
 			
 			l_totalPoints.setText(totalPoints.toString());
 			l_totalPrice.setText(totalPrice.toString());
@@ -850,7 +888,7 @@ public class ShopUI extends JPanel
 						
 			if(e.getClickCount() == 1 && isSelected)
 			{
-				isSelected = false;
+				b_purchase.setEnabled(false);
 				b_upQuantity.setEnabled(true);
 				b_downQuantity.setEnabled(false);
 
@@ -862,7 +900,7 @@ public class ShopUI extends JPanel
 					{
 						for(GameItem playerItem: playerGameItem)
 							if(playerItem.getItemID().equals(item.getItemID()))
-								quantity = playerItem.getItemQuantity();
+								quantity = playerItem.getQuantity();
 						itemPrice = (int) item.getBuyingValue();
 						l_itemInfo.setText("<html>Item Name: " + selectedItem + " <br>"
 								+ "Item Description: " + item.getItemDesc()
@@ -893,6 +931,7 @@ public class ShopUI extends JPanel
 						+ "<br>Buying Price: Au<br>Selling Price: Au</html>");
 				jl_items.removeSelectionInterval(jl_items.getSelectedIndices()[0], jl_items.getSelectedIndices()[0]);
 			}
+			isSelected = false;
 			l_quantity.setText("0");
 			l_itemPrice.setText("0");
 		}
@@ -934,6 +973,7 @@ public class ShopUI extends JPanel
 		isSelected = true;
 		selectedItem = null;
 		mouseHandler = new MouseHandler();
+		quantityToBuy = 0;
 		l_quantity.setText("0");
 		l_itemPrice.setText("0");
 
@@ -1050,7 +1090,7 @@ public class ShopUI extends JPanel
 		else
 			b_upCritical.setEnabled(false);
 		
-		if(totalPrice + 100 > (int) systemManager.getHumanPlayer().getAu())
+		if(totalPrice + 25 > (int) systemManager.getHumanPlayer().getAu())
 			disablePlusStats();
 		else
 			enablePlusStats();

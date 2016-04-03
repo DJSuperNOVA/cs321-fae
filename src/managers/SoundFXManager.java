@@ -29,6 +29,7 @@ public class SoundFXManager
 			clip = (Clip)AudioSystem.getLine(info);
 			clip.open(decodedAudioInputStream);
 			clip.start();
+			clip.flush();
 		}catch (Exception e)
 		{
 			System.out.println("Sound Effect " + filename + " didn't work.");

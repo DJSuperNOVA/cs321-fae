@@ -79,12 +79,12 @@ public class StatsManager
 		}
 	}
 	
-	public GameItem getGameItem(String itemID)
+	public GameItem getGameItem(String itemName)
 	{
 		GameItem itemToReturn = new GameItem();
 		for(GameItem item: itemList)
 		{
-			if(item.getItemID().equals(itemID))
+			if(item.getItemName().equals(itemName))
 				itemToReturn = item;
 		}
 		return itemToReturn;
@@ -101,14 +101,13 @@ public class StatsManager
 		return listToReturn;
 	}
 	
-	public ArrayList<GameItem> getDefaultItems()
+	public ArrayList<GameItem> getDefaultInventory()
 	{
 		ArrayList<GameItem> listToReturn = new ArrayList<GameItem>();
 		for(GameItem item: itemList)
 		{
-			item.setItemQuantity(5);
-			if(item.getItemID().equals("I1") || item.getItemID().equals("I2") || item.getItemID().equals("I4"))
-				listToReturn.add(item);
+			item.setQuantity(0);
+			listToReturn.add(item);
 		}
 		return listToReturn;
 	}

@@ -1,6 +1,7 @@
 package managers;
 import domain.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 public class SaveFileManager 
@@ -11,10 +12,12 @@ public class SaveFileManager
 	private Scanner in;
 	private HumanPlayer[] playerSaves;
 	private DecimalFormat d0;
+	private StatsManager statsManager;
 
 	public SaveFileManager()
 	{
 		playerSaves = new HumanPlayer[3];
+		statsManager = new StatsManager();
 		d0 = new DecimalFormat("####");
 		scanSaveFile(1);
 		scanSaveFile(2);
@@ -40,6 +43,7 @@ public class SaveFileManager
 		}
 		splitInfo = rawInfo.split(",");
 		player.setName(splitInfo[0]);
+		
 		player.setBattleClass(splitInfo[1]);
 		player.setXP(Double.parseDouble(d0.format(Double.parseDouble(splitInfo[2])))); //lol
 		player.setAu(Double.parseDouble(d0.format(Double.parseDouble(splitInfo[3])))); //hahaha
@@ -63,7 +67,60 @@ public class SaveFileManager
 		player.setPlusCRT(Double.parseDouble(d0.format(Double.parseDouble(splitInfo[13]))));
 		player.refreshLevel(splitInfo[1], player.getXP());
 		player.calculateDefStats();
+		player.setCurrentHP(player.getDefHP());
+		player.setCurrentSP(player.getDefSP());
+		player.setCurrentATK(player.getDefATK());
+		player.setCurrentDEF(player.getDefDEF());
+		player.setCurrentSPC(player.getDefSPC());
+		player.setCurrentAGI(player.getDefAGI());
+		player.setCurrentCRT(player.getDefCRT());
+		player.setSkillSet(statsManager.getSkillSet(player.getBattleClass()));
 		playerSaves[i-1] = player;
+	}
+	
+	public ArrayList<GameItem> getInventory(int fileNumber)
+	{
+		ArrayList<GameItem> toReturn = new ArrayList<GameItem>();
+		try
+		{
+			in = new Scanner(new File("resources/data/save" + fileNumber + "_inventory.fae"));
+		}catch(Exception e)
+		{
+			System.out.println("Failed to getInventory" + fileNumber);
+			e.printStackTrace();
+		}
+		GameItem gameItem;
+		String rawInfo, splitInfo[];
+		
+		while(in.hasNextLine())
+		{
+			gameItem = new GameItem();
+			rawInfo = in.nextLine();
+			splitInfo = rawInfo.split(",");
+			gameItem = statsManager.getGameItem(splitInfo[0]);
+			gameItem.setQuantity(Integer.parseInt(splitInfo[1]));
+			toReturn.add(gameItem);
+		}
+		return toReturn;
+	}
+	
+	public void setInventory(int fileNumber, ArrayList<GameItem> inventory)
+	{
+		File saveFile = new File("resources/data/save" + fileNumber + "_inventory.fae");
+		try
+		{
+			PrintWriter writer = new PrintWriter(saveFile);
+			for(GameItem gi: inventory)
+			{
+				writer.println(gi.getItemID()+","+gi.getQuantity());
+			}
+			writer.flush();
+			writer.close();
+		}catch(Exception e)
+		{
+			System.out.println("Saving inventory for file " + fileNumber + " failed.");
+			e.printStackTrace();
+		}
 	}
 
 	public HumanPlayer getSaveFile(int fileNumber)
@@ -93,6 +150,24 @@ public class SaveFileManager
 		} catch (Exception e) 
 		{
 			System.out.println("Saving on SaveFile " + fileNumber + " failed.");
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSaveFile(int fileNumber)
+	{
+		File deleteFile = new File("resources/data/save" + fileNumber + "_data.fae");
+		try
+		{
+			PrintWriter writer = new PrintWriter(deleteFile);
+			writer.println("-----,"
+					+ "X,\n0,\n0,\n0,\n0,\n0,\n0,\n0,\n0,\n0,\n0,\n0,\n0");
+			writer.flush();
+			writer.close();
+			
+		}catch(Exception e)
+		{
+			System.out.println("Delete failed.");
 			e.printStackTrace();
 		}
 	}

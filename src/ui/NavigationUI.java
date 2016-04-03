@@ -327,13 +327,12 @@ public class NavigationUI extends JPanel
 		ta_status.setEditable(false);
 		ta_status.setHighlighter(null);
 		ta_status.setFont(new Font("Nyala", Font.PLAIN, 20));
-		ta_status.setBounds(655, 106, 376, 64);
+		ta_status.setBounds(655, 80, 376, 90);
 		add(ta_status);
 		
 		ta_stats = new JTextArea();
 		ta_stats.setOpaque(false);
 		ta_stats.setForeground(Color.WHITE);
-		ta_stats.setText("Stats");
 		ta_stats.setFont(new Font("Nyala", Font.PLAIN, 20));
 		ta_stats.setEditable(false);
 		ta_stats.setHighlighter(null);
@@ -405,24 +404,46 @@ public class NavigationUI extends JPanel
 				systemManager.showShopUI();
 			}
 			else if(action.equals("Inventory"))
+			{
+				systemManager.getInventoryUI().refreshInventoryUI(false);
 				systemManager.showInventoryUI();
-			else if(action.equals("Rest to Inn"))
-				healPlayer();
+			}
+//			else if(action.equals("Rest to Inn"))
+//				healPlayer();
+			else if(action.equals("Area Selection"))
+			{
+				systemManager.getAreaSelectionUI().refreshAreaSelectionUI();
+				systemManager.showAreaSelectionUI();
+			}
 			else if(action.equals("Save Game"))
+			{
+				systemManager.getSaveUI().refreshLoadSaveUI();
 				systemManager.showLoadSaveUI(false);
+			}
 			else if(action.equals("Quit"))
-				System.exit(0);
+			{
+				int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit?", "Confirm", JOptionPane.YES_NO_OPTION);
+				if(reply == JOptionPane.YES_OPTION)
+					System.exit(0);
+			}
 			else if(action.substring(0, 3).equals("Loc")) //this
 			{
 				systemManager.playSFX("common_confirm");
 				String mobID = "m" + randomizeSpawn();
-				systemManager.showBattleUI(mobID);
+				systemManager.showBattleUI(mobID, true);
 				systemManager.playMusic("bgm_mobbattle");
 			}
 			else if(action.equals("Fight Boss")) //this
 			{
-//				String bossID = "b";
-//				systemManager.showBattleUI(bossID);
+				systemManager.playSFX("common_confirm");
+				if(systemManager.getHumanPlayer().getBossWins() < systemManager.getSelectedArea())
+				{
+				String bossID = "b" + systemManager.getSelectedArea();
+				systemManager.showBattleUI(bossID, false);
+				systemManager.playMusic("bgm_bossbattle");
+				}
+				else JOptionPane.showMessageDialog(null, "The boss in this area is already defeated.", "Area Complete", JOptionPane.OK_OPTION);
+					
 			}
 			repaint();
 		}
@@ -432,8 +453,6 @@ public class NavigationUI extends JPanel
 	{
 		systemManager.getHumanPlayer().setCurrentHP(systemManager.getHumanPlayer().getDefHP());
 		systemManager.getHumanPlayer().setCurrentSP(systemManager.getHumanPlayer().getDefSP());
-		//systemManager.getHumanPlayer().setAu(systemManager.getHumanPlayer().getAu()-5);
-		//Players are now always healed after battle, free of charge.
 		systemManager.getNavigationUI().refreshNavigationUI();
 	}
 	
@@ -445,7 +464,8 @@ public class NavigationUI extends JPanel
 
 	public void refreshNavigationUI()
 	{
-		bossMonster = statsManager.getBossMonster(systemManager.getSelectedArea());
+		b_boss.setVisible(false);
+		bossMonster = statsManager.getBossMonster(systemManager.getSelectedArea()-1);
 		l_mobsDesc.setText("Mob Levels: " + statsManager.getMinMobLevel(systemManager.getSelectedArea()) + " ~ " + statsManager.getMaxMobLevel(systemManager.getSelectedArea()));
 		ta_status.setText(systemManager.getHumanPlayer().getName() + "\tLv: " + systemManager.getHumanPlayer().getLevel() + "\n"
 				+ "HP : " + d0.format(systemManager.getHumanPlayer().getCurrentHP()) + " / " + d0.format(systemManager.getHumanPlayer().getDefHP()) + "\t"
@@ -467,6 +487,8 @@ public class NavigationUI extends JPanel
 		tf_keys.setText("Boss Keys\t: " + systemManager.getHumanPlayer().getBossKeys() + " / " + bossMonster.getMissionBossKeys());
 		if(systemManager.getHumanPlayer().getBossKeys() >= bossMonster.getMissionBossKeys())
 			tf_keys.setForeground(Color.GREEN);
+		if((systemManager.getHumanPlayer().getWins() >= bossMonster.getMissionWins()) && (systemManager.getHumanPlayer().getBossKeys() >= bossMonster.getMissionBossKeys()))
+			b_boss.setVisible(true);
 		else tf_keys.setForeground(Color.LIGHT_GRAY);
 		/*
 		 * Boss keys are allowed to exceed its required amount because it is spent every boss fight attempt.

@@ -22,7 +22,7 @@ import java.awt.Color;
 public class InformationUI extends JPanel 
 {
 	private JTextArea ta_info;
-	private JButton b_about, b_credits, b_howTo, b_back;
+	private JButton b_about, b_credits, b_back;
 	private JLabel l_bg;
 	
 	private SystemManager systemManager;
@@ -69,20 +69,6 @@ public class InformationUI extends JPanel
 		b_credits.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
 		b_credits.setBounds(10, 117, 235, 95);
 		add(b_credits);
-		
-		b_howTo = new JButton();
-		b_howTo.setActionCommand("how to Play");
-		b_howTo.setBorder(null);
-		b_howTo.setIcon(imageManager.getInformationGraphic("HowTo"));
-		b_howTo.setRolloverIcon(imageManager.getInformationGraphic("HowTo_Hover"));
-		b_howTo.setSelectedIcon(imageManager.getInformationGraphic("HowTo_Hover"));
-		b_howTo.setFocusPainted(false);
-		b_howTo.setOpaque(false);
-		b_howTo.setContentAreaFilled(false);
-		b_howTo.setForeground(Color.WHITE);
-		b_howTo.setFont(new Font("Bookman Old Style", Font.PLAIN, 16));
-		b_howTo.setBounds(10, 223, 235, 95);
-		add(b_howTo);
 		
 		b_back = new JButton();
 		b_back.setActionCommand("Back");
@@ -131,14 +117,12 @@ public class InformationUI extends JPanel
 				ta_info.setText(languageManager.getAboutInformation().replaceAll("~]", "\n\n"));
 				b_about.setSelected(true);
 				b_credits.setSelected(false);
-				b_howTo.setSelected(false);
 			}
 			else if(action.equals("Credits"))
 			{
 				ta_info.setText(languageManager.getCreditsInformation().replaceAll("~]", "\n\n"));
 				b_about.setSelected(false);
 				b_credits.setSelected(true);
-				b_howTo.setSelected(false);
 			}
 			repaint();
 		}

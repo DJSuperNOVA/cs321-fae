@@ -10,7 +10,6 @@ public class GameItem
 	 * Area Available		: The area number where the item can be bought.
 	 * Item Name			: The proper name for the item.
 	 * Item Description		: The item's description retrieved from the LanguageManager.
-	 * Item Quantity		: The quantity of how many the player has the item.
 	 * Buying Value			: The price of the item (in Au) when bought to the Shop with quantity = 1.
 	 * Selling Value		: The price of the item (in Au) when sold to the Shop with quantity = 1.
 	 * EffectHPtoPlayer		: The item's effect in the player's current HP.
@@ -31,7 +30,7 @@ public class GameItem
 	 */
 	
 	private String itemID, itemName, itemDesc;
-	private int areaAvailable, itemQuantity;
+	private int areaAvailable, quantity;
 	private double buyingValue, sellingValue;
 	private double effectHPtoPlayer, effectSPtoPlayer, effectATKtoPlayer, effectDEFtoPlayer,
 				   effectSPCtoPlayer, effectAGItoPlayer, effectCRTtoPlayer,
@@ -159,10 +158,10 @@ public class GameItem
 	public void setEffectCRTtoOpponent(double effectCRTtoOpponent) {
 		this.effectCRTtoOpponent = effectCRTtoOpponent;
 	}
-	public int getItemQuantity() {
-		return itemQuantity;
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setItemQuantity(int itemQuantity) {
-		this.itemQuantity = itemQuantity;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

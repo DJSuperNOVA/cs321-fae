@@ -87,7 +87,7 @@ public class StoryUI extends JPanel
 
 	public void rollText(int bossWins)
 	{
-		String wholeText = new String(languageManager.getCutsceneText(0));
+		String wholeText = new String(languageManager.getCutsceneText(bossWins));
 		String[] textArray = wholeText.split("");
 		
 		new SwingWorker<Void, String>() 
@@ -104,7 +104,7 @@ public class StoryUI extends JPanel
 					ta_story.setText(toRoll.replaceAll("~]", "\n"));
 					Thread.sleep(68);
 					time += 50;
-					if(time == 50) //delay before setting the next button enabled
+					if(time == 3000) //delay before setting the next button enabled
 						b_next.setEnabled(true);
 				}
 				return null;
@@ -134,7 +134,10 @@ public class StoryUI extends JPanel
 		{
 			String action = e.getActionCommand();
 			if(action.equals("Next"))
+			{
+				systemManager.getAreaSelectionUI().refreshAreaSelectionUI();
 				systemManager.showAreaSelectionUI();
+			}
 			systemManager.playSFX("common_confirm");
 			
 			repaint();

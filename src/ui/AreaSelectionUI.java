@@ -125,6 +125,7 @@ public class AreaSelectionUI extends JPanel
 		ta_info.setWrapStyleWord(true);
 		ta_info.setLineWrap(true);
 		ta_info.setEditable(false);
+		ta_info.setHighlighter(null);
 		ta_info.setText("Your mission is to explore all areas and defeat the bosses on each of them. "
 				+ "To proceed to the next area, one must defeat the boss of the current unlocked area. "
 				+ "Avoid getting defeated by monsters as they will rob a third of your money if you do.");

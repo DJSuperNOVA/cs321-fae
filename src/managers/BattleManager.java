@@ -8,13 +8,13 @@ public class BattleManager
 	private MobMonster mobMonster;
 	private BossMonster bossMonster;
 	private StatsManager statsManager;
-	private boolean isMobBattle;
-	
+	private boolean isMobBattle, isSecondWind;
+
 	private double playerResist, opponentResist, inflictedDamage, inflictedPlayerDamage;
 	private String battleEvent;
 	private DecimalFormat d0;
 	private Random dice;
-	
+
 	/*
 	 * The BattleManager is the one who handle processes happening on the battle.
 	 * The displays and grabbing of input will come from BattleUI.
@@ -99,6 +99,26 @@ public class BattleManager
 		}
 		opponentResist = 0.0;
 	}
+	
+	public void initiateSecondWindOfBoss()
+	{
+		bossMonster.setDefHP(bossMonster.getSecondWindHP());
+		bossMonster.setDefSP(bossMonster.getSecondWindSP());
+		bossMonster.setDefATK(bossMonster.getBaseATK() + (bossMonster.getBaseATK()*0.18)*(bossMonster.getLevel()*0.08));
+		bossMonster.setDefDEF(bossMonster.getBaseDEF() + (bossMonster.getBaseDEF()*0.18)*(bossMonster.getLevel()*0.08));
+		bossMonster.setDefSPC(bossMonster.getBaseSPC() + (bossMonster.getBaseSPC()*0.18)*(bossMonster.getLevel()*0.08));
+		bossMonster.setDefAGI(bossMonster.getBaseAGI() + (bossMonster.getBaseAGI()*0.18)*(bossMonster.getLevel()*0.08));
+		bossMonster.setDefCRT(bossMonster.getBaseCRT() + (bossMonster.getBaseCRT()*0.18)*(bossMonster.getLevel()*0.08));
+		bossMonster.setCurrentHP(bossMonster.getDefHP());
+		bossMonster.setCurrentSP(bossMonster.getDefHP());
+		bossMonster.setCurrentATK(bossMonster.getDefATK());
+		bossMonster.setCurrentDEF(bossMonster.getDefDEF());
+		bossMonster.setCurrentSPC(bossMonster.getDefSPC());
+		bossMonster.setCurrentAGI(bossMonster.getDefAGI());
+		bossMonster.setCurrentCRT(bossMonster.getDefCRT());
+		bossMonster.setNowSecondWind(true);
+		isSecondWind = true;
+	}
 
 	public int getBattleStatus()
 	{
@@ -115,7 +135,7 @@ public class BattleManager
 		if(isMobBattle)
 		{
 			if((player.getCurrentHP() > 0) && (mobMonster.getCurrentHP() > 0))
-			battleStatus = 0;
+				battleStatus = 0;
 			else if((player.getCurrentHP() > 0) && (mobMonster.getCurrentHP() <= 0))
 				battleStatus = 1;
 			else battleStatus = 4;
@@ -133,14 +153,22 @@ public class BattleManager
 		return battleStatus;
 	}
 
-	public void playerAttackToMob()
+	public void playerAttack(boolean isMobBattle)
 	{
 		double damage = 0.0, minATK = player.getCurrentATK()/3;
 		damage = minATK + player.getCurrentATK()*player.rollDoubleDice();
 		if(player.rollDoubleDice() > 0.95)
 			damage += player.getCurrentCRT()/2;
-		battleEvent += player.getName() + " attacked " + mobMonster.getName() + "!\n";
-		inflictHPDamageToMobMonster(damage);
+		if(isMobBattle)
+		{
+			battleEvent += player.getName() + " attacked " + mobMonster.getName() + "!\n";
+			inflictHPDamageToMobMonster(damage);
+		}
+		else
+		{
+			battleEvent += player.getName() + " attacked " + bossMonster.getName() + "!\n";
+			inflictHPDamageToBossMonster(damage);
+		}
 	}
 
 	public void playerDefend()
@@ -149,24 +177,33 @@ public class BattleManager
 		battleEvent += player.getName() + " defended, awaiting for the opponent's attack.\n";
 	}
 
-	public void playerUseSkillToMob(int skillNum)
+	public void playerUseSkill(int skillNum, boolean isMobBattle)
 	{
-		double damage = 0.0, minSPC = player.getCurrentATK()/3;
+		double damage = 0.0, minSPC = player.getCurrentSPC()/3;
 		if(skillNum == 0)
 			damage = minSPC + player.getCurrentSPC()*player.rollDoubleDice();
 		else if(skillNum == 1)
-			damage = minSPC*1.5 + player.getCurrentSPC()*player.rollDoubleDice();
+			damage = minSPC*3 + player.getCurrentSPC()*player.rollDoubleDice();
 		else if(skillNum == 2)
-			damage = player.getCurrentSPC()*4 + player.getCurrentSPC()*player.rollDoubleDice();
+			damage = minSPC*6 + player.getCurrentSPC()*player.rollDoubleDice();
 		if(player.rollDoubleDice() > 0.95)
 			damage += player.getCurrentCRT()/2;
-		battleEvent += player.getName() + " used " + player.getSkillSet().get(skillNum).getSkillName() + " on "
-				+ mobMonster.getName() + "!\n";
-		inflictHPDamageToMobMonster(damage);
+		if(isMobBattle)
+		{
+			battleEvent += player.getName() + " used " + player.getSkillSet().get(skillNum).getSkillName() + " on "
+					+ mobMonster.getName() + "!\n";
+			inflictHPDamageToMobMonster(damage);
+		}
+		else
+		{
+			battleEvent += player.getName() + " used " + player.getSkillSet().get(skillNum).getSkillName() + " on "
+					+ bossMonster.getName() + "!\n";
+			inflictHPDamageToBossMonster(damage);
+		}
 		player.setCurrentHP(player.getCurrentHP()-player.getSkillSet().get(skillNum).getSkillHPCost());
 		player.setCurrentSP(player.getCurrentSP()-player.getSkillSet().get(skillNum).getSkillSPCost());
 		battleEvent += player.getName() + " consumed " + d0.format(player.getSkillSet().get(skillNum).getSkillSPCost()) 
-				+ " SP and took " + d0.format(player.getSkillSet().get(skillNum).getSkillHPCost()) + " damage.\n";
+		+ " SP and took " + d0.format(player.getSkillSet().get(skillNum).getSkillHPCost()) + " damage.\n";
 	}
 
 	public void playerHeal()
@@ -209,7 +246,7 @@ public class BattleManager
 				+ player.getName() + "!\n";
 		inflictHPDamageToPlayer(damage);
 	}
-	
+
 	public void bossAttack()
 	{
 		double damage = 0.0, minATK = bossMonster.getCurrentATK()/2;
@@ -232,18 +269,18 @@ public class BattleManager
 			damage += bossMonster.getCurrentCRT()/2;
 		inflictHPDamageToPlayer(damage);
 	}
-	
+
 	public void bossHeal()
 	{
 		double healValue = 0.0;
-		healValue = bossMonster.getDefHP()*0.05;
+		healValue = bossMonster.getDefHP()*0.02;
 		//YES THIS IS INTENTIONAL HAHAHAHA
 		//The boss can regain HP beyond its Default HP to have that
 		//actual "boss" feel. (and also to troll the player :D )
+		//IT ALSO DOES NOT NEED TO CONSUME SP!
 		bossMonster.setCurrentHP(bossMonster.getCurrentHP()+healValue);
-		bossMonster.setCurrentSP(bossMonster.getCurrentSP()-2);
 	}
-	
+
 	public void inflictHPDamageToPlayer(double damage)
 	{
 		inflictedDamage = damage-playerResist;
@@ -359,7 +396,7 @@ public class BattleManager
 			battleEvent += mobMonster.getName() + "'s Critical fell!\n";
 		else battleEvent += mobMonster.getName() + "'s Critical rose!\n";
 	}
-	
+
 	public void inflictHPDamageToBossMonster(double damage)
 	{
 		inflictedDamage = damage-opponentResist;
@@ -417,7 +454,7 @@ public class BattleManager
 			battleEvent += bossMonster.getName() + "'s Critical fell!\n";
 		else battleEvent += bossMonster.getName() + "'s Critical rose!\n";
 	}
-	
+
 	public String rollOpponentMove()
 	{
 		String toReturn = new String();
@@ -502,12 +539,12 @@ public class BattleManager
 	{
 		this.isMobBattle = isMobBattle;
 	}
-	
+
 	public double getInflictedDamage()
 	{
 		return inflictedDamage;
 	}
-	
+
 	public double getInflictedPlayerDamage()
 	{
 		return inflictedPlayerDamage;
@@ -522,8 +559,22 @@ public class BattleManager
 		this.battleEvent = battleEvent;
 	}
 	
+	public void setUseItemBattleEvent(String itemName)
+	{
+		battleEvent = player.getName() + " used " + itemName + ".\n";
+	}
+
 	public void resetBattleEvent()
 	{
 		battleEvent = new String("");
+	}
+
+	public boolean isSecondWind() {
+		return isSecondWind;
+	}
+
+	public void setSecondWind(boolean isSecondWind) {
+		this.isSecondWind = isSecondWind;
+		bossMonster.setNowSecondWind(true);
 	}
 }

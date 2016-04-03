@@ -392,7 +392,7 @@ public class NewGameUI extends JPanel
 			humanPlayer.setCurrentAGI(humanPlayer.getDefAGI());
 			humanPlayer.setCurrentCRT(humanPlayer.getDefCRT());
 			humanPlayer.setSkillSet(statsManager.getSkillSet(playerClass));
-			humanPlayer.setInventory(statsManager.getDefaultItems());
+			humanPlayer.setInventory(statsManager.getDefaultInventory());
 			systemManager.setHumanPlayer(humanPlayer);
 		}
 	}

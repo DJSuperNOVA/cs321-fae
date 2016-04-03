@@ -41,5 +41,6 @@ public class MusicManager
 	public void stopMusic()
 	{
 		clip.stop();
+		clip.flush();
 	}
 }

@@ -140,16 +140,6 @@ public class HumanPlayer extends FAECharacter
 	public void setPlusCRT(double plusCRT) {
 		this.plusCRT = plusCRT;
 	}
-
-	public double getTotalPlusPoints() {
-		totalPlusPoints = plusHP + plusSP + plusATK + plusDEF + plusAGI + plusSPC + plusCRT;
-		return totalPlusPoints;
-	}
-
-	public void setTotalPlusPoints(double totalPlusPoints) {
-		this.totalPlusPoints = totalPlusPoints;
-	}
-	
 	public ArrayList<Skill> getSkillSet() {
 		return skillSet;
 	}
@@ -161,6 +151,15 @@ public class HumanPlayer extends FAECharacter
 	{
 		super.setLevel(statsManager.getPlayerLevel(battleClass, xp));
 		refreshBaseStats(super.getLevel());
+	}
+	
+	public double getTotalPlusPoints() {
+		totalPlusPoints = plusHP + plusSP + plusATK + plusDEF + plusAGI + plusSPC + plusCRT;
+		return totalPlusPoints;
+	}
+
+	public void setTotalPlusPoints(double totalPlusPoints) {
+		this.totalPlusPoints = totalPlusPoints;
 	}
 
 	private void refreshBaseStats(int level)
@@ -174,5 +173,24 @@ public class HumanPlayer extends FAECharacter
 		super.setBaseCRT(statsManager.getPlayerCRTbaseStat(getBattleClass(), level));
 		calculateDefStats();
 	}
-
+	
+	public String toString()
+	{
+		String saveFileDetails = new String("");
+		saveFileDetails += getName() + ",\n"
+						+ battleClass + ",\n" 
+						+ xp + ",\n" 
+						+ au + ",\n"
+						+ bossWins + ",\n" 
+						+ wins + ",\n" 
+						+ bossKeys + ",\n"
+						+ plusHP + ",\n" 
+						+ plusSP + ",\n" 
+						+ plusATK + ",\n" 
+						+ plusDEF + ",\n"
+						+ plusSPC + ",\n" 
+						+ plusAGI + ",\n" 
+						+ plusCRT;
+		return saveFileDetails;
+	}
 }

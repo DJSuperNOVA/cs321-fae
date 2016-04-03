@@ -149,14 +149,29 @@ public class SystemManager extends JFrame
 		card.show(container, "Shop");
 		repaint();
 	}
+	
+	public void showBattleUI()
+	{
+		setTitle("Battle");
+		card.show(container, "Battle");
+		repaint();
+	}
+	
+	public void showBattleUI1(String itemName)
+	{
+		setTitle("Battle");
+		card.show(container, "Battle");
+		battleUI.applyItemEffect(itemName);
+		repaint();
+	}
 
-	public void showBattleUI(String monsterID)
+	public void showBattleUI(String monsterID, boolean isMobBattle)
 	{
 		setTitle("Battle");
 		card.show(container, "Battle");
 		battleUI.processPlayerImage(playerClass); //this
 		battleUI.processMonsterID(monsterID); //this
-		battleUI.initializeBattleManager();
+		battleUI.initializeBattleManager(isMobBattle);
 		battleUI.updateHPSPBars();
 		repaint();
 	}
@@ -208,6 +223,11 @@ public class SystemManager extends JFrame
 		return shopUI;
 	}
 	
+	public InventoryUI getInventoryUI()
+	{
+		return inventoryUI;
+	}
+	
 	public static void main(String[] args)
 	{
 		java.awt.EventQueue.invokeLater(new Runnable() 
@@ -229,9 +249,19 @@ public class SystemManager extends JFrame
 		this.selectedArea = selectedArea;
 	}
 	
+	public LoadSaveUI getSaveUI()
+	{
+		return saveUI;
+	}
+	
 	public SaveFileManager getSaveFileManager()
 	{
 		return saveFileManager;
+	}
+	
+	public void setSaveFileManager(SaveFileManager saveFileManager)
+	{
+		this.saveFileManager = saveFileManager;
 	}
 	
 	public StatsManager getStatsManager()

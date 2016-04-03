@@ -43,7 +43,6 @@ public class BossMonster extends FAECharacter
 	private double defXPYield, defAuYield, secondWindHP, secondWindSP;
 	private boolean isNowSecondWind;
 	private Skill skill;
-	private Random dice;
 	
 	//GETTERS AND SETTERS
 	public int getBossID() {
@@ -124,12 +123,6 @@ public class BossMonster extends FAECharacter
 	public void setNowSecondWind(boolean isNowSecondWind) {
 		this.isNowSecondWind = isNowSecondWind;
 	}
-	public Random getDice() {
-		return dice;
-	}
-	public void setDice(Random dice) {
-		this.dice = dice;
-	}
 	public Skill getSkill() {
 		return skill;
 	}
@@ -148,9 +141,5 @@ public class BossMonster extends FAECharacter
 	}
 	public void setMissionWins(int missionWins) {
 		this.missionWins = missionWins;
-	}
-	public double rollDoubleDice()
-	{
-		return dice.nextDouble();
 	}
 }

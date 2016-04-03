@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import managers.ImageManager;
+import managers.SaveFileManager;
 import managers.SystemManager;
 
 import javax.swing.JTextArea;
@@ -153,7 +154,7 @@ public class LoadSaveUI extends JPanel
 		b_save = new JButton(); //just to instantiate... it gives out NullPointerException without it
 		b_load = new JButton();
 		b_delete = new JButton();
-		
+
 		if(forLoad)
 		{
 			b_load.setActionCommand("Load");
@@ -246,6 +247,44 @@ public class LoadSaveUI extends JPanel
 		b_back.addActionListener(loadSaveHandler);
 	}
 
+	public void refreshLoadSaveUI()
+	{
+		systemManager.setSaveFileManager(new SaveFileManager());
+		
+		if(forLoad && systemManager.getSaveFileManager().getSaveFile(1).getBattleClass().equals("X"))
+			b_firstChar.setEnabled(false);
+		if(forLoad && systemManager.getSaveFileManager().getSaveFile(2).getBattleClass().equals("X"))
+			b_secondChar.setEnabled(false);
+		if(forLoad && systemManager.getSaveFileManager().getSaveFile(3).getBattleClass().equals("X"))
+			b_thirdChar.setEnabled(false);
+		
+		b_firstChar.setIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(1).getBattleClass() + ""));
+		b_firstChar.setSelectedIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(1).getBattleClass() + "_Selected"));
+		b_firstChar.setRolloverIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(1).getBattleClass() + "_Selected"));
+		b_firstChar.setDisabledIcon(imageManager.getLoadSaveGraphic("X"));
+		ta_firstInfo.setText("Name: " + systemManager.getSaveFileManager().getSaveFile(1).getName() + "\n"
+				+ "Bosses Defeated: " + systemManager.getSaveFileManager().getSaveFile(1).getBossWins() +"\n"
+				+ "Level: " + systemManager.getSaveFileManager().getSaveFile(1).getLevel());
+
+		b_secondChar.setIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(2).getBattleClass() + ""));
+		b_secondChar.setSelectedIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(2).getBattleClass() + "_Selected"));
+		b_secondChar.setRolloverIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(2).getBattleClass() + "_Selected"));
+		b_secondChar.setDisabledIcon(imageManager.getLoadSaveGraphic("X"));
+		ta_secondInfo.setText("Name: " + systemManager.getSaveFileManager().getSaveFile(2).getName() + "\n"
+				+ "Bosses Defeated: " + systemManager.getSaveFileManager().getSaveFile(2).getBossWins() +"\n"
+				+ "Level: " + systemManager.getSaveFileManager().getSaveFile(2).getLevel());
+
+		b_thirdChar.setIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(3).getBattleClass() + ""));
+		b_thirdChar.setSelectedIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(3).getBattleClass() + "_Selected"));
+		b_thirdChar.setRolloverIcon(imageManager.getLoadSaveGraphic(systemManager.getSaveFileManager().getSaveFile(3).getBattleClass() + "_Selected"));
+		b_thirdChar.setDisabledIcon(imageManager.getLoadSaveGraphic("X"));
+		ta_thirdInfo.setText("Name: " + systemManager.getSaveFileManager().getSaveFile(3).getName() + "\n"
+				+ "Bosses Defeated: " + systemManager.getSaveFileManager().getSaveFile(3).getBossWins() +"\n"
+				+ "Level: " + systemManager.getSaveFileManager().getSaveFile(3).getLevel());
+		repaint();
+
+	}
+
 	private class LoadSaveHandler implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -261,26 +300,94 @@ public class LoadSaveUI extends JPanel
 				loadSave(3);
 			else if(action.equals("Load"))
 				loadPlayer();
+			else if(action.equals("Save"))
+				savePlayer();
+			else if(action.equals("Delete"))
+				deletePlayer();
 			else if(action.equals("Back to Game"))
 				systemManager.showNavigationUI();
 
 			repaint();
 		}
 
+		private void savePlayer()
+		{
+			int confirm = JOptionPane.showConfirmDialog(null, "Overwrite this save file?", "Confirm Save", JOptionPane.YES_NO_OPTION);
+			if(confirm == JOptionPane.YES_OPTION)
+			{
+				if(b_firstChar.isSelected())
+				{
+					systemManager.getSaveFileManager().setSaveFile(1, systemManager.getHumanPlayer());
+					systemManager.getSaveFileManager().setInventory(1, systemManager.getHumanPlayer().getInventory());
+				}
+				else if(b_secondChar.isSelected())
+				{
+					systemManager.getSaveFileManager().setSaveFile(2, systemManager.getHumanPlayer());
+					systemManager.getSaveFileManager().setInventory(2, systemManager.getHumanPlayer().getInventory());
+				}
+				else if(b_thirdChar.isSelected())
+				{
+					systemManager.getSaveFileManager().setSaveFile(3, systemManager.getHumanPlayer());
+					systemManager.getSaveFileManager().setInventory(3, systemManager.getHumanPlayer().getInventory());
+				}
+				systemManager.playSFX("attractscreen");
+				JOptionPane.showMessageDialog(null, "Save Successful.\nPrevious file overwritten.", "Save Game", JOptionPane.PLAIN_MESSAGE);
+				refreshLoadSaveUI();
+			}
+		}
+
 		private void loadPlayer() 
 		{
-			if(b_firstChar.isSelected())
-				systemManager.setHumanPlayer(systemManager.getSaveFileManager().getSaveFile(1));
-			else if(b_secondChar.isSelected())
-				systemManager.setHumanPlayer(systemManager.getSaveFileManager().getSaveFile(2));
-			else if(b_thirdChar.isSelected())
-				systemManager.setHumanPlayer(systemManager.getSaveFileManager().getSaveFile(3));
-			systemManager.playSFX("attractscreen");
-			JOptionPane.showMessageDialog(null, "Load Successful.", "Load Game", JOptionPane.PLAIN_MESSAGE);
-			System.out.println(systemManager.getHumanPlayer().toString());
-			systemManager.playMusic("bgm_story");
-			systemManager.getAreaSelectionUI().refreshAreaSelectionUI();
-			systemManager.showAreaSelectionUI();
+			int confirm = JOptionPane.showConfirmDialog(null, "Load this save file?", "Confirm Load", JOptionPane.YES_NO_OPTION);
+			if(confirm == JOptionPane.YES_OPTION)
+			{
+				if(b_firstChar.isSelected())
+				{
+					systemManager.setHumanPlayer(systemManager.getSaveFileManager().getSaveFile(1));
+					systemManager.getHumanPlayer().setInventory(systemManager.getSaveFileManager().getInventory(1));
+				}
+				else if(b_secondChar.isSelected())
+				{
+					systemManager.setHumanPlayer(systemManager.getSaveFileManager().getSaveFile(2));
+					systemManager.getHumanPlayer().setInventory(systemManager.getSaveFileManager().getInventory(2));
+				}
+				else if(b_thirdChar.isSelected())
+				{
+					systemManager.setHumanPlayer(systemManager.getSaveFileManager().getSaveFile(3));
+					systemManager.getHumanPlayer().setInventory(systemManager.getSaveFileManager().getInventory(3));
+				}
+				systemManager.playSFX("attractscreen");
+				systemManager.setPlayerClass(systemManager.getHumanPlayer().getBattleClass());
+				JOptionPane.showMessageDialog(null, "Load Successful.", "Load Game", JOptionPane.PLAIN_MESSAGE);
+				systemManager.playMusic("bgm_story");
+				systemManager.getAreaSelectionUI().refreshAreaSelectionUI();
+				systemManager.showAreaSelectionUI();
+				refreshLoadSaveUI();
+			}
+		}
+
+		private void deletePlayer()
+		{
+			int confirm = JOptionPane.showConfirmDialog(null, "Delete this save file?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+			if(confirm == JOptionPane.YES_OPTION)
+			{
+				if(b_firstChar.isSelected())
+				{
+					b_firstChar.setSelected(false);
+					systemManager.getSaveFileManager().deleteSaveFile(1);
+				}
+				else if(b_secondChar.isSelected())
+				{
+					b_secondChar.setSelected(false);
+					systemManager.getSaveFileManager().deleteSaveFile(2);
+				}
+				else if(b_thirdChar.isSelected())
+				{
+					b_thirdChar.setSelected(false);
+					systemManager.getSaveFileManager().deleteSaveFile(3);
+				}
+			}
+			refreshLoadSaveUI();
 		}
 
 		private void loadSave(int i) 
